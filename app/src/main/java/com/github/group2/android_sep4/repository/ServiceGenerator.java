@@ -1,6 +1,7 @@
-package com.github.group2.android_sep4.networking;
+package com.github.group2.android_sep4.repository;
 
 import com.github.group2.android_sep4.entity.Measurement;
+import com.github.group2.android_sep4.networking.MeasurementApi;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -18,6 +19,8 @@ public class ServiceGenerator {
     private static Lock lock = new ReentrantLock();
 
     private static String BASE_URL_MEASUREMENT = "";
+
+
 
 
     public  static MeasurementApi getMeasurementApi(){

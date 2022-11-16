@@ -98,4 +98,17 @@ public class Measurement {
     public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
     }
+
+    @Override
+    public String toString() {
+        return "Measurement{" +
+                "id=" + id +
+                ", greenHouseId=" + greenHouseId +
+                ", temperature=" + temperature +
+                ", humidity=" + humidity +
+                ", co2=" + co2 +
+                ", light=" + light +
+                ", dateTime='" + dateTime + '\'' +
+                '}';
+    }
 }

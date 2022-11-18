@@ -8,4 +8,8 @@
     <string name="sign_up">SIGN UP</string>
     <string name="username">Username</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="invalid_email">Invalid email! Required format : example@example.com</string>
+    <string name="empty_email">Email cannot be empty</string>
+    <string name="empty_username">Username cannot be empty</string>
+    <string name="empty_password">Password cannot be empty</string>
 </resources>

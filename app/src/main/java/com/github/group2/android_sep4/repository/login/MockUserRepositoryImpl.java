@@ -59,4 +59,21 @@ public class MockUserRepositoryImpl implements UserRepository{
     public LiveData<String> getError() {
         return error;
     }
+
+    @Override
+    public void login(String email, String password) {
+
+        User user = new User(email, password);
+        for (User userInDb : allUsersMock) {
+            if (user.equals(userInDb)) {
+                currentUser.setValue(userInDb);
+                return;
+            }
+            if (user.getEmail().equals(userInDb.getEmail())) {
+                error.setValue("Incorrect password");
+                return;
+            }
+        }
+        error.setValue("No user found with the provided email address");
+    }
 }

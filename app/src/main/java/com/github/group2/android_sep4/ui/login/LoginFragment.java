@@ -22,7 +22,6 @@ public class LoginFragment extends Fragment {
     TabLayout tabLayout;
     ViewPager2 viewPager2;
     LoginAdapter loginAdapter;
-
     UserViewModel viewModel;
 
     @Nullable
@@ -50,13 +49,14 @@ public class LoginFragment extends Fragment {
     }
 
 
-
     private void errorObserver(String s) {
         if (s != null && !s.equalsIgnoreCase("")) {
-            FancyToast.makeText(getContext(), s, FancyToast.LENGTH_SHORT, FancyToast.ERROR, true).show();
+            FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.ERROR, true).show();
 
         }
     }
+
+
     private void setupAdapter() {
         loginAdapter = new LoginAdapter(getChildFragmentManager(), getLifecycle());
         loginAdapter.addFragment(new LoginTabFragment());
@@ -68,7 +68,9 @@ public class LoginFragment extends Fragment {
 
     private void userObserver(User user) {
         if (user != null) {
-            FancyToast.makeText(getContext(), user.getUsername() + " added to database", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, true).show();
+
+            FancyToast.makeText(getContext(), "Welcome " +user.getUsername(), FancyToast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
+            // Todo swap fragment to main page
         }
 
     }

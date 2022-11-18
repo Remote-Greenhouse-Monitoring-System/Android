@@ -82,7 +82,7 @@ public class SignUpTabFragment extends Fragment {
         String username = usernameField.getEditText().getText().toString().trim();
 
         if (username.isEmpty()) {
-            usernameField.setError("Username cannot be empty");
+            usernameField.setError(getString(R.string.empty_username));
             return false;
         } else if (username.length() < 3) {
             usernameField.setError("Username must contain more than 3 chars");
@@ -99,7 +99,7 @@ public class SignUpTabFragment extends Fragment {
         String confirmPassword = confirmPasswordField.getEditText().getText().toString().trim();
 
         if (password.isEmpty()) {
-            passwordField.setError("Password cannot be empty");
+            passwordField.setError(getString(R.string.empty_password));
             return false;
         }
         else if (password.length() < 8) {
@@ -129,10 +129,10 @@ public class SignUpTabFragment extends Fragment {
         String checkEmail = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
         if (email.isEmpty()) {
-            emailField.setError("Email cannot be empty");
+            emailField.setError(getString(R.string.empty_email));
             return false;
         } else if (!email.matches(checkEmail)) {
-            emailField.setError("Invalid email!");
+            emailField.setError(getString(R.string.invalid_email));
             return false;
 
         } else {

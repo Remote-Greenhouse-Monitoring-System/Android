@@ -29,4 +29,8 @@ public class UserViewModel extends ViewModel {
         return repository.getError();
     }
 
+    public void login(String email, String password) {
+        repository.login(email, password);
+
+    }
 }

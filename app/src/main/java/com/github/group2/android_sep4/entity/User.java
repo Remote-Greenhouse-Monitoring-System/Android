@@ -9,6 +9,13 @@ public class User {
     public User() {
     }
 
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+
     public User(String email, String username, String password) {
         this.email = email;
         this.username = username;
@@ -45,5 +52,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean equals(Object obj){
+
+        if (! (obj instanceof User)) return false;
+
+        User user = (User) obj;
+
+        return user.getEmail().equalsIgnoreCase(email) && password.equals(password);
     }
 }

@@ -22,10 +22,15 @@ public class MainActivityViewModel extends ViewModel {
         userRepository = MockUserRepositoryImpl.getInstance();
         measurementRepository = MeasurementRepositoryImpl.getInstance();
 
+
+
     }
 
     public LiveData<User> getCurrentUser(){
         return userRepository.getCurrentUser();
     }
 
+    public void init(User userToSave) {
+        userRepository.init(userToSave);
+    }
 }

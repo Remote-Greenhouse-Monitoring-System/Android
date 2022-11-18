@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.github.group2.android_sep4.entity.Measurement;
-import com.github.group2.android_sep4.repository.MeasurementRepository;
-import com.github.group2.android_sep4.repository.MeasurementRepositoryImpl;
+import com.github.group2.android_sep4.repository.measurement.MeasurementRepository;
+import com.github.group2.android_sep4.repository.measurement.MeasurementRepositoryImpl;
 
 import java.util.List;
 

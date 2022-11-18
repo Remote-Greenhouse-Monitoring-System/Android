@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Android-SEP4</string>
+    <string name="login">LOGIN</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forget_pass"><u> Forget Password? </u></string>
+    <string name="password_validation">* It must be at least 8 characters</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="username">Username</string>
+    <string name="confirm_password">Confirm Password</string>
 </resources>

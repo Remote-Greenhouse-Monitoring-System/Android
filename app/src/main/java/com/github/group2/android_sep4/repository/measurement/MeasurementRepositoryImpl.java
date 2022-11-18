@@ -1,10 +1,11 @@
-package com.github.group2.android_sep4.repository;
+package com.github.group2.android_sep4.repository.measurement;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.github.group2.android_sep4.entity.Measurement;
 import com.github.group2.android_sep4.networking.MeasurementApi;
+import com.github.group2.android_sep4.repository.ServiceGenerator;
 
 
 import java.util.List;

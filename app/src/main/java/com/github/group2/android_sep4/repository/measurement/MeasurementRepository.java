@@ -1,4 +1,4 @@
-package com.github.group2.android_sep4.repository;
+package com.github.group2.android_sep4.repository.measurement;
 
 import androidx.lifecycle.LiveData;
 

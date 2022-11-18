@@ -48,6 +48,7 @@ public class MockUserRepositoryImpl implements UserRepository{
         User userToAdd = new User(email, username, password);
         allUsersMock.add(userToAdd);
         currentUser.setValue(userToAdd);
+
     }
 
     @Override
@@ -75,5 +76,11 @@ public class MockUserRepositoryImpl implements UserRepository{
             }
         }
         error.setValue("No user found with the provided email address");
+    }
+
+    @Override
+    public void init(User savedLoggedInUser) {
+        currentUser.setValue(savedLoggedInUser);
+
     }
 }

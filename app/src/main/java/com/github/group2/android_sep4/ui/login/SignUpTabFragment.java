@@ -73,8 +73,6 @@ public class SignUpTabFragment extends Fragment {
         String username = usernameField.getEditText().getText().toString().trim();
 
         progressBar.setVisibility(View.VISIBLE);
-
-        FancyToast.makeText(getContext(), "Sent to view model", FancyToast.LENGTH_SHORT, FancyToast.SUCCESS, true).show();
         viewModel.signUp(username, email, password);
     }
 

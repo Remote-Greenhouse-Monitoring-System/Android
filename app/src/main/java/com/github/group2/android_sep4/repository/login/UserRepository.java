@@ -14,4 +14,6 @@ public interface UserRepository {
     LiveData<String> getError();
 
     void login(String email, String password);
+
+    void init(User savedLoggedInUser);
 }

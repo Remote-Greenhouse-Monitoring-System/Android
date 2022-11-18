@@ -23,17 +23,19 @@ public class ServiceGenerator {
 
 
 
-    public  static MeasurementApi getMeasurementApi(){
-        if (measurementApi ==null){
-            synchronized (lock){
-                if (measurementApi == null) {
-                    measurementApi = new Retrofit.Builder().baseUrl(BASE_URL_MEASUREMENT)
-                            .addConverterFactory(GsonConverterFactory.create()).build().create(MeasurementApi.class);
+    public static MeasurementApi getMeasurementApi(){
+//        if (measurementApi ==null){
+//            synchronized (lock){
+//                if (measurementApi == null) {
+//                    measurementApi = new Retrofit.Builder().baseUrl(BASE_URL_MEASUREMENT)
+//                            .addConverterFactory(GsonConverterFactory.create()).build().create(MeasurementApi.class);
+//
+//                }
+//
+//            }
+//        }
+//        return measurementApi;
 
-                }
-
-            }
-        }
-        return measurementApi;
+        return null;
     }
 }

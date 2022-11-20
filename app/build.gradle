@@ -7,7 +7,8 @@ android {
 
     defaultConfig {
         applicationId "com.github.group2.android_sep4"
-        minSdk 29
+        //changed this from 29 to 27
+        minSdk 27
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -37,6 +38,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-runtime:2.5.2'
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
+    implementation 'androidx.databinding:compiler:3.2.0-alpha11'
 
 
     testImplementation 'junit:junit:4.13.2'
@@ -51,6 +53,11 @@ dependencies {
     // Fancy Toast
     implementation 'io.github.shashank02051997:FancyToast:2.0.2'
 
+    // MPAndroidChart
+    implementation('com.github.PhilJay:MPAndroidChart:v3.1.0') {
+        exclude group: 'com.android.support'
+    }
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
 
 
 

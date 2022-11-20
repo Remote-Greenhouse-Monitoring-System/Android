@@ -1,5 +1,6 @@
 package com.github.group2.android_sep4.main;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -10,6 +11,7 @@ import androidx.navigation.Navigation;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.entity.User;
+import com.github.group2.android_sep4.ui.measurement.MeasurementActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,11 +25,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+       Intent newIntent = new Intent(this, MainActivity.class);
+       startActivity(newIntent);
         preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
         initializeAllFields();
         viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
-        checkIfSignedIn();
+       checkIfSignedIn();
     }
 
     private void initializeAllFields() {

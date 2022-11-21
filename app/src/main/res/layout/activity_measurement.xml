@@ -16,15 +16,17 @@
         android:layout_marginBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.835" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="327dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/lineChart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -36,29 +38,69 @@
             android:id="@+id/temperature_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Temperature"
-            android:onClick="onRadioButtonClicked"/>
+            android:onClick="onRadioButtonClicked"
+            android:text="Temperature" />
 
         <RadioButton
             android:id="@+id/humidity_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Humidity"
-            android:onClick="onRadioButtonClicked"/>
+            android:onClick="onRadioButtonClicked"
+            android:text="Humidity" />
 
         <RadioButton
             android:id="@+id/co2_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CO2"
-            android:onClick="onRadioButtonClicked"/>
+            android:onClick="onRadioButtonClicked"
+            android:text="CO2" />
 
         <RadioButton
             android:id="@+id/light_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Light"
-            android:onClick="onRadioButtonClicked"/>
+            android:onClick="onRadioButtonClicked"
+            android:text="Light" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/timeRadioGroup"
+        android:layout_width="205dp"
+        android:layout_height="36dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/lineChart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup">
+
+        <RadioButton
+            android:id="@+id/last_hour_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onTimeRadioButtonClicked"
+            android:text="1H" />
+
+        <RadioButton
+            android:id="@+id/last_day_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onTimeRadioButtonClicked"
+            android:text="1D" />
+
+        <RadioButton
+            android:id="@+id/last_week_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onTimeRadioButtonClicked"
+            android:text="1W" />
+
+        <RadioButton
+            android:id="@+id/last_month_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onTimeRadioButtonClicked"
+            android:text="1M" />
+
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

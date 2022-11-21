@@ -28,57 +28,25 @@ import java.util.Locale;
 public class MeasurementActivity extends AppCompatActivity {
 
     private LineChart lineChart;
-    private MeasurementViewModal measurementViewModal;
+    private MeasurementViewModal measurementViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         hideTitleBar();
         setContentView(R.layout.activity_measurement);
-        initilizeViews();
+        initializeViews();
         initializeChart();
 
     }
 
-    private void initilizeViews() {
-        measurementViewModal = new MeasurementViewModal();
+    private void initializeViews() {
+        measurementViewModel = new MeasurementViewModal();
     }
 
     private void initializeChart() {
-
         lineChart = findViewById(R.id.lineChart);
-
-        ArrayList<Measurement> measurements = new ArrayList<>();
-
-        measurements.add(new Measurement(1, 1, 1, 1, 1, 1, "2020-01-01 00:00:14"));
-        measurements.add(new Measurement(2, 1, 30, 1, 2, 1, "2020-01-01 00:05:14"));
-        measurements.add(new Measurement(3, 1, 25, 1, 3, 1, "2020-01-01 00:10:14"));
-        measurements.add(new Measurement(4, 1, 26, 1, 1, 1, "2020-01-01 00:15:14"));
-        measurements.add(new Measurement(5, 1, 19, 1, 8, 1, "2020-01-01 00:20:14"));
-        measurements.add(new Measurement(6, 1, 20, 1, 9, 1, "2020-01-01 00:25:14"));
-        measurements.add(new Measurement(7, 1, 21, 1, 10, 1, "2020-01-01 00:30:14"));
-        measurements.add(new Measurement(8, 1, 22, 1, 11, 1, "2020-01-01 00:35:14"));
-        measurements.add(new Measurement(9, 1, 23, 1, 12, 1, "2020-01-01 00:40:14"));
-        measurements.add(new Measurement(10, 1, 24, 1, 13, 1, "2020-01-01 00:45:14"));
-        measurements.add(new Measurement(11, 1, 25, 1, 14, 1, "2020-01-01 00:50:14"));
-
-        ArrayList<Entry> values = new ArrayList<>();
-
-        for (int i = 0; i < measurements.size(); i++) {
-            values.add(new Entry(convertDateToFloat(measurements.get(i).getDateTimeAsString()), measurements.get(i).getTemperature()));
-        }
-        LineDataSet set1 = new LineDataSet(values, "Temperature");
-
-        ArrayList<ILineDataSet> dataSets = new ArrayList<>();
-        dataSets.add(set1);
-        LineData data = new LineData(dataSets);
-
-        lineChart.setData(data);
-        lineChart.invalidate();
-
         setupChart();
-
-
     }
 
     private void hideTitleBar() {
@@ -104,6 +72,7 @@ public class MeasurementActivity extends AppCompatActivity {
         lineChart.setScaleXEnabled(true);
         lineChart.setMaxVisibleValueCount(3);
         lineChart.setPinchZoom(true);
+        lineChart.setDragEnabled(true);
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1f);
@@ -120,18 +89,21 @@ public class MeasurementActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.co2_radio_button:
                 if (checked) {
+
+
+
                     ArrayList<Measurement> measurements = new ArrayList<>();
-                    measurements.add(new Measurement(1, 1, 1, 54, 1, 100000, "2020-01-01 00:00:14"));
-                    measurements.add(new Measurement(2, 1, 30, 44, 2, 1123414, "2020-01-01 00:05:14"));
-                    measurements.add(new Measurement(3, 1, 25, 42, 3, 42341, "2020-01-01 00:10:14"));
-                    measurements.add(new Measurement(4, 1, 26, 100, 1, 1234, "2020-01-01 00:15:14"));
-                    measurements.add(new Measurement(5, 1, 19, 90, 8, 12341, "2020-01-01 00:20:14"));
-                    measurements.add(new Measurement(6, 1, 20, 89, 9, 11234, "2020-01-01 00:25:14"));
-                    measurements.add(new Measurement(7, 1, 21, 23, 10, 63451, "2020-01-01 00:30:14"));
-                    measurements.add(new Measurement(8, 1, 22, 11, 11, 13567, "2020-01-01 00:35:14"));
-                    measurements.add(new Measurement(9, 1, 23, 25, 12, 12456, "2020-01-01 00:40:14"));
-                    measurements.add(new Measurement(10, 1, 24, 88, 13, 65431, "2020-01-01 00:45:14"));
-                    measurements.add(new Measurement(11, 1, 25, 20, 14, 3451, "2020-01-01 00:50:14"));
+                    measurements.add(new Measurement(1, 1, 1, 54, 1, 100000, "2022-11-01 00:00:14"));
+                    measurements.add(new Measurement(2, 1, 30, 44, 2, 1123414, "2022-11-01 00:05:14"));
+                    measurements.add(new Measurement(3, 1, 25, 42, 3, 42341, "2022-11-01 00:10:14"));
+                    measurements.add(new Measurement(4, 1, 26, 100, 1, 1234, "2022-11-01 00:15:14"));
+                    measurements.add(new Measurement(5, 1, 19, 90, 8, 12341, "2022-11-01 00:20:14"));
+                    measurements.add(new Measurement(6, 1, 20, 89, 9, 11234, "2022-11-01 00:25:14"));
+                    measurements.add(new Measurement(7, 1, 21, 23, 10, 63451, "2022-11-01 00:30:14"));
+                    measurements.add(new Measurement(8, 1, 22, 11, 11, 13567, "2022-11-01 00:35:14"));
+                    measurements.add(new Measurement(9, 1, 23, 25, 12, 12456, "2022-11-01 00:40:14"));
+                    measurements.add(new Measurement(10, 1, 24, 88, 13, 65431, "2022-11-01 00:45:14"));
+                    measurements.add(new Measurement(11, 1, 25, 20, 14, 3451, "2022-11-01 00:50:14"));
 
                     ArrayList<Entry> newValues = new ArrayList<>();
 
@@ -146,7 +118,10 @@ public class MeasurementActivity extends AppCompatActivity {
 
                     lineChart.setData(data);
                     lineChart.notifyDataSetChanged();
+                    lineChart.animate();
                     lineChart.invalidate();
+
+
 
                 }
                 break;
@@ -178,6 +153,7 @@ public class MeasurementActivity extends AppCompatActivity {
 
                     lineChart.setData(data);
                     lineChart.notifyDataSetChanged();
+                    lineChart.animate();
                     lineChart.invalidate();
                 }
                 break;
@@ -209,6 +185,7 @@ public class MeasurementActivity extends AppCompatActivity {
 
                     lineChart.setData(data);
                     lineChart.notifyDataSetChanged();
+                    lineChart.animate();
                     lineChart.invalidate();
                 }
                 break;
@@ -240,7 +217,37 @@ public class MeasurementActivity extends AppCompatActivity {
 
                     lineChart.setData(data);
                     lineChart.notifyDataSetChanged();
+                    lineChart.animate();
                     lineChart.invalidate();
+                }
+                break;
+        }
+    }
+
+    public void onTimeRadioButtonClicked(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+
+        switch (view.getId()) {
+            case R.id.last_hour_radio_button:
+                if (checked) {
+
+                }
+                break;
+            case R.id.last_day_radio_button:
+                if (checked) {
+
+                }
+                break;
+
+            case R.id.last_week_radio_button:
+                if (checked) {
+
+                }
+                break;
+
+            case R.id.last_month_radio_button:
+                if (checked) {
+
                 }
                 break;
         }

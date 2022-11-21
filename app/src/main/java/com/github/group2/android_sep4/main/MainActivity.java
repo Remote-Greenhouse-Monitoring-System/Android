@@ -27,15 +27,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 //        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);  //day
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_measurement);
 
-       Intent newIntent = new Intent(this, MainActivity.class);
+       Intent newIntent = new Intent(this, MeasurementActivity.class);
        startActivity(newIntent);
         preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
-        initializeAllFields();
+      //  initializeAllFields();
         viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
-       checkIfSignedIn();
+      // checkIfSignedIn();
     }
 
     private void initializeAllFields() {

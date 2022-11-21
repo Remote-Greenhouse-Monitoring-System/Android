@@ -2,6 +2,7 @@ package com.github.group2.android_sep4.repository;
 
 import com.github.group2.android_sep4.entity.Measurement;
 import com.github.group2.android_sep4.networking.MeasurementApi;
+import com.github.group2.android_sep4.networking.PlantProfileApi;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -36,6 +37,11 @@ public class ServiceGenerator {
 //        }
 //        return measurementApi;
 
+        return null;
+    }
+
+    public static PlantProfileApi getPlantProfileApi()
+    {
         return null;
     }
 }

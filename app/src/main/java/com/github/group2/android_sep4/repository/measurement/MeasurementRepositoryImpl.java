@@ -8,6 +8,7 @@ import com.github.group2.android_sep4.networking.MeasurementApi;
 import com.github.group2.android_sep4.repository.ServiceGenerator;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -108,7 +109,14 @@ public class MeasurementRepositoryImpl implements  MeasurementRepository{
 
     @Override
     public void searchAllMeasurementsPerHour(long greenHouseId, int hours) {
-        Call<List<Measurement>> call = api.getAllMeasurementsPerHour(greenHouseId, hours);
+        ArrayList<Measurement> measurements= new ArrayList<>();
+        measurements.add(new Measurement(1,1,30,100,222,10000,"2022-11-01 00:00:00"));
+        measurements.add(new Measurement(2,1,25,75,189,11500,"2022-11-01 00:10:00"));
+        measurements.add(new Measurement(3,1,22,44,190,12900,"2022-11-01 00:20:00"));
+        measurements.add(new Measurement(4,1,27,50,105,10010,"2022-11-01 00:30:00"));
+        measurements.add(new Measurement(5,1,21,90,178,15000,"2022-11-01 00:40:00"));
+        searchedMeasurementsList.setValue(measurements);
+       /* Call<List<Measurement>> call = api.getAllMeasurementsPerHour(greenHouseId, hours);
 
         call.enqueue(new Callback<List<Measurement>>() {
             @Override
@@ -128,14 +136,21 @@ public class MeasurementRepositoryImpl implements  MeasurementRepository{
 
                 error.setValue(t.getMessage());
             }
-        });
+        });*/
 
     }
 
     @Override
     public void searchAllMeasurementPerDays(long greenHouseId, int days) {
 
-        Call<List<Measurement>> call = api.getAllMeasurementPerDays(greenHouseId, days);
+        ArrayList<Measurement> measurements= new ArrayList<>();
+        measurements.add(new Measurement(1,1,30,100,222,10000,"2022-11-01 00:00:00"));
+        measurements.add(new Measurement(2,1,25,75,189,11500,"2022-11-01 01:00:00"));
+        measurements.add(new Measurement(3,1,22,44,190,12900,"2022-11-01 02:00:00"));
+        measurements.add(new Measurement(4,1,27,50,105,10010,"2022-11-01 03:00:00"));
+        measurements.add(new Measurement(5,1,21,90,178,15000,"2022-11-01 04:00:00"));
+        searchedMeasurementsList.setValue(measurements);
+       /* Call<List<Measurement>> call = api.getAllMeasurementPerDays(greenHouseId, days);
 
         call.enqueue(new Callback<List<Measurement>>() {
             @Override
@@ -155,15 +170,28 @@ public class MeasurementRepositoryImpl implements  MeasurementRepository{
 
                 error.setValue(t.getMessage());
             }
-        });
+        });*/
 
     }
 
     @Override
     public void searchAllMeasurementPerMonth(long greenHouseId, int month, int year) {
 
-        Call<List<Measurement>> call = api.getAllMeasurementPerMonth(greenHouseId, month, year);
 
+        ArrayList<Measurement> measurements= new ArrayList<>();
+        measurements.add(new Measurement(1,1,30,100,222,10000,"2022-11-01 00:00:00"));
+        measurements.add(new Measurement(2,1,25,75,189,11500,"2022-11-02 01:00:00"));
+        measurements.add(new Measurement(3,1,22,44,190,12900,"2022-11-03 02:00:00"));
+        measurements.add(new Measurement(4,1,27,50,105,10010,"2022-11-04 03:00:00"));
+        measurements.add(new Measurement(5,1,21,90,178,15000,"2022-11-05 04:00:00"));
+        measurements.add(new Measurement(6,1,30,100,222,10000,"2022-11-06 05:00:00"));
+        measurements.add(new Measurement(7,1,25,75,189,11500,"2022-11-07 06:00:00"));
+        measurements.add(new Measurement(8,1,22,44,190,12900,"2022-11-08 07:00:00"));
+        measurements.add(new Measurement(9,1,27,50,105,10010,"2022-11-09 08:00:00"));
+        measurements.add(new Measurement(10,1,21,90,178,15000,"2022-11-10 09:00:00"));
+        measurements.add(new Measurement(11,1,30,100,222,10000,"2022-11-11 10:00:00"));
+        searchedMeasurementsList.setValue(measurements);
+       /* Call<List<Measurement>> call = api.getAllMeasurementPerMonth(greenHouseId, month, year);
         call.enqueue(new Callback<List<Measurement>>() {
             @Override
             public void onResponse(Call<List<Measurement>> call, Response<List<Measurement>> response) {
@@ -182,7 +210,7 @@ public class MeasurementRepositoryImpl implements  MeasurementRepository{
 
                 error.setValue(t.getMessage());
             }
-        });
+        });*/
     }
 
     @Override

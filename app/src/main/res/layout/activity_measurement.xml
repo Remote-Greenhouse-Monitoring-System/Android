@@ -22,9 +22,10 @@
         app:layout_constraintVertical_bias="0.835" />
 
     <RadioGroup
+
         android:id="@+id/radioGroup"
-        android:layout_width="327dp"
-        android:layout_height="53dp"
+        android:layout_width="235dp"
+        android:layout_height="49dp"
         android:layout_marginTop="50dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/lineChart"
@@ -38,36 +39,64 @@
             android:id="@+id/temperature_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/radio_selector"
+            android:button="@android:color/transparent"
+            android:elevation="4dp"
             android:onClick="onRadioButtonClicked"
-            android:text="Temperature" />
+            android:text="Temperature"
+            android:textColor="@drawable/text_color"
+            android:padding="3dp"
+            android:textAlignment="center"
+            />
 
         <RadioButton
             android:id="@+id/humidity_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/radio_selector"
+            android:button="@android:color/transparent"
+            android:elevation="4dp"
             android:onClick="onRadioButtonClicked"
-            android:text="Humidity" />
+            android:text="Humidity"
+            android:textColor="@drawable/text_color"
+            android:padding="3dp"
+            android:textAlignment="center"
+        />
 
         <RadioButton
             android:id="@+id/co2_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/radio_selector"
+            android:button="@android:color/transparent"
+            android:elevation="4dp"
             android:onClick="onRadioButtonClicked"
-            android:text="CO2" />
+            android:text="CO2"
+            android:textColor="@drawable/text_color"
+            android:padding="3dp"
+            android:textAlignment="center"
+            />
 
         <RadioButton
             android:id="@+id/light_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/radio_selector"
+            android:button="@android:color/transparent"
+            android:elevation="4dp"
             android:onClick="onRadioButtonClicked"
-            android:text="Light" />
+            android:text="Light"
+            android:textColor="@drawable/text_color"
+            android:padding="3dp"
+            android:textAlignment="center"/>
     </RadioGroup>
 
     <RadioGroup
         android:id="@+id/timeRadioGroup"
-        android:layout_width="205dp"
-        android:layout_height="36dp"
+        android:layout_width="192dp"
+        android:layout_height="34dp"
         android:orientation="horizontal"
+        android:textAlignment="center"
         app:layout_constraintBottom_toTopOf="@+id/lineChart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,29 +106,53 @@
             android:id="@+id/last_hour_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/radio_selector"
+            android:button="@android:color/transparent"
+            android:elevation="4dp"
             android:onClick="onTimeRadioButtonClicked"
-            android:text="1H" />
+            android:padding="3dp"
+            android:text="1H"
+            android:textAlignment="center"
+            android:textColor="@drawable/text_color" />
 
         <RadioButton
             android:id="@+id/last_day_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/radio_selector"
+            android:button="@android:color/transparent"
+            android:elevation="4dp"
             android:onClick="onTimeRadioButtonClicked"
-            android:text="1D" />
+            android:padding="3dp"
+            android:text="1D"
+            android:textAlignment="center"
+            android:textColor="@drawable/text_color" />
 
         <RadioButton
             android:id="@+id/last_week_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/radio_selector"
+            android:button="@android:color/transparent"
+            android:elevation="4dp"
             android:onClick="onTimeRadioButtonClicked"
-            android:text="1W" />
+            android:padding="3dp"
+            android:text="1W"
+            android:textAlignment="center"
+            android:textColor="@drawable/text_color" />
 
         <RadioButton
             android:id="@+id/last_month_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/radio_selector"
+            android:button="@android:color/transparent"
+            android:elevation="4dp"
             android:onClick="onTimeRadioButtonClicked"
-            android:text="1M" />
+            android:padding="3dp"
+            android:text="1M"
+            android:textAlignment="center"
+            android:textColor="@drawable/text_color" />
 
     </RadioGroup>
 

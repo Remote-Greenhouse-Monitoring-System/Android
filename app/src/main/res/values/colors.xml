@@ -24,4 +24,5 @@
     <color name="palette_dark_cyan">#28AA77</color>
     <color name="transparent"> #0000ffff</color>
     <color name="app_bg">#F4F4F4</color>
+    <color name="colorAccentGreen">#005916</color>
 </resources>

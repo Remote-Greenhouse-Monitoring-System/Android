@@ -12,4 +12,5 @@
     <string name="empty_email">Email cannot be empty</string>
     <string name="empty_username">Username cannot be empty</string>
     <string name="empty_password">Password cannot be empty</string>
+    <string name="select_a_greenhouse">Select a greenhouse</string>
 </resources>

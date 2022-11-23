@@ -15,10 +15,9 @@ import retrofit2.http.Path;
  */
 public interface MeasurementApi {
 
-    String route = "measurement/";
+    String route = "https://greenhouse-data.azurewebsites.net";
 
-
-    @GET(route+ "all/{gId}/{amount}")
+    @GET(route+"/all/{greenHouseId}/{amount}")
     Call<List<Measurement>> getMeasurements(@Path("gId") long greenHouseId, @Path("amount") int amount);
 
     @GET(route+ "last/{gId}")

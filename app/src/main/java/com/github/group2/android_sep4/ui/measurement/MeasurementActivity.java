@@ -61,7 +61,8 @@ public class MeasurementActivity extends AppCompatActivity {
     private void initializeChart() {
         lineChart = findViewById(R.id.lineChart);
         setupChart();
-        measurementViewModel.searchAllMeasurementPerDays(1, 1);
+         measurementViewModel.searchMeasurement(1, 100);
+        // measurementViewModel.searchAllMeasurementPerDays(1, 1);
         setMeasurementsToChart();
         lineColor = "#cc0000";
     }
@@ -72,7 +73,7 @@ public class MeasurementActivity extends AppCompatActivity {
     }
 
     private float convertDateToFloat(String date) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-ddTHH:mm:ss", Locale.getDefault());
         try {
             Date date1 = format.parse(date);
             return date1.getTime() / 1000;
@@ -143,51 +144,52 @@ public class MeasurementActivity extends AppCompatActivity {
             case R.id.last_hour_radio_button:
                 if (checked) {
                     period = Period.HOUR;
-                    measurementViewModel.searchAllMeasurementsPerHour(1, 1);
+                    //    measurementViewModel.searchAllMeasurementsPerHour(1, 1);
                 }
                 break;
 
             case R.id.last_day_radio_button:
                 if (checked) {
                     period = Period.DAY;
-                    measurementViewModel.searchAllMeasurementPerDays(1, 1);
+                    //  measurementViewModel.searchAllMeasurementPerDays(1, 1);
                 }
                 break;
 
             case R.id.last_week_radio_button:
                 if (checked) {
                     period = Period.WEEK;
-                    measurementViewModel.searchAllMeasurementPerDays(1, 7);
+                    //    measurementViewModel.searchAllMeasurementPerDays(1, 7);
                 }
                 break;
 
             case R.id.last_month_radio_button:
                 if (checked) {
                     period = Period.MONTH;
-                    measurementViewModel.searchAllMeasurementPerMonth(1, 1, 1);
+                    measurementViewModel.searchMeasurement(1,100);
+                    //  measurementViewModel.searchAllMeasurementPerMonth(1, 1, 1);
                 }
                 break;
         }
         updatePeriod();
-        setMeasurementsToChart();
+        //   setMeasurementsToChart();
     }
 
     private void updatePeriod() {
         switch (period) {
             case HOUR:
-                measurementViewModel.searchAllMeasurementsPerHour(1, 1);
+                //   measurementViewModel.searchAllMeasurementsPerHour(1, 1);
                 break;
 
             case DAY:
-                measurementViewModel.searchAllMeasurementPerDays(1, 1);
+                // measurementViewModel.searchAllMeasurementPerDays(1, 1);
                 break;
 
             case WEEK:
-                measurementViewModel.searchAllMeasurementPerDays(1, 7);
+                //measurementViewModel.searchAllMeasurementPerDays(1, 7);
                 break;
 
             case MONTH:
-                measurementViewModel.searchAllMeasurementPerMonth(1, 1, 2022);
+                //   measurementViewModel.searchAllMeasurementPerMonth(1, 1, 2022);
                 break;
         }
     }
@@ -210,7 +212,9 @@ public class MeasurementActivity extends AppCompatActivity {
             ArrayList<ILineDataSet> dataSets = new ArrayList<>();
             dataSets.add(lineDataSet);
             LineData data = new LineData(dataSets);
+            lineChart.zoomOut();
             lineChart.setData(data);
+
             lineChart.invalidate();
             lineChart.notifyDataSetChanged();
             lineChart.animate();

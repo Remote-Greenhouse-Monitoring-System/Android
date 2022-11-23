@@ -1,77 +1,77 @@
 package com.github.group2.android_sep4.main;
 
-import android.content.Intent;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.entity.User;
-import com.github.group2.android_sep4.ui.measurement.MeasurementActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
 
-
     private MainActivityViewModel viewModel;
+    private BottomNavigationView bottomNavigationView;
     NavController navController;
     SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);  //day
 
-        setContentView(R.layout.activity_main);
-
-       Intent newIntent = new Intent(this, MainActivity.class);
-       startActivity(newIntent);
+        viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
+
+        setContentView(R.layout.activity_main);
         initializeAllFields();
-        viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
-       checkIfSignedIn();
+        checkIfSignedIn();
+
+
     }
 
     private void initializeAllFields() {
+        bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         navController = Navigation.findNavController(this, R.id.fragment_container);
-
+        NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
 
     }
 
     private void checkIfSignedIn() {
 
-        String username = preferences.getString("username",null);
-        String email = preferences.getString("email",null);
+        String username = preferences.getString("username", null);
+        String email = preferences.getString("email", null);
 
-        if (username !=null && email !=null){
-            User userToSave = new User(email, username, null);
-            viewModel.init(userToSave);
-
+        if (username != null && email != null) {
+            viewModel.init(new User(username, email, null));
         }
+        viewModel.getCurrentUser().observe(this, user -> {
 
-        viewModel.getCurrentUser().observe(this, user ->{
-            if (user==null){
-                displayLogin();
-            }
-            else{
-                // Saving these details on device to not login literally everytime...
+            if (user != null) {
+                navController.navigate(R.id.homeFragment);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+
+                // Save for later
                 preferences.edit().putString("username", user.getUsername()).apply();
                 preferences.edit().putString("email", user.getEmail()).apply();
-            }
+            } else {
+                navController.navigate(R.id.loginFragment);
+                bottomNavigationView.setVisibility(View.INVISIBLE);
 
+            }
         });
 
-    }
-
-    private void displayLogin() {
-        navController.navigate(R.id.loginFragment);
 
     }
+
 }

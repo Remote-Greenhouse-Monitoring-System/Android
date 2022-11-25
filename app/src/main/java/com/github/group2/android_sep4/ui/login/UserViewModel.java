@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.github.group2.android_sep4.entity.User;
-import com.github.group2.android_sep4.repository.login.MockUserRepositoryImpl;
 import com.github.group2.android_sep4.repository.login.UserRepository;
+import com.github.group2.android_sep4.repository.login.UserRepositoryImpl;
 
 public class UserViewModel extends ViewModel {
 
@@ -14,7 +14,8 @@ public class UserViewModel extends ViewModel {
 
 
     public UserViewModel() {
-        repository = MockUserRepositoryImpl.getInstance();
+//        repository = MockUserRepositoryImpl.getInstance();
+        repository = UserRepositoryImpl.getInstance();
     }
 
     public void signUp(String username, String email, String password) {

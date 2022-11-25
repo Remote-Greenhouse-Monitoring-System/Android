@@ -37,10 +37,15 @@ public class MainActivity extends AppCompatActivity {
         checkIfSignedIn();
 
 
+
     }
+
+
 
     private void initializeAllFields() {
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
+        bottomNavigationView.setVisibility(View.INVISIBLE);
+
         navController = Navigation.findNavController(this, R.id.fragment_container);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
 
@@ -49,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkIfSignedIn() {
 
+
         String username = preferences.getString("username", null);
         String email = preferences.getString("email", null);
 
@@ -56,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
             viewModel.init(new User(username, email, null));
         }
         viewModel.getCurrentUser().observe(this, user -> {
-
             if (user != null) {
                 navController.navigate(R.id.homeFragment);
                 bottomNavigationView.setVisibility(View.VISIBLE);

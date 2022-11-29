@@ -58,7 +58,7 @@ public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.Vi
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.greenhouse_name);
+            name = itemView.findViewById(R.id.greenhouseName);
             temperature = itemView.findViewById(R.id.greenhouse_temperature);
             humidity = itemView.findViewById(R.id.greenhouse_humidity);
             co2 = itemView.findViewById(R.id.greenhouse_co2);

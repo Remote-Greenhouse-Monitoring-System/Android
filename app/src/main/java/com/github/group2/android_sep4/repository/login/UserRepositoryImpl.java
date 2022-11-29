@@ -1,9 +1,5 @@
 package com.github.group2.android_sep4.repository.login;
 
-import android.os.Handler;
-import android.os.Looper;
-
-import androidx.core.os.HandlerCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -11,8 +7,7 @@ import com.github.group2.android_sep4.entity.User;
 import com.github.group2.android_sep4.networking.UserApi;
 import com.github.group2.android_sep4.repository.ServiceGenerator;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -65,8 +60,7 @@ public class UserRepositoryImpl implements UserRepository {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-
-                error.setValue(t.getMessage());
+                error.setValue("Cannot connect to server");
             }
         });
     }
@@ -107,7 +101,7 @@ public class UserRepositoryImpl implements UserRepository {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                error.setValue(t.getMessage());
+                error.setValue("Cannot connect to server");
             }
         });
     }
@@ -115,5 +109,10 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void init(User savedLoggedInUser) {
         currentUser.setValue(savedLoggedInUser);
+    }
+
+    @Override
+    public void logout() {
+        currentUser.setValue(null);
     }
 }

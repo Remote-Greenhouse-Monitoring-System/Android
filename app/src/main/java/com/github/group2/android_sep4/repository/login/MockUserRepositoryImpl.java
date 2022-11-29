@@ -83,4 +83,9 @@ public class MockUserRepositoryImpl implements UserRepository{
         currentUser.setValue(savedLoggedInUser);
 
     }
+
+    @Override
+    public void logout() {
+        currentUser.setValue(null);
+    }
 }

@@ -67,11 +67,16 @@ public class MainActivity extends AppCompatActivity {
                 bottomNavigationView.setVisibility(View.VISIBLE);
 
                 // Save for later
+
+
                 preferences.edit().putString("username", user.getUsername()).apply();
                 preferences.edit().putString("email", user.getEmail()).apply();
             } else {
+
                 navController.navigate(R.id.loginFragment);
                 bottomNavigationView.setVisibility(View.INVISIBLE);
+                preferences.edit().putString("username", null).apply();
+                preferences.edit().putString("email", null).apply();
 
             }
         });

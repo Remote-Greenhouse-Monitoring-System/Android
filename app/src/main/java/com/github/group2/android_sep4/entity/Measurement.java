@@ -11,7 +11,7 @@ public class Measurement {
     private float humidity;
     private float co2;
     private int light;
-    private String dateTime;
+    private String timestamp;
 
 
     public Measurement() {
@@ -19,14 +19,14 @@ public class Measurement {
         // The framework needs this for conversion from JSON.
     }
 
-    public Measurement(long id, long greenHouseId, float temperature, float humidity, float co2, int light, String dateTime) {
+    public Measurement(long id, long greenHouseId, float temperature, float humidity, float co2, int light, String timestamp) {
         this.id = id;
         this.greenHouseId = greenHouseId;
         this.temperature = temperature;
         this.humidity = humidity;
         this.co2 = co2;
         this.light = light;
-        this.dateTime = dateTime;
+        this.timestamp = timestamp;
     }
 
     public long getId() {
@@ -77,8 +77,8 @@ public class Measurement {
         this.light = light;
     }
 
-    public String getDateTimeAsString() {
-        return dateTime;
+    public String  getDateTimeAsString() {
+        return timestamp;
     }
 
 
@@ -91,12 +91,12 @@ public class Measurement {
     public LocalDateTime getDateTimeAsLocalDateTime() {
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        return LocalDateTime.parse(dateTime, dateTimeFormatter);
+        return LocalDateTime.parse(timestamp, dateTimeFormatter);
     }
 
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 
     @Override
@@ -108,7 +108,7 @@ public class Measurement {
                 ", humidity=" + humidity +
                 ", co2=" + co2 +
                 ", light=" + light +
-                ", dateTime='" + dateTime + '\'' +
+                ", dateTime='" + timestamp + '\'' +
                 '}';
     }
 }

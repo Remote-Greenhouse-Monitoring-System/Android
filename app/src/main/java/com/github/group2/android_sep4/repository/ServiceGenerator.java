@@ -18,24 +18,24 @@ public class ServiceGenerator {
     private static MeasurementApi measurementApi;
     private static Lock lock = new ReentrantLock();
 
-    private static String BASE_URL_MEASUREMENT = "";
+    private static String BASE_URL_MEASUREMENT = "https://greenhouse-data.azurewebsites.net";
 
 
 
 
     public static MeasurementApi getMeasurementApi(){
-//        if (measurementApi ==null){
-//            synchronized (lock){
-//                if (measurementApi == null) {
-//                    measurementApi = new Retrofit.Builder().baseUrl(BASE_URL_MEASUREMENT)
-//                            .addConverterFactory(GsonConverterFactory.create()).build().create(MeasurementApi.class);
-//
-//                }
-//
-//            }
-//        }
-//        return measurementApi;
+        if (measurementApi ==null){
+            synchronized (lock){
+                if (measurementApi == null) {
+                    measurementApi = new Retrofit.Builder().baseUrl(BASE_URL_MEASUREMENT)
+                            .addConverterFactory(GsonConverterFactory.create()).build().create(MeasurementApi.class);
 
-        return null;
+                }
+
+            }
+        }
+        return measurementApi;
+
+
     }
 }

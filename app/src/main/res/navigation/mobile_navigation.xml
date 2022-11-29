@@ -9,4 +9,10 @@
         android:id="@+id/loginFragment"
         android:name="com.github.group2.android_sep4.ui.login.LoginFragment"
         android:label="LoginFragment" />
+
+    <fragment
+        android:id="@+id/measurementFragment"
+        android:name="com.github.group2.android_sep4.ui.measurement.MeasurementFragment"
+        android:label="measurement_fragment"
+        tools:layout="@layout/measurement_fragment" />
 </navigation>

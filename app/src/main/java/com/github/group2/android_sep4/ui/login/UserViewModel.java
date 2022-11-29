@@ -34,4 +34,9 @@ public class UserViewModel extends ViewModel {
         repository.login(email, password);
 
     }
+
+    public void logout() {
+
+        repository.logout();
+    }
 }

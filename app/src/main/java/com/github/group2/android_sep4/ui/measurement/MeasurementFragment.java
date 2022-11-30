@@ -83,29 +83,29 @@ public class MeasurementFragment extends Fragment {
                 case R.id.last_hour_radio_button:
 
                     period = Period.HOUR;
-                    measurementViewModel.searchMeasurement(1,1000);
+                    measurementViewModel.searchMeasurement(1,12);
 
                     break;
 
                 case R.id.last_day_radio_button:
 
                     period = Period.DAY;
-                    measurementViewModel.searchAllMeasurementPerDays(1, 1);
+                    measurementViewModel.searchMeasurement(1, 288);
 
                     break;
 
                 case R.id.last_week_radio_button:
 
                     period = Period.WEEK;
-                    measurementViewModel.searchAllMeasurementPerDays(1, 7);
+                    measurementViewModel.searchAllMeasurementPerDays(1, 2016);
 
                     break;
 
                 case R.id.last_month_radio_button:
 
                     period = Period.MONTH;
-                    measurementViewModel.searchMeasurement(1, 100);
-                    measurementViewModel.searchAllMeasurementPerMonth(1, 1, 1);
+                    measurementViewModel.searchMeasurement(1, 4000);
+
 
                     break;
             }
@@ -131,7 +131,7 @@ public class MeasurementFragment extends Fragment {
     private void initializeChart(View view) {
         lineChart = view.findViewById(R.id.lineChart);
         setupChart();
-        measurementViewModel.searchAllMeasurementPerDays(1, 1);
+        measurementViewModel.searchMeasurement(1,288);
         setMeasurementsToChart();
         lineColor = "#cc0000";
     }
@@ -174,44 +174,6 @@ public class MeasurementFragment extends Fragment {
         xAxis.setLabelCount(3);
     }
 
-
-
-   /* public void onTimeRadioButtonClicked(View view) {
-        boolean checked = ((RadioButton) view).isChecked();
-
-        switch (view.getId()) {
-            case R.id.last_hour_radio_button:
-                if (checked) {
-                    period = Period.HOUR;
-                    measurementViewModel.searchAllMeasurementsPerHour(1, 1);
-                }
-                break;
-
-            case R.id.last_day_radio_button:
-                if (checked) {
-                    period = Period.DAY;
-                    measurementViewModel.searchAllMeasurementPerDays(1, 1);
-                }
-                break;
-
-            case R.id.last_week_radio_button:
-                if (checked) {
-                    period = Period.WEEK;
-                    measurementViewModel.searchAllMeasurementPerDays(1, 7);
-                }
-                break;
-
-            case R.id.last_month_radio_button:
-                if (checked) {
-                    period = Period.MONTH;
-                    measurementViewModel.searchMeasurement(1, 100);
-                    measurementViewModel.searchAllMeasurementPerMonth(1, 1, 1);
-                }
-                break;
-        }
-        updatePeriod();
-        setMeasurementsToChart();
-    }*/
 
     private void updatePeriod() {
         switch (period) {

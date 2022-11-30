@@ -37,7 +37,7 @@ public class MeasurementViewModal extends ViewModel {
 
     void searchAllMeasurementPerDays(long greenHouseId, int days) {
 
-        repository.searchAllMeasurementPerDays(greenHouseId, days);
+            repository.searchAllMeasurementPerDays(greenHouseId, days);
     }
 
     void searchAllMeasurementPerMonth(long greenHouseId, int month, int year) {

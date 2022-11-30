@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Android-SEP4</string>
+    <string name="app_name">Green Guard</string>
     <string name="login">LOGIN</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -12,5 +12,18 @@
     <string name="empty_email">Email cannot be empty</string>
     <string name="empty_username">Username cannot be empty</string>
     <string name="empty_password">Password cannot be empty</string>
-    <string name="select_a_greenhouse">Select a greenhouse</string>
+
+    <string name="temperature">Temperature°C</string>
+    <string name="humidity">Humidity</string>
+    <string name="co2">CO2</string>
+    <string name="light">Light</string>
+    <string name="one_hour">1 H</string>
+    <string name="one_day">1 D</string>
+    <string name="one_week">1 W</string>
+    <string name="one_month">1 M</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+   <string name="select_a_greenhouse">Select a greenhouse</string>
+
 </resources>

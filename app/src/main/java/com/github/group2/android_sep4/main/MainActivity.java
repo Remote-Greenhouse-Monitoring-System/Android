@@ -14,7 +14,11 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.entity.User;
+
+import com.github.group2.android_sep4.ui.measurement.MeasurementFragment;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,8 +32,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+
         preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+setContentView(R.layout.activity_main);
+
+
+      initializeAllFields();
+        viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+       checkIfSignedIn();
 
 
         setContentView(R.layout.activity_main);
@@ -37,12 +49,14 @@ public class MainActivity extends AppCompatActivity {
         checkIfSignedIn();
 
 
-
     }
 
 
 
     private void initializeAllFields() {
+
+    
+
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         bottomNavigationView.setVisibility(View.INVISIBLE);
 
@@ -67,11 +81,16 @@ public class MainActivity extends AppCompatActivity {
                 bottomNavigationView.setVisibility(View.VISIBLE);
 
                 // Save for later
+
+
                 preferences.edit().putString("username", user.getUsername()).apply();
                 preferences.edit().putString("email", user.getEmail()).apply();
             } else {
+
                 navController.navigate(R.id.loginFragment);
                 bottomNavigationView.setVisibility(View.INVISIBLE);
+                preferences.edit().putString("username", null).apply();
+                preferences.edit().putString("email", null).apply();
 
             }
         });

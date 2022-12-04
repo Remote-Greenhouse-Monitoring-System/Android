@@ -12,6 +12,17 @@
     <string name="empty_email">Email cannot be empty</string>
     <string name="empty_username">Username cannot be empty</string>
     <string name="empty_password">Password cannot be empty</string>
+
+    <string name="temperature">Temperature°C</string>
+    <string name="humidity">Humidity</string>
+    <string name="co2">CO2</string>
+    <string name="light">Light</string>
+    <string name="one_hour">1 H</string>
+    <string name="one_day">1 D</string>
+    <string name="one_week">1 W</string>
+    <string name="one_month">1 M</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="select_a_greenhouse">Select a greenhouse</string>
     <string name="unit_temperature">%1$f °C</string>
     <string name="unit_CO2">%1$f ppm</string>

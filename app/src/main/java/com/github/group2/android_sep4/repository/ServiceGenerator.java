@@ -19,7 +19,9 @@ public class ServiceGenerator {
     private static UserApi userApi;
     private static Lock lock = new ReentrantLock();
 
+
     private static String BASE_URL = "https://greenhouse-data.azurewebsites.net";
+
 
 
 
@@ -28,7 +30,9 @@ public class ServiceGenerator {
         if (measurementApi ==null){
             synchronized (lock){
                 if (measurementApi == null) {
+
                     measurementApi = new Retrofit.Builder().baseUrl(BASE_URL)
+
                             .addConverterFactory(GsonConverterFactory.create()).build().create(MeasurementApi.class);
 
                 }
@@ -36,6 +40,7 @@ public class ServiceGenerator {
             }
         }
         return measurementApi;
+
 
     }
 
@@ -52,6 +57,7 @@ public class ServiceGenerator {
             }
         }
         return userApi;
+
 
     }
 }

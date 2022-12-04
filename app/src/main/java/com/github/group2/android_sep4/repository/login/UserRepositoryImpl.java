@@ -56,7 +56,7 @@ public class UserRepositoryImpl implements UserRepository {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                error.setValue(t.getMessage());
+                error.setValue("Cannot connect to server");
             }
         });
     }
@@ -95,7 +95,7 @@ public class UserRepositoryImpl implements UserRepository {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                error.setValue(t.getMessage());
+                error.setValue("Cannot connect to server");
             }
         });
     }
@@ -103,5 +103,10 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void init(User savedLoggedInUser) {
         currentUser.setValue(savedLoggedInUser);
+    }
+
+    @Override
+    public void logout() {
+        currentUser.setValue(null);
     }
 }

@@ -43,8 +43,6 @@ public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.Vi
         holder.temperature.setText(greenHouse.getLastMeasurement().getTemperature() + " °C");
         holder.humidity.setText(greenHouse.getLastMeasurement().getHumidity() + " %");
         holder.light.setText(greenHouse.getLastMeasurement().getLight() + " lux");
-
-
     }
 
     @Override
@@ -69,7 +67,6 @@ public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.Vi
                     listener.onItemClick(greenHouses.get(getAdapterPosition()));
                 }
             });
-
         }
     }
 

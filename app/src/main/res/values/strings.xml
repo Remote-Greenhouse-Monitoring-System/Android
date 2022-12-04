@@ -26,6 +26,10 @@
     <string name="select_a_greenhouse">Select a greenhouse</string>
     <string name="unit_temperature">%1$f °C</string>
     <string name="unit_CO2">%1$f ppm</string>
-    <string name="unit_humidity">%1$f TODO</string>
-    <string name="unit_light">%1$o TODO</string>
+    <!-- TODO: Check if percentage sign works as expected when escaped -->
+    <string name="unit_humidity">%1$f \%</string>
+    <!-- TODO: Check if integer formatting works with o -->
+    <string name="unit_light">%1$o lux</string>
+    <string name="select_plant_profile">Select plant profile</string>
+    <string name="remove">Remove</string>
 </resources>

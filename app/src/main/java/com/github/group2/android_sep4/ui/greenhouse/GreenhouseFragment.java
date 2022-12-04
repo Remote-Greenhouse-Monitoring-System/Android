@@ -9,15 +9,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.entity.Measurement;
+import com.google.android.material.card.MaterialCardView;
 
 public class GreenhouseFragment extends Fragment
 {
     GreenhouseSpecificViewModel viewModel;
     TextView greenhouseName, greenhouseTemperature, greenhouseCO2, greenhouseHumidity, greenhouseLight;
+    MaterialCardView clickableCard;
 
     @Nullable
     @Override
@@ -26,6 +29,10 @@ public class GreenhouseFragment extends Fragment
         View view = inflater.inflate(R.layout.greenhouse_specific_fragment, container, false);
         initializeAllFields(view);
         viewModel = new ViewModelProvider(this).get(GreenhouseSpecificViewModel.class);
+
+        // TODO: This might crash the app -> figure out how to swap child fragments
+        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.placeholder, SelectGreenhouseFragment.class, null).commit();
 
         viewModel.getSelectedGreenhouse().observe(getViewLifecycleOwner(), greenHouseWithLastMeasurementModel -> {
             greenhouseName.setText(greenHouseWithLastMeasurementModel.getGreenHouseName());
@@ -48,5 +55,6 @@ public class GreenhouseFragment extends Fragment
         greenhouseCO2 = view.findViewById(R.id.greenhouse_co2);
         greenhouseHumidity = view.findViewById(R.id.greenhouse_humidity);
         greenhouseLight = view.findViewById(R.id.greenhouse_light);
+        clickableCard = view.findViewById(R.id.clickable_card);
     }
 }

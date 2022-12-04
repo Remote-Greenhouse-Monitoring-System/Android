@@ -1,10 +1,8 @@
 package com.github.group2.android_sep4.main;
 
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,14 +13,9 @@ import androidx.navigation.ui.NavigationUI;
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.entity.User;
 
-import com.github.group2.android_sep4.ui.measurement.MeasurementFragment;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-
 public class MainActivity extends AppCompatActivity {
-
-
     private MainActivityViewModel viewModel;
     private BottomNavigationView bottomNavigationView;
     NavController navController;
@@ -31,44 +24,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
 
         preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
-setContentView(R.layout.activity_main);
-
-
-      initializeAllFields();
-        viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
-       checkIfSignedIn();
-
-
         setContentView(R.layout.activity_main);
         initializeAllFields();
         checkIfSignedIn();
-
-
     }
 
-
-
     private void initializeAllFields() {
-
-    
-
         bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         bottomNavigationView.setVisibility(View.INVISIBLE);
 
         navController = Navigation.findNavController(this, R.id.fragment_container);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-
-
     }
 
     private void checkIfSignedIn() {
-
-
         String username = preferences.getString("username", null);
         String email = preferences.getString("email", null);
 
@@ -82,20 +54,14 @@ setContentView(R.layout.activity_main);
 
                 // Save for later
 
-
                 preferences.edit().putString("username", user.getUsername()).apply();
                 preferences.edit().putString("email", user.getEmail()).apply();
             } else {
-
                 navController.navigate(R.id.loginFragment);
                 bottomNavigationView.setVisibility(View.INVISIBLE);
                 preferences.edit().putString("username", null).apply();
                 preferences.edit().putString("email", null).apply();
-
             }
         });
-
-
     }
-
 }

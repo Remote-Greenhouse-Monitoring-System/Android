@@ -17,11 +17,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MeasurementRepositoryImpl implements  MeasurementRepository{
-
+public class MeasurementRepositoryImpl implements  MeasurementRepository {
     private static MeasurementRepository instance;
     private static Lock lock = new ReentrantLock();
-
 
     private MeasurementApi api;
 
@@ -32,12 +30,10 @@ public class MeasurementRepositoryImpl implements  MeasurementRepository{
 
     private MeasurementRepositoryImpl(){
         // Private for singleton
-
         api = ServiceGenerator.getMeasurementApi();
         error = new MutableLiveData<>();
         searchedMeasurement = new MutableLiveData<>();
         searchedMeasurementsList = new MutableLiveData<>();
-
     }
 
     public static MeasurementRepository getInstance(){
@@ -48,12 +44,9 @@ public class MeasurementRepositoryImpl implements  MeasurementRepository{
                 }
             }
         }
+
         return instance;
-
     }
-
-
-
 
     @Override
     public void searchMeasurement(long greenHouseId, int amount) {
@@ -78,13 +71,11 @@ public class MeasurementRepositoryImpl implements  MeasurementRepository{
                 error.setValue(t.getMessage());
             }
         });
-
     }
 
     @Override
     public void searchLastMeasurement(long greenHouseId) {
         Call<Measurement> call = api.getLastMeasurement(greenHouseId);
-
 
         call.enqueue(new Callback<Measurement>() {
             @Override
@@ -104,7 +95,6 @@ public class MeasurementRepositoryImpl implements  MeasurementRepository{
                 error.setValue(t.getMessage());
             }
         });
-
     }
 
     @Override
@@ -137,7 +127,6 @@ public class MeasurementRepositoryImpl implements  MeasurementRepository{
     @Override
     public void searchAllMeasurementPerDays(long greenHouseId, int days) {
 
-
         Call<List<Measurement>> call = api.getAllMeasurementPerDays(greenHouseId, days);
 
         call.enqueue(new Callback<List<Measurement>>() {
@@ -164,7 +153,6 @@ public class MeasurementRepositoryImpl implements  MeasurementRepository{
 
     @Override
     public void searchAllMeasurementPerMonth(long greenHouseId, int month, int year) {
-
 
         Call<List<Measurement>> call = api.getAllMeasurementPerMonth(greenHouseId, month, year);
         call.enqueue(new Callback<List<Measurement>>() {

@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.entity.Measurement;
@@ -35,12 +34,12 @@ public class MeasurementActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         hideTitleBar();
         setContentView(R.layout.activity_measurement);
-        initilizeViews();
+        initializeViews();
         initializeChart();
 
     }
 
-    private void initilizeViews() {
+    private void initializeViews() {
         measurementViewModal = new MeasurementViewModal();
     }
 

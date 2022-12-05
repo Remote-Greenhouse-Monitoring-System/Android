@@ -49,14 +49,12 @@ public class MockGreenHouseRepositoryImpl implements GreenHouseRepository {
         GreenHouseWithLastMeasurementModel model2 = new GreenHouseWithLastMeasurementModel(2, "Greenhouse 2", measurement2);
         GreenHouseWithLastMeasurementModel model3 = new GreenHouseWithLastMeasurementModel(3, "Greenhouse 3", measurement3);
 
-
         List<GreenHouseWithLastMeasurementModel> list =new ArrayList<>();
         list.add(model);
         list.add(model2);
         list.add(model3);
 
         greenHouseList.setValue(list);
-
     }
 }
 

@@ -43,8 +43,6 @@ public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.Vi
         holder.temperature.setText(greenHouse.getLastMeasurement().getTemperature() + " °C");
         holder.humidity.setText(greenHouse.getLastMeasurement().getHumidity() + " %");
         holder.light.setText(greenHouse.getLastMeasurement().getLight() + " lux");
-
-
     }
 
     @Override
@@ -58,18 +56,17 @@ public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.Vi
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.greenhouse_name);
-            temperature = itemView.findViewById(R.id.greenhouse_temperature);
-            humidity = itemView.findViewById(R.id.greenhouse_humidity);
-            co2 = itemView.findViewById(R.id.greenhouse_co2);
-            light = itemView.findViewById(R.id.greenhouse_light);
+            name = itemView.findViewById(R.id.greenhouseName);
+            temperature = itemView.findViewById(R.id.greenhouseTemperature);
+            humidity = itemView.findViewById(R.id.greenhouseHumidity);
+            co2 = itemView.findViewById(R.id.greenhouseCo2);
+            light = itemView.findViewById(R.id.greenhouseLight);
 
             itemView.setOnClickListener(v -> {
                 if (listener != null && getAdapterPosition() != RecyclerView.NO_POSITION) {
                     listener.onItemClick(greenHouses.get(getAdapterPosition()));
                 }
             });
-
         }
     }
 

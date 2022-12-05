@@ -34,7 +34,7 @@
             android:layout_marginRight="50dp">
 
             <TextView
-                android:id="@+id/greenhouse_name"
+                android:id="@+id/greenhouseName"
                 android:textColor="@color/palette_white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
 
 
                     <TextView
-                        android:id="@+id/greenhouse_temperature"
+                        android:id="@+id/greenhouseTemperature"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_gravity="center"
@@ -110,7 +110,7 @@
 
 
                     <TextView
-                        android:id="@+id/greenhouse_co2"
+                        android:id="@+id/greenhouseCo2"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_gravity="center"
@@ -141,7 +141,7 @@
 
 
                     <TextView
-                        android:id="@+id/greenhouse_light"
+                        android:id="@+id/greenhouseLight"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_gravity="center"
@@ -173,7 +173,7 @@
 
 
                     <TextView
-                        android:id="@+id/greenhouse_humidity"
+                        android:id="@+id/greenhouseHumidity"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_gravity="center"

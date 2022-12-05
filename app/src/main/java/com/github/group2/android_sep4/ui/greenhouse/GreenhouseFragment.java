@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ public class GreenhouseFragment extends Fragment
     MaterialCardView clickableCard, temperatureCard, co2Card, humidityCard, lightCard;
     ImageButton backButton, deleteButton;
     NavController navController;
+    DeletePopup deletePopup;
 
     @Nullable
     @Override
@@ -73,10 +75,18 @@ public class GreenhouseFragment extends Fragment
         navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
 
         backButton.setOnClickListener(this::goBack);
+        deleteButton.setOnClickListener(this::deleteGreenhouse);
+
         setOnClickChartOpening(temperatureCard, MeasurementType.TEMPERATURE);
         setOnClickChartOpening(co2Card, MeasurementType.CO2);
         setOnClickChartOpening(humidityCard, MeasurementType.HUMIDITY);
         setOnClickChartOpening(lightCard, MeasurementType.LIGHT);
+    }
+
+    private void deleteGreenhouse(View view)
+    {
+        deletePopup = new DeletePopup();
+        deletePopup.showPopupWindow(view);
     }
 
     private void goBack(View view)

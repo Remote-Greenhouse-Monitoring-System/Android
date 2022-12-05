@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,6 +29,7 @@ public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
     GreenHouseAdapter adapter;
     HomeViewModel viewModel;
+    NavController navController;
 
     @Nullable
     @Override
@@ -51,7 +54,9 @@ public class HomeFragment extends Fragment {
         long greenHouseId = greenHouseWithLastMeasurementModel.getGreenHouseId();
 
         // TODO change view with the info
-        FancyToast.makeText(getContext(), "Greenhouse name: " + greenHouseName + " Greenhouse id: " + greenHouseId, FancyToast.LENGTH_LONG, FancyToast.INFO, true).show();
+        // FancyToast.makeText(getContext(), "Greenhouse name: " + greenHouseName + " Greenhouse id: " + greenHouseId, FancyToast.LENGTH_LONG, FancyToast.INFO, true).show();
+
+        navController.navigate(R.id.greenhouseFragment);
     }
 
     private void updateGreenHouseList(List<GreenHouseWithLastMeasurementModel> greenHouseWithLastMeasurementModels) {
@@ -61,5 +66,6 @@ public class HomeFragment extends Fragment {
     private void initializeAllFields(View view) {
         addBtn = view.findViewById(R.id.addBtn);
         recyclerView = view.findViewById(R.id.recyclerView);
+        navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
     }
 }

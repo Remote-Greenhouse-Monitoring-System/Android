@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/greenhouseNameBar"
@@ -15,18 +15,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <ImageButton
             android:id="@+id/backButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="2"
+            android:layout_gravity="center"
+            android:scaleY="1.5"
+            android:scaleX="1.5"
+            android:layout_weight="1"
             android:orientation="vertical"
-            android:scaleType="centerInside"
-            app:srcCompat="@drawable/vector" />
+            android:paddingStart="10dp"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_baseline_arrow_back_ios_24" />
 
         <TextView
-            android:id="@+id/greenhouse_name"
+            android:id="@+id/greenhouseSpecificName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -36,18 +39,22 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textSize="30sp" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/deleteGreenhouse"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            app:srcCompat="@drawable/trash" />
+            android:scaleY="1.7"
+            android:scaleX="1.7"
+            android:layout_gravity="center"
+            android:background="@color/transparent"
+            app:srcCompat="@drawable/ic_baseline_delete_outline_24" />
     </LinearLayout>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/greenhouseImageCard"
         android:layout_width="0dp"
-        android:layout_height="250dp"
+        android:layout_height="150dp"
         android:background="@drawable/greenhouse"
         app:cardCornerRadius="20dp"
         android:layout_marginVertical="10dp"
@@ -59,13 +66,13 @@
         <ImageView
             android:id="@+id/greenhouseImage"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/greenhouse" />
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/clickable_card"
+        android:id="@+id/clickableCard"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginVertical="10dp"
@@ -77,8 +84,8 @@
 
         <FrameLayout
             android:id="@+id/placeholder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_height="0dp" />
 
         <LinearLayout
             android:id="@+id/selectPlantProfile"
@@ -112,7 +119,7 @@
         android:layout_marginVertical="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clickable_card"
+        app:layout_constraintTop_toBottomOf="@+id/clickableCard"
         app:layout_constraintWidth_percent="0.85">
 
         <TableRow
@@ -121,6 +128,7 @@
             android:layout_weight="1">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/latestMeasurementTemperature"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
@@ -145,9 +153,8 @@
                         android:padding="0dp"
                         android:src="@drawable/ic_baseline_device_thermostat_24" />
 
-
                     <TextView
-                        android:id="@+id/greenhouse_temperature"
+                        android:id="@+id/greenhouseTemperature"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_gravity="center"
@@ -160,6 +167,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/latestMeasurementCO2"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
@@ -185,7 +193,7 @@
                         android:src="@drawable/ic_baseline_co2_24" />
 
                     <TextView
-                        android:id="@+id/greenhouse_co2"
+                        android:id="@+id/greenhouseCo2"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_gravity="center"
@@ -205,6 +213,7 @@
             android:layout_weight="1">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/latestMeasurementHumidity"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
@@ -231,7 +240,7 @@
 
 
                     <TextView
-                        android:id="@+id/greenhouse_humidity"
+                        android:id="@+id/greenhouseHumidity"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_gravity="center"
@@ -244,6 +253,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/latestMeasurementLight"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
@@ -269,7 +279,7 @@
                         android:src="@drawable/ic_baseline_wb_sunny_24" />
 
                     <TextView
-                        android:id="@+id/greenhouse_light"
+                        android:id="@+id/greenhouseLight"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_gravity="center"

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,16 +12,21 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.entity.Measurement;
+import com.github.group2.android_sep4.ui.measurement.MeasurementType;
 import com.google.android.material.card.MaterialCardView;
 
 public class GreenhouseFragment extends Fragment
 {
     GreenhouseSpecificViewModel viewModel;
     TextView greenhouseName, greenhouseTemperature, greenhouseCO2, greenhouseHumidity, greenhouseLight;
-    MaterialCardView clickableCard;
+    MaterialCardView clickableCard, temperatureCard, co2Card, humidityCard, lightCard;
+    ImageButton backButton, deleteButton;
+    NavController navController;
 
     @Nullable
     @Override
@@ -50,11 +56,40 @@ public class GreenhouseFragment extends Fragment
 
     private void initializeAllFields(View view)
     {
-        greenhouseName = view.findViewById(R.id.greenhouse_name);
-        greenhouseTemperature = view.findViewById(R.id.greenhouse_temperature);
-        greenhouseCO2 = view.findViewById(R.id.greenhouse_co2);
-        greenhouseHumidity = view.findViewById(R.id.greenhouse_humidity);
-        greenhouseLight = view.findViewById(R.id.greenhouse_light);
-        clickableCard = view.findViewById(R.id.clickable_card);
+        greenhouseName = view.findViewById(R.id.greenhouseSpecificName);
+        greenhouseTemperature = view.findViewById(R.id.greenhouseTemperature);
+        greenhouseCO2 = view.findViewById(R.id.greenhouseCo2);
+        greenhouseHumidity = view.findViewById(R.id.greenhouseHumidity);
+        greenhouseLight = view.findViewById(R.id.greenhouseLight);
+        //clickableCard = view.findViewById(R.id.clickableCard);
+        backButton = view.findViewById(R.id.backButton);
+        deleteButton = view.findViewById(R.id.deleteGreenhouse);
+
+        temperatureCard = view.findViewById(R.id.latestMeasurementTemperature);
+        co2Card = view.findViewById(R.id.latestMeasurementCO2);
+        humidityCard = view.findViewById(R.id.latestMeasurementHumidity);
+        lightCard = view.findViewById(R.id.latestMeasurementLight);
+
+        navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
+
+        backButton.setOnClickListener(this::goBack);
+        setOnClickChartOpening(temperatureCard, MeasurementType.TEMPERATURE);
+        setOnClickChartOpening(co2Card, MeasurementType.CO2);
+        setOnClickChartOpening(humidityCard, MeasurementType.HUMIDITY);
+        setOnClickChartOpening(lightCard, MeasurementType.LIGHT);
+    }
+
+    private void goBack(View view)
+    {
+        navController.navigate(R.id.homeFragment);
+    }
+
+    private void setOnClickChartOpening(final MaterialCardView cardView, MeasurementType measurementType)
+    {
+        cardView.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("measurementType", measurementType.toString());
+            navController.navigate(R.id.measurementFragment, bundle);
+        });
     }
 }

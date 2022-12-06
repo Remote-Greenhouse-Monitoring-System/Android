@@ -65,7 +65,6 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
             public void onResponse(Call<List<GreenHouse>> call, Response<List<GreenHouse>> response) {
                 List<GreenHouse> greenHouseList = response.body();
                 allGreenHouses.setValue(greenHouseList);
-                successMessage.setValue("Successfully fetched greenhouses");
             }
 
             @Override

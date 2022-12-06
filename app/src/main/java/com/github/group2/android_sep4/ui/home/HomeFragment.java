@@ -91,7 +91,6 @@ public class HomeFragment extends Fragment {
         if (greenHouses == null) {
             return;
         }
-        FancyToast.makeText(getContext(), "Greenhouses not null", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
         List<GreenHouseWithLastMeasurementModel> greenHouseWithLastMeasurementModels = new ArrayList<>();
 
         for (GreenHouse greenHouse : greenHouses) {

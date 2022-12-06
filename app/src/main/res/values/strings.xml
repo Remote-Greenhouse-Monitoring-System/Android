@@ -36,4 +36,5 @@
     <string name="cancel">Cancel</string>
     <string name="delete_greenhouse">Are you sure you want to delete this greenhouse?</string>
     <string name="delete_plant_profile">Are you sure you want to delete this plant profile?</string>
+    <string name="plant_profile_name">Plant profile name</string>
 </resources>

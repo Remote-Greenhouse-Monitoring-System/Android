@@ -3,6 +3,7 @@ package com.github.group2.android_sep4.ui.plantProfile;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,8 +27,10 @@ public class SelectPlantProfileFragment extends Fragment {
     private NavController navController;
     private RecyclerView plantProfileRecyclerView;
     private PlantProfileAdapter plantProfileAdapter;
-
+    private int greenHouseId=-1;
     private ArrayList<PlantProfile> tempPlantProfiles = new ArrayList<>();
+    private SelectPlantProfileViewModel viewModel;
+
     public SelectPlantProfileFragment() {
         // Required empty public constructor
     }
@@ -38,10 +41,28 @@ public class SelectPlantProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_select_plant_profile, container, false);
-        initializeViews(view);
+        viewModel= new ViewModelProvider(this).get(SelectPlantProfileViewModel.class);
 
+        initializeViews(view);
+        Bundle bundle = getArguments();
+        if(bundle!=null){
+            greenHouseId = bundle.getInt("activeGreenhouseId");
+        }
+        checkIfGreenHouseIdIsSet();
         return view;
     }
+
+    private void checkIfGreenHouseIdIsSet() {
+        if(greenHouseId!=-1){
+            plantProfileAdapter.setOnItemClickListener(this::plantProfileClicked);
+
+        }
+        else{
+
+        }
+    }
+
+
 
     private void initializeViews(View view) {
         navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
@@ -57,7 +78,6 @@ public class SelectPlantProfileFragment extends Fragment {
         plantProfileAdapter = new PlantProfileAdapter(tempPlantProfiles);
 
         plantProfileRecyclerView= view.findViewById(R.id.plantProfileRecyclerView);
-
         plantProfileRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         plantProfileRecyclerView.setAdapter(plantProfileAdapter);
 
@@ -77,7 +97,10 @@ public class SelectPlantProfileFragment extends Fragment {
 
     private void goBack(View view) {
         navController.navigate(R.id.homeFragment);
-    }
 
+    }
+    private void plantProfileClicked(PlantProfile plantProfile) {
+        viewModel.setActivePlantProfile(greenHouseId, plantProfile);
+    }
 
 }

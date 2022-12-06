@@ -28,9 +28,10 @@ public class MainActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
 
         preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        checkIfSignedIn();
         setContentView(R.layout.activity_main);
         initializeAllFields();
-        checkIfSignedIn();
+
     }
 
     private void initializeAllFields() {
@@ -49,9 +50,16 @@ public class MainActivity extends AppCompatActivity {
     private void checkIfSignedIn() {
         String username = preferences.getString("username", null);
         String email = preferences.getString("email", null);
+        Long uID = preferences.getLong("uID", -1);
 
-        if (username != null && email != null) {
-            viewModel.init(new User(username, email, null));
+        if (username != null && email != null && uID != -1) {
+
+            User user = new User();
+            user.setUsername(username);
+            user.setEmail(email);
+            user.setId(uID);
+
+            viewModel.init(user);
         }
         viewModel.getCurrentUser().observe(this, user -> {
             if (user != null) {
@@ -62,11 +70,13 @@ public class MainActivity extends AppCompatActivity {
 
                 preferences.edit().putString("username", user.getUsername()).apply();
                 preferences.edit().putString("email", user.getEmail()).apply();
+                preferences.edit().putLong("uID", user.getId()).apply();
             } else {
                 navController.navigate(R.id.loginFragment);
                 bottomNavigationView.setVisibility(View.INVISIBLE);
                 preferences.edit().putString("username", null).apply();
                 preferences.edit().putString("email", null).apply();
+                preferences.edit().putLong("uID", -1).apply();
             }
         });
     }

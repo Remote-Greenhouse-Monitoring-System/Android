@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.entity.PlantProfile;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -27,6 +28,7 @@ public class SelectPlantProfileFragment extends Fragment {
     private NavController navController;
     private RecyclerView plantProfileRecyclerView;
     private PlantProfileAdapter plantProfileAdapter;
+    private FloatingActionButton addPlantProfileButton;
     private int greenHouseId=-1;
     private ArrayList<PlantProfile> tempPlantProfiles = new ArrayList<>();
     private SelectPlantProfileViewModel viewModel;
@@ -78,6 +80,8 @@ public class SelectPlantProfileFragment extends Fragment {
         plantProfileAdapter = new PlantProfileAdapter(tempPlantProfiles);
 
         plantProfileRecyclerView= view.findViewById(R.id.plantProfileRecyclerView);
+        addPlantProfileButton = view.findViewById(R.id.addPlantProfileButton);
+        addPlantProfileButton.setOnClickListener(this::goAddPlantProfile);
         plantProfileRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         plantProfileRecyclerView.setAdapter(plantProfileAdapter);
 
@@ -90,6 +94,10 @@ public class SelectPlantProfileFragment extends Fragment {
         setAdapter();
     }
 
+    private void goAddPlantProfile(View view) {
+        navController.navigate(R.id.addPlantProfileFragment);
+    }
+
     private void setAdapter() {
 
 
@@ -97,7 +105,6 @@ public class SelectPlantProfileFragment extends Fragment {
 
     private void goBack(View view) {
         navController.navigate(R.id.homeFragment);
-
     }
     private void plantProfileClicked(PlantProfile plantProfile) {
         viewModel.setActivePlantProfile(greenHouseId, plantProfile);

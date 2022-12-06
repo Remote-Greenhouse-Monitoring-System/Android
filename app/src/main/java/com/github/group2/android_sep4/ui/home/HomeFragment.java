@@ -15,9 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.group2.android_sep4.R;
+import com.github.group2.android_sep4.entity.GreenHouse;
+import com.github.group2.android_sep4.entity.Measurement;
+import com.github.group2.android_sep4.ui.login.UserViewModel;
+import com.github.group2.android_sep4.ui.measurement.MeasurementViewModal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -26,7 +31,9 @@ public class HomeFragment extends Fragment {
     FloatingActionButton addBtn;
     RecyclerView recyclerView;
     GreenHouseAdapter adapter;
-    HomeViewModel viewModel;
+    HomeViewModel homeViewModel;
+    UserViewModel userViewModel;
+    MeasurementViewModal measurementViewModal;
     NavController navController;
 
     @Nullable
@@ -34,16 +41,38 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         initializeAllFields(view);
-        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        measurementViewModal = new ViewModelProvider(this).get(MeasurementViewModal.class);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new GreenHouseAdapter();
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this:: greenHouseClicked);
+        adapter.setOnItemClickListener(this::greenHouseClicked);
 
-        viewModel.searchAllGreenHouses();
-        viewModel.getGreenHouseList().observe(getViewLifecycleOwner(), this::updateGreenHouseList);
+        homeViewModel.getErrorMessage().observe(getViewLifecycleOwner(), s -> {
+            if (s != null) {
+                FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+            }
+        });
+
+        homeViewModel.getSuccessMessage().observe(getViewLifecycleOwner(), s -> {
+            if (s != null) {
+                FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
+            }
+        });
+        initializeGreenHouses();
+
         return view;
+
+    }
+
+    private void initializeGreenHouses() {
+
+        if (userViewModel.getCurrentUser().getValue() != null) {
+            homeViewModel.searchAllGreenHouses(userViewModel.getCurrentUser().getValue().getId());
+            homeViewModel.getGreenHouseList().observe(getViewLifecycleOwner(), this::updateGreenHouseList);
+        }
 
     }
 
@@ -57,8 +86,36 @@ public class HomeFragment extends Fragment {
         navController.navigate(R.id.greenhouseFragment);
     }
 
-    private void updateGreenHouseList(List<GreenHouseWithLastMeasurementModel> greenHouseWithLastMeasurementModels) {
+    private void updateGreenHouseList(List<GreenHouse> greenHouses) {
+
+        if (greenHouses == null) {
+            return;
+        }
+        List<GreenHouseWithLastMeasurementModel> greenHouseWithLastMeasurementModels = new ArrayList<>();
+
+        for (GreenHouse greenHouse : greenHouses) {
+            long greenHouseId = greenHouse.getId();
+            String greenHouseName = greenHouse.getName();
+            measurementViewModal.searchLastMeasurement(greenHouseId);
+
+
+            Measurement lastMeasurement = new Measurement();
+            measurementViewModal.getSearchedMeasurement().observe(getViewLifecycleOwner(), measurement -> {
+                if (measurement != null) {
+                    lastMeasurement.setCo2(measurement.getCo2());
+                    lastMeasurement.setHumidity(measurement.getHumidity());
+                    lastMeasurement.setTemperature(measurement.getTemperature());
+                    lastMeasurement.setLight(measurement.getLight());
+
+                }
+            });
+
+            GreenHouseWithLastMeasurementModel greenHouseWithLastMeasurementModel = new GreenHouseWithLastMeasurementModel(greenHouseId, greenHouseName, lastMeasurement);
+            greenHouseWithLastMeasurementModels.add(greenHouseWithLastMeasurementModel);
+        }
+
         adapter.setGreenHouses(greenHouseWithLastMeasurementModels);
+
     }
 
     private void initializeAllFields(View view) {

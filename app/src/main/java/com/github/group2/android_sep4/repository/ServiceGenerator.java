@@ -1,6 +1,7 @@
 package com.github.group2.android_sep4.repository;
 
 import com.github.group2.android_sep4.networking.MeasurementApi;
+import com.github.group2.android_sep4.networking.PlantProfileApi;
 import com.github.group2.android_sep4.networking.UserApi;
 
 import java.util.concurrent.locks.Lock;
@@ -17,6 +18,7 @@ public class ServiceGenerator {
 
     private static MeasurementApi measurementApi;
     private static UserApi userApi;
+    private static PlantProfileApi plantProfileApi;
     private static Lock lock = new ReentrantLock();
 
 
@@ -59,5 +61,20 @@ public class ServiceGenerator {
         return userApi;
 
 
+    }
+
+    public static PlantProfileApi getPlantProfileApi()
+    {
+        if (plantProfileApi == null) {
+            synchronized (lock) {
+                if (plantProfileApi == null) {
+                    plantProfileApi = new Retrofit.Builder().baseUrl(BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create()).build().create(PlantProfileApi.class);
+
+                }
+
+            }
+        }
+        return plantProfileApi;
     }
 }

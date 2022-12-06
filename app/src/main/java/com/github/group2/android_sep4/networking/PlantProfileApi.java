@@ -8,30 +8,39 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface PlantProfileApi {
 
-    String route = "plantProfile/";
+    String route = "PlantProfiles";
 
-    @POST(route + "/{username}")
-    Call<PlantProfile> createPlantProfile(@Path("username") String username, @Body PlantProfile plantProfile);
+    @POST(route + "/add/{uId}")
+    Call<PlantProfile> createPlantProfile(@Path("uId") int uId, @Body PlantProfile plantProfile);
 
-    @DELETE(route + "/{plantProfileId}")
-    Call removePlantProfile(@Path("plantProfileId") long id);
+    @DELETE(route + "/{pId}")
+    Call removePlantProfile(@Path("pId") int id);
 
-    @PUT(route + "/{plantProfileId}")
-    Call<PlantProfile> updatePlantProfile(@Path("plantProfileId") long id, @Body PlantProfile plantProfile);
+    @PATCH(route + "/update")
+    Call<PlantProfile> updatePlantProfile(@Body PlantProfile plantProfile);
 
-    @GET(route + "/{pageNumber}/{pageSize}")
-    Call<List<PlantProfile>> getPremadePlantProfiles(@Path("pageNumber") int pageNumber, @Path("pageSize") int pageSize);
+    @GET(route + "plantProfilesForUser/{uId}")
+    Call<List<PlantProfile>> getPlantProfilesForUser(@Path("uId") int uId);
 
-    @GET(route + "/{plantProfileId")
-    Call<PlantProfile> getPlantProfileById(@Path("plantProfileId") long id);
+    @GET(route)
+    Call<List<PlantProfile>> getPlantProfiles();
 
-    @PUT(route + "/{plantProfileId")
-    Call activatePlantProfile(@Path("plantProfileId") long id);
+    @GET(route + "/PlantP/{pId}")
+    Call<PlantProfile> getPlantProfileById(@Path("pId") int id);
+
+    @PATCH(route + "/activate/{pId}/{gId}")
+    Call activatePlantProfile(@Path("pId") int pId,@Path("gId") int gId);
+
+    @GET(route + "/activated/{gId}")
+    Call<List<PlantProfile>> getActivatedPlantProfiles(@Path("gId") int gId);
+
 
 }

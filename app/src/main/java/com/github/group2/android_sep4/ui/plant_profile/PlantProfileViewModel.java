@@ -1,9 +1,11 @@
 package com.github.group2.android_sep4.ui.plant_profile;
 
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.github.group2.android_sep4.entity.PlantProfile;
 import com.github.group2.android_sep4.repository.plant_profile.PlantProfileRepository;
+import com.github.group2.android_sep4.repository.plant_profile.PlantProfileRepositoryImpl;
 
 import java.util.List;
 
@@ -13,36 +15,68 @@ public class PlantProfileViewModel extends ViewModel {
 
     public PlantProfileViewModel()
     {
-
+        repository = PlantProfileRepositoryImpl.getInstance();
     }
 
-    public PlantProfile createPlantProfile(PlantProfile plantProfile)
+    public void createPlantProfile(PlantProfile plantProfile)
     {
-       return repository.createPlantProfile(plantProfile);
+        repository.createPlantProfile(plantProfile);
     }
 
-    public void removePlantProfile(long id)
+    public void removePlantProfile(int id)
     {
         repository.removePlantProfile(id);
     }
 
-    public PlantProfile updatePlantProfile(PlantProfile plantProfile)
+    public void updatePlantProfile(PlantProfile plantProfile)
     {
-        return repository.updatePlantProfile(plantProfile);
+         repository.updatePlantProfile(plantProfile);
     }
 
-    public List<PlantProfile> getPremadePlantProfiles(int pageNumber,int pageSize)
+
+    public void getPlantProfilesForUser(int uId)
     {
-        return repository.getPremadePlantProfiles(pageNumber,pageSize);
+        repository.getPlantProfilesForUser(uId);
     }
 
-    public PlantProfile getPlantProfileById(long id)
+
+    public void getPlantProfiles()
     {
-        return repository.getPlantProfileById(id);
+        repository.getPlantProfiles();
     }
 
-    public void activatePlantProfile(long id)
+    public void getPlantProfileById(int id)
     {
-        repository.activatePlantProfile(id);
+         repository.getPlantProfileById(id);
+    }
+
+    public void activatePlantProfile(int pId, int gId)
+    {
+        repository.activatePlantProfile(pId,gId);
+    }
+
+    public void getActivatedPlantProfiles(int gId)
+    {
+        repository.getActivatedPlantProfiles(gId);
+    }
+
+    public MutableLiveData<PlantProfile> getSearchedPlantProfile()
+    {
+        return repository.getSearchedPlantProfile();
+    }
+
+    MutableLiveData<List<PlantProfile>> getPlantProfilesListForUser()
+    {
+        return repository.getPlantProfilesListForUser();
+    }
+
+    MutableLiveData<List<PlantProfile>> getAllPlantProfilesList()
+    {
+        return repository.getAllPlantProfilesList();
+    }
+
+    MutableLiveData<List<PlantProfile>> getActivatedPlantProfilesList()
+    {
+        return repository.getActivatedPlantProfilesList();
     }
 }

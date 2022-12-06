@@ -7,8 +7,14 @@ import com.github.group2.android_sep4.entity.Threshold;
 import com.github.group2.android_sep4.networking.ThresholdApi;
 import com.github.group2.android_sep4.repository.ServiceGenerator;
 
+import java.io.IOException;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ThresholdRepositoryImpl implements ThresholdRepository{
 
@@ -22,6 +28,10 @@ public class ThresholdRepositoryImpl implements ThresholdRepository{
     private ThresholdApi thresholdApi;
     private ThresholdRepositoryImpl() {
         thresholdApi = ServiceGenerator.getThresholdApi();
+        errorMessage = new MutableLiveData<>();
+        successMessage = new MutableLiveData<>();
+        searchedThreshold = new MutableLiveData<>();
+
     }
 
     public static ThresholdRepository getInstance() {
@@ -39,25 +49,72 @@ public class ThresholdRepositoryImpl implements ThresholdRepository{
     @Override
     public void searchThreshold(long plantProfileId) {
 
+        Call<Threshold> call = thresholdApi.getThreshold(plantProfileId);
+        call.enqueue(new Callback<Threshold>() {
+            @Override
+            public void onResponse(Call<Threshold> call, Response<Threshold> response) {
+                if (response.isSuccessful()) {
+                    searchedThreshold.setValue(response.body());
+                } else {
+                    setError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Threshold> call, Throwable t) {
+
+                errorMessage.setValue("Cannot connect to server");
+            }
+        });
     }
 
     @Override
     public LiveData<Threshold> getSearchedThreshold() {
-        return null;
+        return searchedThreshold;
     }
 
     @Override
     public void updateThreshold(long plantProfileId, Threshold threshold) {
+        Call<Threshold> call = thresholdApi.updateThreshold(plantProfileId, threshold);
+        call.enqueue(new Callback<Threshold>() {
+            @Override
+            public void onResponse(Call<Threshold> call, Response<Threshold> response) {
+                if (response.isSuccessful()) {
+                    successMessage.setValue("Threshold updated successfully");
+                } else {
+                    setError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Threshold> call, Throwable t) {
+                errorMessage.setValue("Cannot connect to server");
+            }
+        });
 
     }
 
     @Override
     public LiveData<String> getErrorMessage() {
-        return null;
+        return errorMessage;
     }
 
     @Override
     public LiveData<String> getSuccessMessage() {
-        return null;
+        return successMessage;
+    }
+
+
+    private void setError(Response response) {
+        String errorMessage = null;
+        try {
+            errorMessage = "Error :" + response.code() + " " +
+                    response.errorBody().string();
+        } catch (IOException e) {
+            this.errorMessage.setValue("Cannot connect to server");
+        }
+        this.errorMessage.setValue(errorMessage);
+
+
     }
 }

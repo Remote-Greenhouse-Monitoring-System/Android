@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.github.group2.android_sep4.entity.Measurement;
 import com.github.group2.android_sep4.repository.greenhouse.GreenHouseRepository;
-import com.github.group2.android_sep4.repository.greenhouse.MockGreenHouseRepositoryImpl;
 import com.github.group2.android_sep4.ui.home.GreenHouseWithLastMeasurementModel;
 
 public class GreenhouseSpecificViewModel extends ViewModel

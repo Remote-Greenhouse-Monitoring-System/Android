@@ -16,4 +16,7 @@ public interface UserRepository {
     void login(String email, String password);
 
     void init(User savedLoggedInUser);
+
+    void logout();
+
 }

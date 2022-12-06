@@ -15,10 +15,9 @@ import retrofit2.http.Path;
  */
 public interface MeasurementApi {
 
-    String route = "measurement/";
+    String route = "Measurement";
 
-
-    @GET(route+ "all/{gId}/{amount}")
+    @GET(route+"/all/{gId}/{amount}")
     Call<List<Measurement>> getMeasurements(@Path("gId") long greenHouseId, @Path("amount") int amount);
 
     @GET(route+ "last/{gId}")

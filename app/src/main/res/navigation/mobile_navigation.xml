@@ -9,4 +9,34 @@
         android:id="@+id/loginFragment"
         android:name="com.github.group2.android_sep4.ui.login.LoginFragment"
         android:label="LoginFragment" />
+
+    <fragment
+        android:id="@+id/measurementFragment"
+        android:name="com.github.group2.android_sep4.ui.measurement.MeasurementFragment"
+        android:label="measurement_fragment"
+        tools:layout="@layout/measurement_fragment" />
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.github.group2.android_sep4.ui.home.HomeFragment"
+        android:label="HomeFragment" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.github.group2.android_sep4.ui.profile.ProfileFragment"
+        android:label="ProfileFragment" />
+
+    <fragment
+        android:id="@+id/greenhouseFragment"
+        android:name="com.github.group2.android_sep4.ui.greenhouse.GreenhouseFragment"
+        android:label="GreenhouseFragment" />
+
+    <fragment
+        android:id="@+id/selectPlantProfileFragment"
+        android:name="com.github.group2.android_sep4.ui.plantProfile.SelectPlantProfileFragment"
+        android:label="SelectPlantProfileFragment" />
+    <fragment
+        android:id="@+id/addPlantProfileFragment"
+        android:name="com.github.group2.android_sep4.ui.plantProfile.AddPlantProfileFragment"
+        android:label="AddPlantProfileFragment" />
 </navigation>

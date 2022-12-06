@@ -1,8 +1,7 @@
 package com.github.group2.android_sep4.repository;
 
-import com.github.group2.android_sep4.entity.Measurement;
 import com.github.group2.android_sep4.networking.MeasurementApi;
-import com.github.group2.android_sep4.networking.PlantProfileApi;
+import com.github.group2.android_sep4.networking.UserApi;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -17,31 +16,48 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ServiceGenerator {
 
     private static MeasurementApi measurementApi;
+    private static UserApi userApi;
     private static Lock lock = new ReentrantLock();
 
-    private static String BASE_URL_MEASUREMENT = "";
+
+    private static String BASE_URL = "https://greenhouse-data.azurewebsites.net";
+
 
 
 
 
     public static MeasurementApi getMeasurementApi(){
-//        if (measurementApi ==null){
-//            synchronized (lock){
-//                if (measurementApi == null) {
-//                    measurementApi = new Retrofit.Builder().baseUrl(BASE_URL_MEASUREMENT)
-//                            .addConverterFactory(GsonConverterFactory.create()).build().create(MeasurementApi.class);
-//
-//                }
-//
-//            }
-//        }
-//        return measurementApi;
+        if (measurementApi ==null){
+            synchronized (lock){
+                if (measurementApi == null) {
 
-        return null;
+                    measurementApi = new Retrofit.Builder().baseUrl(BASE_URL)
+
+                            .addConverterFactory(GsonConverterFactory.create()).build().create(MeasurementApi.class);
+
+                }
+
+            }
+        }
+        return measurementApi;
+
+
     }
 
-    public static PlantProfileApi getPlantProfileApi()
-    {
-        return null;
+
+    public static UserApi getUserApi() {
+        if (userApi == null) {
+            synchronized (lock) {
+                if (userApi == null) {
+                    userApi = new Retrofit.Builder().baseUrl(BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create()).build().create(UserApi.class);
+
+                }
+
+            }
+        }
+        return userApi;
+
+
     }
 }

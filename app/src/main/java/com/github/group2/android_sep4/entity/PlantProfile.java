@@ -3,10 +3,11 @@ package com.github.group2.android_sep4.entity;
 public class PlantProfile {
 
     private long id;
-    private String name,description;
-    private float optimalTemp,optimalHumidity,optimalCo2,optimalLight;
+    private String name, description;
+    private float optimalTemp, optimalHumidity, optimalCo2, optimalLight;
 
     public PlantProfile() {
+
     }
 
     public PlantProfile(long id, String name, String description, float optimalTemp, float optimalHumidity, float optimalCo2, float optimalLight) {
@@ -73,18 +74,5 @@ public class PlantProfile {
 
     public void setOptimalLight(float optimalLight) {
         this.optimalLight = optimalLight;
-    }
-
-    @Override
-    public String toString() {
-        return "PlantProfile{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", optimalTemp=" + optimalTemp +
-                ", optimalHumidity=" + optimalHumidity +
-                ", optimalCo2=" + optimalCo2 +
-                ", optimalLight=" + optimalLight +
-                '}';
     }
 }

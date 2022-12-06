@@ -62,4 +62,14 @@ public class User {
 
         return user.getEmail().equalsIgnoreCase(email) && password.equals(password);
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

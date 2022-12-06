@@ -8,6 +8,7 @@ import com.github.group2.android_sep4.networking.MeasurementApi;
 import com.github.group2.android_sep4.repository.ServiceGenerator;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -16,11 +17,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MeasurementRepositoryImpl implements  MeasurementRepository{
-
+public class MeasurementRepositoryImpl implements  MeasurementRepository {
     private static MeasurementRepository instance;
     private static Lock lock = new ReentrantLock();
-
 
     private MeasurementApi api;
 
@@ -31,12 +30,10 @@ public class MeasurementRepositoryImpl implements  MeasurementRepository{
 
     private MeasurementRepositoryImpl(){
         // Private for singleton
-
         api = ServiceGenerator.getMeasurementApi();
         error = new MutableLiveData<>();
         searchedMeasurement = new MutableLiveData<>();
         searchedMeasurementsList = new MutableLiveData<>();
-
     }
 
     public static MeasurementRepository getInstance(){
@@ -47,12 +44,9 @@ public class MeasurementRepositoryImpl implements  MeasurementRepository{
                 }
             }
         }
+
         return instance;
-
     }
-
-
-
 
     @Override
     public void searchMeasurement(long greenHouseId, int amount) {
@@ -77,13 +71,11 @@ public class MeasurementRepositoryImpl implements  MeasurementRepository{
                 error.setValue(t.getMessage());
             }
         });
-
     }
 
     @Override
     public void searchLastMeasurement(long greenHouseId) {
         Call<Measurement> call = api.getLastMeasurement(greenHouseId);
-
 
         call.enqueue(new Callback<Measurement>() {
             @Override
@@ -103,11 +95,11 @@ public class MeasurementRepositoryImpl implements  MeasurementRepository{
                 error.setValue(t.getMessage());
             }
         });
-
     }
 
     @Override
     public void searchAllMeasurementsPerHour(long greenHouseId, int hours) {
+
         Call<List<Measurement>> call = api.getAllMeasurementsPerHour(greenHouseId, hours);
 
         call.enqueue(new Callback<List<Measurement>>() {
@@ -163,7 +155,6 @@ public class MeasurementRepositoryImpl implements  MeasurementRepository{
     public void searchAllMeasurementPerMonth(long greenHouseId, int month, int year) {
 
         Call<List<Measurement>> call = api.getAllMeasurementPerMonth(greenHouseId, month, year);
-
         call.enqueue(new Callback<List<Measurement>>() {
             @Override
             public void onResponse(Call<List<Measurement>> call, Response<List<Measurement>> response) {
@@ -221,6 +212,7 @@ public class MeasurementRepositoryImpl implements  MeasurementRepository{
         return searchedMeasurementsList;
     }
 
+    //TODO: Consider removing the mutable live data
     @Override
     public MutableLiveData<Measurement> getSearchedMeasurement() {
         return searchedMeasurement;

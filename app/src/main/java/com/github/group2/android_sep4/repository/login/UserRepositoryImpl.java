@@ -8,6 +8,7 @@ import com.github.group2.android_sep4.networking.UserApi;
 import com.github.group2.android_sep4.repository.ServiceGenerator;
 
 
+import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -66,8 +67,13 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     private void setError(Response<User> response) {
-        String errorMessage = "Error :"+ response.code()+ " " +
-                response.message();
+        String errorMessage = null;
+        try {
+            errorMessage = "Error :"+ response.code()+ " " +
+                    response.errorBody().string();
+        } catch (IOException e) {
+            error.setValue("Cannot connect to server");
+        }
         error.setValue(errorMessage);
 
 

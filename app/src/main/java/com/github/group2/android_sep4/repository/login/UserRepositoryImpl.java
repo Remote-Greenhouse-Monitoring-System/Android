@@ -7,6 +7,7 @@ import com.github.group2.android_sep4.entity.User;
 import com.github.group2.android_sep4.networking.UserApi;
 import com.github.group2.android_sep4.repository.ServiceGenerator;
 
+
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -23,11 +24,15 @@ public class UserRepositoryImpl implements UserRepository {
     private UserApi userApi;
 
 
+
     private UserRepositoryImpl() {
         error = new MutableLiveData<>();
         currentUser = new MutableLiveData<>();
         userApi = ServiceGenerator.getUserApi();
+
+
     }
+
 
     public static UserRepository getInstance() {
         if (instance == null) {
@@ -37,7 +42,6 @@ public class UserRepositoryImpl implements UserRepository {
                 }
             }
         }
-
         return instance;
     }
 
@@ -65,6 +69,8 @@ public class UserRepositoryImpl implements UserRepository {
         String errorMessage = "Error :"+ response.code()+ " " +
                 response.message();
         error.setValue(errorMessage);
+
+
     }
 
     @Override

@@ -161,7 +161,8 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/heletica_regular_family"
                         android:gravity="center"
-                        android:text="22.3 C"
+                        android:textColor="@color/white"
+                        android:text="25.1°C" />
                         android:textSize="16sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -201,6 +202,7 @@
                         android:fontFamily="@font/heletica_regular_family"
                         android:gravity="center"
                         android:text="320ppm"
+                        android:textColor="@color/white"
                         android:textSize="16sp" />
 
                 </LinearLayout>
@@ -236,7 +238,9 @@
                         android:layout_marginTop="-4dp"
                         android:layout_weight="1"
                         android:padding="0dp"
-                        android:src="@drawable/fan_icon" />
+
+
+                        android:src="@drawable/ic_baseline_invert_colors_24" />
 
 
                     <TextView
@@ -247,7 +251,8 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/heletica_regular_family"
                         android:gravity="center"
-                        android:text="0"
+                        android:text="50%"
+                        android:textColor="@color/white"
                         android:textSize="16sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -286,7 +291,8 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/heletica_regular_family"
                         android:gravity="center"
-                        android:text="0"
+                        android:text="1000 lux"
+                        android:textColor="@color/white"
                         android:textSize="16sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

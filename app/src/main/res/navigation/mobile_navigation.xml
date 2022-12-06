@@ -31,4 +31,8 @@
         android:name="com.github.group2.android_sep4.ui.greenhouse.GreenhouseFragment"
         android:label="GreenhouseFragment" />
 
+    <fragment
+        android:id="@+id/selectPlantProfileFragment"
+        android:name="com.github.group2.android_sep4.ui.plantProfile.SelectPlantProfileFragment"
+        android:label="SelectPlantProfileFragment" />
 </navigation>

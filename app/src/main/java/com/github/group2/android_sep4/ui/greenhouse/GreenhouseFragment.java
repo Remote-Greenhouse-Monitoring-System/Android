@@ -63,7 +63,7 @@ public class GreenhouseFragment extends Fragment
         greenhouseCO2 = view.findViewById(R.id.greenhouseCo2);
         greenhouseHumidity = view.findViewById(R.id.greenhouseHumidity);
         greenhouseLight = view.findViewById(R.id.greenhouseLight);
-        //clickableCard = view.findViewById(R.id.clickableCard);
+        clickableCard = view.findViewById(R.id.clickableCard);
         backButton = view.findViewById(R.id.backButton);
         deleteButton = view.findViewById(R.id.deleteGreenhouse);
 
@@ -81,6 +81,11 @@ public class GreenhouseFragment extends Fragment
         setOnClickChartOpening(co2Card, MeasurementType.CO2);
         setOnClickChartOpening(humidityCard, MeasurementType.HUMIDITY);
         setOnClickChartOpening(lightCard, MeasurementType.LIGHT);
+        clickableCard.setOnClickListener(this::goToPlantProfileList);
+    }
+
+    private void goToPlantProfileList(View view) {
+        navController.navigate(R.id.selectPlantProfileFragment);
     }
 
     private void deleteGreenhouse(View view)

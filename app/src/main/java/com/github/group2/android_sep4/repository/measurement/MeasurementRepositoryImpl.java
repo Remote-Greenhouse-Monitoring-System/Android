@@ -212,6 +212,7 @@ public class MeasurementRepositoryImpl implements  MeasurementRepository {
         return searchedMeasurementsList;
     }
 
+    //TODO: Consider removing the mutable live data
     @Override
     public MutableLiveData<Measurement> getSearchedMeasurement() {
         return searchedMeasurement;

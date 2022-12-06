@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.entity.PlantProfile;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ public class SelectPlantProfileFragment extends Fragment {
     private NavController navController;
     private RecyclerView plantProfileRecyclerView;
     private PlantProfileAdapter plantProfileAdapter;
-
+    private FloatingActionButton addPlantProfileButton;
     private ArrayList<PlantProfile> tempPlantProfiles = new ArrayList<>();
     public SelectPlantProfileFragment() {
         // Required empty public constructor
@@ -57,17 +58,19 @@ public class SelectPlantProfileFragment extends Fragment {
         plantProfileAdapter = new PlantProfileAdapter(tempPlantProfiles);
 
         plantProfileRecyclerView= view.findViewById(R.id.plantProfileRecyclerView);
-
+        addPlantProfileButton = view.findViewById(R.id.addPlantProfileButton);
+        addPlantProfileButton.setOnClickListener(this::goAddPlantProfile);
         plantProfileRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         plantProfileRecyclerView.setAdapter(plantProfileAdapter);
 
         backButton = view.findViewById(R.id.backButton);
         backButton.setOnClickListener(this::goBack);
 
-
-
-
         setAdapter();
+    }
+
+    private void goAddPlantProfile(View view) {
+        navController.navigate(R.id.addPlantProfileFragment);
     }
 
     private void setAdapter() {

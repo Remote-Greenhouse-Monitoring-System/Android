@@ -96,7 +96,7 @@ public class GreenhouseFragment extends Fragment
 
     private void goBack(View view)
     {
-        navController.navigate(R.id.homeFragment);
+        navController.popBackStack();
     }
 
     private void setOnClickChartOpening(final MaterialCardView cardView, MeasurementType measurementType)

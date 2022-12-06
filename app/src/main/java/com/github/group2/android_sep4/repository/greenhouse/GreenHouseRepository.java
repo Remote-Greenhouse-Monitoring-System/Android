@@ -2,12 +2,19 @@ package com.github.group2.android_sep4.repository.greenhouse;
 
 import androidx.lifecycle.LiveData;
 
-import com.github.group2.android_sep4.ui.home.GreenHouseWithLastMeasurementModel;
+import com.github.group2.android_sep4.entity.GreenHouse;
 
 import java.util.List;
 
 public interface GreenHouseRepository {
-    LiveData<List<GreenHouseWithLastMeasurementModel>> getGreenHouseList();
 
-    void searchAllGreenHouses();
+
+    void searchAllGreenHousesForAnUser(long userId);
+    LiveData<List<GreenHouse>> getAllGreenHousesForAnUser();
+
+    void addGreenHouse(long userId, GreenHouse greenHouse);
+
+    void deleteGreenHouse(long greenHouseId);
+
+    void updateGreenHouse(GreenHouse greenHouse);
 }

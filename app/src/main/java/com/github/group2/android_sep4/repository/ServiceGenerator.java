@@ -1,6 +1,9 @@
 package com.github.group2.android_sep4.repository;
 
+import com.github.group2.android_sep4.networking.GreenHouseApi;
 import com.github.group2.android_sep4.networking.MeasurementApi;
+import com.github.group2.android_sep4.networking.PlantProfileApi;
+import com.github.group2.android_sep4.networking.ThresholdApi;
 import com.github.group2.android_sep4.networking.UserApi;
 
 import java.util.concurrent.locks.Lock;
@@ -17,16 +20,16 @@ public class ServiceGenerator {
 
     private static MeasurementApi measurementApi;
     private static UserApi userApi;
+    private static GreenHouseApi greenHouseApi;
+    private static PlantProfileApi plantProfileApi;
+    private static ThresholdApi thresholdApi;
     private static Lock lock = new ReentrantLock();
 
 
     private static String BASE_URL = "https://greenhouse-data.azurewebsites.net";
 
 
-
-
-
-    public static MeasurementApi getMeasurementApi(){
+    public static MeasurementApi getMeasurementApi() {
         if (measurementApi ==null){
             synchronized (lock){
                 if (measurementApi == null) {
@@ -58,6 +61,51 @@ public class ServiceGenerator {
         }
         return userApi;
 
+    }
+
+    public static GreenHouseApi getGreenHouseApi() {
+        if (greenHouseApi == null) {
+            synchronized (lock) {
+                if (greenHouseApi == null) {
+                    greenHouseApi = new Retrofit.Builder().baseUrl(BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create()).build().create(GreenHouseApi.class);
+
+                }
+
+            }
+        }
+        return greenHouseApi;
 
     }
+
+    public static PlantProfileApi getPlantProfileApi() {
+        if (plantProfileApi == null) {
+            synchronized (lock) {
+                if (plantProfileApi == null) {
+                    plantProfileApi = new Retrofit.Builder().baseUrl(BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create()).build().create(PlantProfileApi.class);
+
+                }
+
+            }
+        }
+        return plantProfileApi;
+
+    }
+
+    public static ThresholdApi getThresholdApi() {
+        if (thresholdApi == null) {
+            synchronized (lock) {
+                if (thresholdApi == null) {
+                    thresholdApi = new Retrofit.Builder().baseUrl(BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create()).build().create(ThresholdApi.class);
+
+                }
+
+            }
+        }
+        return thresholdApi;
+
+    }
+
 }

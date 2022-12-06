@@ -17,4 +17,8 @@ public interface GreenHouseRepository {
     void deleteGreenHouse(long greenHouseId);
 
     void updateGreenHouse(GreenHouse greenHouse);
+
+    LiveData<String> getErrorMessage();
+
+    LiveData<String> getSuccessMessage();
 }

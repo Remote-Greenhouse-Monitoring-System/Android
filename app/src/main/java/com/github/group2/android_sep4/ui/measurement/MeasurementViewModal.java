@@ -20,50 +20,49 @@ public class MeasurementViewModal extends ViewModel {
     }
 
 
-    void searchMeasurement(long greenHouseId, int amount) {
+    public void searchMeasurement(long greenHouseId, int amount) {
 
         repository.searchMeasurement(greenHouseId, amount);
     }
 
-    void searchLastMeasurement(long greenHouseId) {
+    public void searchLastMeasurement(long greenHouseId) {
         repository.searchLastMeasurement(greenHouseId);
 
     }
 
-    void searchAllMeasurementsPerHour(long greenHouseId, int hours) {
+    public void searchAllMeasurementsPerHour(long greenHouseId, int hours) {
         repository.searchAllMeasurementsPerHour(greenHouseId, hours);
 
     }
 
-    void searchAllMeasurementPerDays(long greenHouseId, int days) {
+    public void searchAllMeasurementPerDays(long greenHouseId, int days) {
 
-            repository.searchAllMeasurementPerDays(greenHouseId, days);
+        repository.searchAllMeasurementPerDays(greenHouseId, days);
     }
 
-    void searchAllMeasurementPerMonth(long greenHouseId, int month, int year) {
+    public void searchAllMeasurementPerMonth(long greenHouseId, int month, int year) {
 
         repository.searchAllMeasurementPerMonth(greenHouseId, month, year);
     }
 
-    void searchAllMeasurementPerYear(long greenHouseId, int year) {
+    public void searchAllMeasurementPerYear(long greenHouseId, int year) {
 
         repository.searchAllMeasurementPerYear(greenHouseId, year);
     }
 
 
-
     // In the activity observe these values...
-    LiveData<String> getError() {
+    public LiveData<String> getError() {
         return repository.getError();
 
     }
 
-    LiveData<List<Measurement>> getSearchedMeasurementList() {
+    public LiveData<List<Measurement>> getSearchedMeasurementList() {
 
         return repository.getSearchedMeasurementList();
     }
 
-    LiveData<Measurement> getSearchedMeasurement() {
+    public LiveData<Measurement> getSearchedMeasurement() {
         return repository.getSearchedMeasurement();
 
     }

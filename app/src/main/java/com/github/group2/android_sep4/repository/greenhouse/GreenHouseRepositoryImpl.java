@@ -55,6 +55,8 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
     @Override
     public void searchAllGreenHousesForAnUser(long userId) {
 
+        clearInfos();
+
         Call<List<GreenHouse>> call = greenHouseApi.getGreenHouses(userId);
         call.enqueue(new Callback<List<GreenHouse>>() {
 
@@ -63,6 +65,7 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
             public void onResponse(Call<List<GreenHouse>> call, Response<List<GreenHouse>> response) {
                 List<GreenHouse> greenHouseList = response.body();
                 allGreenHouses.setValue(greenHouseList);
+                successMessage.setValue("Successfully fetched greenhouses");
             }
 
             @Override
@@ -74,6 +77,12 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
 
     }
 
+    private void clearInfos() {
+        errorMessage.setValue(null);
+        successMessage.setValue(null);
+
+    }
+
     @Override
     public LiveData<List<GreenHouse>> getAllGreenHousesForAnUser() {
         return allGreenHouses;
@@ -81,6 +90,7 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
 
     @Override
     public void addGreenHouse(long userId, GreenHouse greenHouse) {
+        clearInfos();
         Call<GreenHouse> call = greenHouseApi.addGreenHouse(userId, greenHouse);
         call.enqueue(new Callback<GreenHouse>() {
             @Override
@@ -101,6 +111,7 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
 
     @Override
     public void deleteGreenHouse(long greenHouseId) {
+        clearInfos();
         Call<GreenHouse> call = greenHouseApi.deleteGreenHouse(greenHouseId);
         call.enqueue(new Callback<GreenHouse>() {
             @Override
@@ -122,6 +133,7 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
 
     @Override
     public void updateGreenHouse(GreenHouse greenHouse) {
+        clearInfos();
         Call<GreenHouse> call = greenHouseApi.updateGreenHouse(greenHouse);
         call.enqueue(new Callback<GreenHouse>() {
             @Override
@@ -139,6 +151,16 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
             }
         });
 
+    }
+
+    @Override
+    public LiveData<String> getErrorMessage() {
+        return errorMessage;
+    }
+
+    @Override
+    public LiveData<String> getSuccessMessage() {
+        return successMessage;
     }
 
     private void setError(Response response) {

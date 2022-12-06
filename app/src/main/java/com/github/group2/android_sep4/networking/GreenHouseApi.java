@@ -16,7 +16,7 @@ public interface GreenHouseApi {
 
     String route = "GreenHouses";
 
-    @GET(route + "/uId")
+    @GET(route + "/{uId}")
     Call<List<GreenHouse>> getGreenHouses(@Path("uId") long userId);
 
     @POST(route + "/{uId}")

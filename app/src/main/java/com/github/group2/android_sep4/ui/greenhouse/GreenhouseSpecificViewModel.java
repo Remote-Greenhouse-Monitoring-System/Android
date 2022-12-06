@@ -5,11 +5,12 @@ import androidx.lifecycle.ViewModel;
 
 import com.github.group2.android_sep4.entity.Measurement;
 import com.github.group2.android_sep4.repository.greenhouse.GreenHouseRepository;
+import com.github.group2.android_sep4.repository.greenhouse.GreenHouseRepositoryImpl;
 import com.github.group2.android_sep4.ui.home.GreenHouseWithLastMeasurementModel;
 
 public class GreenhouseSpecificViewModel extends ViewModel
 {
-    private final GreenHouseRepository repository = MockGreenHouseRepositoryImpl.getInstance();
+    private final GreenHouseRepository repository = GreenHouseRepositoryImpl.getInstance();
     // TODO: plant profile repository?
 
     public LiveData<GreenHouseWithLastMeasurementModel> getSelectedGreenhouse()

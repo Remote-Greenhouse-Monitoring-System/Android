@@ -1,6 +1,6 @@
 package com.github.group2.android_sep4.networking;
 
-import com.github.group2.android_sep4.entity.Threshold;
+import com.github.group2.android_sep4.model.Threshold;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

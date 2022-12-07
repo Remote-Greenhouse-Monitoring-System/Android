@@ -1,6 +1,6 @@
 package com.github.group2.android_sep4.networking;
 
-import com.github.group2.android_sep4.entity.GreenHouse;
+import com.github.group2.android_sep4.model.GreenHouse;
 
 import java.util.List;
 

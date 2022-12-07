@@ -3,7 +3,6 @@ package com.github.group2.android_sep4.ui.plantProfile;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -17,7 +16,6 @@ import android.widget.ImageButton;
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.entity.PlantProfile;
 import com.github.group2.android_sep4.entity.Threshold;
-import com.github.group2.android_sep4.ui.plant_profile.PlantProfileViewModel;
 
 public class AddPlantProfileFragment extends Fragment {
     private ImageButton backButton;

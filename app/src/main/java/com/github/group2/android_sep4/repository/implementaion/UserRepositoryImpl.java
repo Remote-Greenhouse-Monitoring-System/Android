@@ -21,15 +21,16 @@ public class UserRepositoryImpl implements UserRepository {
     private static UserRepository instance;
     private static Lock lock = new ReentrantLock();
 
-    private MutableLiveData<String> error;
+    private MutableLiveData<String> errorMessage, successMessage;
     private MutableLiveData<User> currentUser;
     private UserApi userApi;
 
 
 
     private UserRepositoryImpl() {
-        error = new MutableLiveData<>();
+        errorMessage = new MutableLiveData<>();
         currentUser = new MutableLiveData<>();
+        successMessage = new MutableLiveData<>();
         userApi = ServiceGenerator.getUserApi();
 
 
@@ -56,26 +57,26 @@ public class UserRepositoryImpl implements UserRepository {
                 if (response.isSuccessful()) {
                     currentUser.setValue(response.body());
                 } else {
-                    setError(response);
+                    setErrorMessage(response);
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                error.setValue("Cannot connect to server");
+                errorMessage.setValue("Cannot connect to server");
             }
         });
     }
 
-    private void setError(Response<User> response) {
+    private void setErrorMessage(Response<User> response) {
         String errorMessage = null;
         try {
             errorMessage = "Error :"+ response.code()+ " " +
                     response.errorBody().string();
         } catch (IOException e) {
-            error.setValue("Cannot connect to server");
+            this.errorMessage.setValue("Cannot connect to server");
         }
-        error.setValue(errorMessage);
+        this.errorMessage.setValue(errorMessage);
 
 
     }
@@ -86,8 +87,52 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public LiveData<String> getError() {
-        return error;
+    public LiveData<String> getErrorMessage() {
+        return errorMessage;
+    }
+
+    @Override
+    public void updateUser(User user) {
+        Call<User> call = userApi.updateUser(user);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    currentUser.setValue(response.body());
+                    successMessage.setValue("User updated successfully");
+
+                } else {
+                    setErrorMessage(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                errorMessage.setValue("Cannot connect to server");
+            }
+        });
+    }
+
+    @Override
+    public void deleteUser(long id) {
+        Call<User> call = userApi.deleteUser(id);
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if (response.isSuccessful()) {
+                    currentUser.setValue(null);
+                    successMessage.setValue("User deleted successfully");
+                } else {
+                    setErrorMessage(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                errorMessage.setValue("Cannot connect to server");
+            }
+        });
+
     }
 
     @Override
@@ -103,13 +148,13 @@ public class UserRepositoryImpl implements UserRepository {
                     currentUser.setValue(response.body());
 
                 } else {
-                    setError(response);
+                    setErrorMessage(response);
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                error.setValue("Cannot connect to server");
+                errorMessage.setValue("Cannot connect to server");
             }
         });
     }

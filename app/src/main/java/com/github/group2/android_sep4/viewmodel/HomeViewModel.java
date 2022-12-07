@@ -30,4 +30,12 @@ public class HomeViewModel extends ViewModel {
     public LiveData<String> getSuccessMessage() {
         return repository.getSuccessMessage();
     }
+
+    public void searchGreenHousesWithLastMeasurement(long id) {
+        repository.searchGreenHouseWithLastMeasurement(id);
+    }
+
+    public LiveData<List<GreenHouseWithLastMeasurementModel>> getGreenHousesWWithLastMeasurement() {
+        return repository.getGreenHouseWithLastMeasurement();
+    }
 }

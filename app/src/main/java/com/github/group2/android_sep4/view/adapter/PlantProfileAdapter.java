@@ -61,7 +61,7 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
         holder.plantProfileOptimalTemperature.setText(plantProfiles.get(position).getOptimalTemp()+"\n°C");
         holder.plantProfileOptimalHumidity.setText(plantProfiles.get(position).getOptimalHumidity()+"\n%");
         holder.plantProfileOptimalCO2.setText(Math.round(plantProfiles.get(position).getOptimalCo2())+"\nppm");
-        holder.plantProfileOptimalLight.setText(Math.round(plantProfiles.get(position).getOptimalLight())+"\nlux");
+       // holder.plantProfileOptimalLight.setText(Math.round(plantProfiles.get(position).getOptimalLight())+"\nlux");
 
     }
 

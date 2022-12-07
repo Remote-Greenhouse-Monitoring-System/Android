@@ -101,6 +101,7 @@ public class UserRepositoryImpl implements UserRepository {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     currentUser.setValue(response.body());
+
                 } else {
                     setError(response);
                 }

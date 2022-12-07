@@ -1,4 +1,4 @@
-package com.github.group2.android_sep4.ui.plant_profile;
+package com.github.group2.android_sep4.ui.plantProfile;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;

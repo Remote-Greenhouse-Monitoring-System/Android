@@ -2,6 +2,7 @@ package com.github.group2.android_sep4.repository;
 
 import androidx.lifecycle.LiveData;
 
+
 import com.github.group2.android_sep4.model.PlantProfile;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 public interface PlantProfileRepository {
 
 
-    void addPlantProfile(long userId,PlantProfile plantProfile);
+    void addPlantProfile(long userId, PlantProfile plantProfile);
     void deletePlantProfile(long plantProfileId);
     void updatePlantProfile(PlantProfile plantProfile);
 

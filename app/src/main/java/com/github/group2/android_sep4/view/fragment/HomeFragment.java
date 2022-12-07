@@ -15,17 +15,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.group2.android_sep4.R;
-import com.github.group2.android_sep4.model.GreenHouse;
-import com.github.group2.android_sep4.model.Measurement;
+import com.github.group2.android_sep4.view.GreenhouseSpecificViewModel;
 import com.github.group2.android_sep4.view.adapter.GreenHouseAdapter;
-import com.github.group2.android_sep4.viewmodel.GreenHouseWithLastMeasurementModel;
+import com.github.group2.android_sep4.model.GreenHouseWithLastMeasurementModel;
 import com.github.group2.android_sep4.viewmodel.HomeViewModel;
 import com.github.group2.android_sep4.viewmodel.UserViewModel;
 import com.github.group2.android_sep4.viewmodel.MeasurementViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -37,6 +35,7 @@ public class HomeFragment extends Fragment {
     HomeViewModel homeViewModel;
     UserViewModel userViewModel;
     MeasurementViewModel measurementViewModel;
+    GreenhouseSpecificViewModel greenhouseSpecificViewModel;
     NavController navController;
 
     @Nullable
@@ -47,6 +46,7 @@ public class HomeFragment extends Fragment {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         measurementViewModel = new ViewModelProvider(this).get(MeasurementViewModel.class);
+        greenhouseSpecificViewModel = new ViewModelProvider(this).get(GreenhouseSpecificViewModel.class);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new GreenHouseAdapter();
@@ -80,11 +80,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void greenHouseClicked(GreenHouseWithLastMeasurementModel greenHouseWithLastMeasurementModel) {
-        String greenHouseName = greenHouseWithLastMeasurementModel.getGreenHouseName();
-        long greenHouseId = greenHouseWithLastMeasurementModel.getGreenHouseId();
 
-        // TODO change view with the info
-        // FancyToast.makeText(getContext(), "Greenhouse name: " + greenHouseName + " Greenhouse id: " + greenHouseId, FancyToast.LENGTH_LONG, FancyToast.INFO, true).show();
+        greenhouseSpecificViewModel.setSelectedGreenHouse(greenHouseWithLastMeasurementModel);
+
 
         navController.navigate(R.id.greenhouseFragment);
     }

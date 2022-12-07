@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.github.group2.android_sep4.model.GreenHouse;
+import com.github.group2.android_sep4.model.GreenHouseWithLastMeasurementModel;
 import com.github.group2.android_sep4.repository.GreenHouseRepository;
 import com.github.group2.android_sep4.repository.implementaion.GreenHouseRepositoryImpl;
 

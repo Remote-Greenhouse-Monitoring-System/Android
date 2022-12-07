@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.group2.android_sep4.R;
-import com.github.group2.android_sep4.viewmodel.GreenHouseWithLastMeasurementModel;
+import com.github.group2.android_sep4.model.GreenHouseWithLastMeasurementModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull GreenHouseAdapter.ViewHolder holder, int position) {
         GreenHouseWithLastMeasurementModel greenHouse = greenHouses.get(position);
-        holder.name.setText(greenHouse.getGreenHouseName());
+        holder.name.setText(greenHouse.getName());
         holder.co2.setText(greenHouse.getLastMeasurement().getCo2() + " ppm");
         holder.temperature.setText(greenHouse.getLastMeasurement().getTemperature() + " °C");
         holder.humidity.setText(greenHouse.getLastMeasurement().getHumidity() + " %");

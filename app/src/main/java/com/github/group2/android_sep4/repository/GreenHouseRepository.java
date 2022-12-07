@@ -3,7 +3,7 @@ package com.github.group2.android_sep4.repository;
 import androidx.lifecycle.LiveData;
 
 import com.github.group2.android_sep4.model.GreenHouse;
-import com.github.group2.android_sep4.viewmodel.GreenHouseWithLastMeasurementModel;
+import com.github.group2.android_sep4.model.GreenHouseWithLastMeasurementModel;
 
 import java.util.List;
 
@@ -26,4 +26,8 @@ public interface GreenHouseRepository {
     LiveData<String> getErrorMessage();
 
     LiveData<String> getSuccessMessage();
+
+    void setSelectedGreenHouse(GreenHouseWithLastMeasurementModel greenHouseWithLastMeasurementModel);
+
+    LiveData<GreenHouseWithLastMeasurementModel> getSelectedGreenhouse();
 }

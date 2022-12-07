@@ -1,6 +1,6 @@
 package com.github.group2.android_sep4.networking;
 
-import com.github.group2.android_sep4.entity.User;
+import com.github.group2.android_sep4.model.User;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

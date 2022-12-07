@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.measurement.MeasurementFragment">
+    tools:context=".view.fragment.MeasurementFragment">
 
     <LinearLayout
         android:id="@+id/greenhouseNameBar"

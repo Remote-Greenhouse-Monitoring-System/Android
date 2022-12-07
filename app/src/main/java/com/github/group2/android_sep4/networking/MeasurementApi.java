@@ -1,6 +1,6 @@
 package com.github.group2.android_sep4.networking;
 
-import com.github.group2.android_sep4.entity.Measurement;
+import com.github.group2.android_sep4.model.Measurement;
 
 import java.util.List;
 

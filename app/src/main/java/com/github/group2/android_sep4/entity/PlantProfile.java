@@ -2,15 +2,26 @@ package com.github.group2.android_sep4.entity;
 
 public class PlantProfile {
 
-    private long id;
+    private int id,optimalLight;
     private String name, description;
-    private float optimalTemp, optimalHumidity, optimalCo2, optimalLight;
+    private float optimalTemp, optimalHumidity,optimalCo2;
+    private Threshold threshold;
 
     public PlantProfile() {
 
     }
 
-    public PlantProfile(long id, String name, String description, float optimalTemp, float optimalHumidity, float optimalCo2, float optimalLight) {
+    public PlantProfile(int id, String name, String description, float optimalTemp, float optimalHumidity, float optimalCo2, Threshold threshold) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.optimalTemp = optimalTemp;
+        this.optimalHumidity = optimalHumidity;
+        this.optimalCo2 = optimalCo2;
+        this.threshold = threshold;
+    }
+
+    public PlantProfile(int id, String name, String description, float optimalTemp, float optimalHumidity, float optimalCo2,int optimalLight) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -20,11 +31,11 @@ public class PlantProfile {
         this.optimalLight = optimalLight;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -68,11 +79,23 @@ public class PlantProfile {
         this.optimalCo2 = optimalCo2;
     }
 
-    public float getOptimalLight() {
-        return optimalLight;
+    public Threshold getThreshold() {
+        return threshold;
     }
 
-    public void setOptimalLight(float optimalLight) {
-        this.optimalLight = optimalLight;
+    public void setThreshold(Threshold threshold) {
+        this.threshold = threshold;
+    }
+
+    @Override
+    public String toString() {
+        return "PlantProfile{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", optimalTemp=" + optimalTemp +
+                ", optimalHumidity=" + optimalHumidity +
+                ", optimalCo2=" + optimalCo2 +
+                '}';
     }
 }

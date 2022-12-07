@@ -15,6 +15,7 @@ import android.widget.ImageButton;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.entity.PlantProfile;
+import com.github.group2.android_sep4.entity.Threshold;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -48,12 +49,15 @@ public class SelectPlantProfileFragment extends Fragment {
         navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
 
 
-        tempPlantProfiles.add(new PlantProfile(1, "Potato #1", "Description 1", 20, 25,320,2000));
-        tempPlantProfiles.add(new PlantProfile(2, "Tomato", "Lorem ipsum dolor sit amet", 20, 25,320,10000));
-        tempPlantProfiles.add(new PlantProfile(3, "Cucumber", "The quick brown fox jumps over the lazy dog", 22, 77,295,12000));
-        tempPlantProfiles.add(new PlantProfile(4, "Potato #2", "Description 4", 20, 25,320,2000));
-        tempPlantProfiles.add(new PlantProfile(5, "Plant Profile 5", "Description 5", 20, 25,320,2000));
-        tempPlantProfiles.add(new PlantProfile(6, "Plant Profile 6", "Description 6", 20, 25,320,2000));
+        tempPlantProfiles.add(new PlantProfile(1, "Potato #1", "Description 1", 20, 25,320,new Threshold(1,2,3,4,5,6,7,8)));
+        tempPlantProfiles.add(new PlantProfile(1, "Potato #1", "Description 1", 20, 25,320,new Threshold(1,2,3,4,5,6,7,8)));
+        tempPlantProfiles.add(new PlantProfile(1, "Potato #1", "Description 1", 20, 25,320,new Threshold(1,2,3,4,5,6,7,8)));
+        tempPlantProfiles.add(new PlantProfile(1, "Potato #1", "Description 1", 20, 25,320,new Threshold(1,2,3,4,5,6,7,8)));
+//        tempPlantProfiles.add(new PlantProfile(2, "Tomato", "Lorem ipsum dolor sit amet", 20, 25,320,10000));
+//        tempPlantProfiles.add(new PlantProfile(3, "Cucumber", "The quick brown fox jumps over the lazy dog", 22, 77,295,12000));
+//        tempPlantProfiles.add(new PlantProfile(4, "Potato #2", "Description 4", 20, 25,320,2000));
+//        tempPlantProfiles.add(new PlantProfile(5, "Plant Profile 5", "Description 5", 20, 25,320,2000));
+//        tempPlantProfiles.add(new PlantProfile(6, "Plant Profile 6", "Description 6", 20, 25,320,2000));
 
         plantProfileAdapter = new PlantProfileAdapter(tempPlantProfiles);
 

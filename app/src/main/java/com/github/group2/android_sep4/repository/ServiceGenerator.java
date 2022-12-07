@@ -27,6 +27,7 @@ public class ServiceGenerator {
 
 
     private static String BASE_URL = "https://greenhouse-data.azurewebsites.net";
+    public final static String API_KEY = "apiKey:JYP!$jFqqFxmy@TsF6zBNMaSd3Fd&";
 
 
     public static MeasurementApi getMeasurementApi() {

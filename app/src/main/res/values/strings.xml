@@ -29,7 +29,7 @@
     <!-- TODO: Check if percentage sign works as expected when escaped -->
     <string name="unit_humidity">%1$f %%</string>
     <!-- TODO: Check if integer formatting works with o -->
-    <string name="unit_light">%1$o lux</string>
+    <string name="unit_light">%1$f lux</string>
     <string name="select_plant_profile">Select plant profile</string>
     <string name="remove">Remove</string>
     <string name="confirm">Confirm</string>

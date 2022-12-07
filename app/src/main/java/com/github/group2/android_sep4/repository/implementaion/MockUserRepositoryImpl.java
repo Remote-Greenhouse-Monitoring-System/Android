@@ -58,8 +58,18 @@ public class MockUserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public LiveData<String> getError() {
+    public LiveData<String> getErrorMessage() {
         return error;
+    }
+
+    @Override
+    public void updateUser(User user) {
+
+    }
+
+    @Override
+    public void deleteUser(long id) {
+
     }
 
     @Override

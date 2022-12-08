@@ -8,10 +8,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.PlantProfile;
+import com.github.group2.android_sep4.view.fragment.SelectPlantProfileFragment;
 import com.github.group2.android_sep4.view.uielements.DeletePlantProfilePopup;
 
 
@@ -22,6 +26,8 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
     private ArrayList<PlantProfile> plantProfiles;
     private ImageButton editButton, deleteButton;
     private DeletePlantProfilePopup deletePopup;
+    private NavController navController;
+    private Fragment fragment= new SelectPlantProfileFragment();
 
     public PlantProfileAdapter(ArrayList<PlantProfile> plantProfiles) {
         this.plantProfiles = plantProfiles;
@@ -36,7 +42,7 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
     }
 
     private void initializeViews(View view) {
-
+        //navController = Navigation.findNavController(fragment.getActivity(), R.id.fragment_container);
         editButton= view.findViewById(R.id.editPlantProfileButton);
         deleteButton= view.findViewById(R.id.deletePlantProfileButton);
         editButton.setOnClickListener(this:: editPlantProfile);

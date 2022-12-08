@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
                 preferences.edit().putString("email", user.getEmail()).apply();
                 preferences.edit().putLong("uID", user.getId()).apply();
             } else {
+
                 navController.navigate(R.id.loginFragment);
                 bottomNavigationView.setVisibility(View.INVISIBLE);
                 preferences.edit().putString("username", null).apply();
@@ -81,4 +82,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }

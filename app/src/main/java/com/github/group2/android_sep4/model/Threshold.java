@@ -1,16 +1,18 @@
 package com.github.group2.android_sep4.model;
 
 public class Threshold {
-    private float maxTemperature, minTemperature, maxHumidity, minHumidity, maxCo2, minCo2;
+    private float maxTemperature, minTemperature, maxHumidity, minHumidity, maxCo2, minCo2, minLight, maxLight;
     private int durationLight, offsetLight;
 
-    public Threshold(float maxTemperature, float minTemperature, float maxHumidity, float minHumidity, float maxCo2, float minCo2, int durationLight, int offsetLight) {
+    public Threshold(float maxTemperature, float minTemperature, float maxHumidity, float minHumidity, float maxCo2, float minCo2, float maxLight, float minLight, int durationLight, int offsetLight) {
         this.maxTemperature = maxTemperature;
         this.minTemperature = minTemperature;
         this.maxHumidity = maxHumidity;
         this.minHumidity = minHumidity;
         this.maxCo2 = maxCo2;
         this.minCo2 = minCo2;
+        this.minLight = minLight;
+        this.maxLight = maxLight;
         this.durationLight = durationLight;
         this.offsetLight = offsetLight;
     }
@@ -82,6 +84,22 @@ public class Threshold {
         this.offsetLight = offsetLight;
     }
 
+    public float getMinLight() {
+        return minLight;
+    }
+
+    public void setMinLight(float minLight) {
+        this.minLight = minLight;
+    }
+
+    public float getMaxLight() {
+        return maxLight;
+    }
+
+    public void setMaxLight(float maxLight) {
+        this.maxLight = maxLight;
+    }
+
     @Override
     public String toString() {
         return "Threshold{" +
@@ -91,6 +109,8 @@ public class Threshold {
                 ", minHumidity=" + minHumidity +
                 ", maxCo2=" + maxCo2 +
                 ", minCo2=" + minCo2 +
+                ", minLight=" + minLight +
+                ", maxLight=" + maxLight +
                 ", durationLight=" + durationLight +
                 ", offsetLight=" + offsetLight +
                 '}';

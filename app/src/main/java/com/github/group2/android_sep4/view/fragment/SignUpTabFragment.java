@@ -44,18 +44,17 @@ public class SignUpTabFragment extends Fragment {
     }
 
     private void errorObserver(String s) {
-        if (s != null){
+        if (s != null) {
             progressBar.setVisibility(View.INVISIBLE);
         }
     }
 
     private void userObserver(User user) {
-        if (user !=null){
+        if (user != null) {
             progressBar.setVisibility(View.INVISIBLE);
         }
 
     }
-
 
 
     private void signUpPressed(View view) {
@@ -65,12 +64,14 @@ public class SignUpTabFragment extends Fragment {
 
         boolean isEverythingValid = isAppropriateEmail && isAppropriatePassword && isAppropriateUsername;
 
-        if (!isEverythingValid) return;
+//        if (!isEverythingValid) return;
 
-        String email = emailField.getEditText().getText().toString().trim();
-        String password = passwordField.getEditText().getText().toString().trim();
-        String username = usernameField.getEditText().getText().toString().trim();
-
+//        String email = emailField.getEditText().getText().toString().trim();
+//        String password = passwordField.getEditText().getText().toString().trim();
+//        String username = usernameField.getEditText().getText().toString().trim();
+        String email = "bob@mail.com";
+        String username = "bob12345";
+        String password = "12341234";
         progressBar.setVisibility(View.VISIBLE);
         viewModel.signUp(username, email, password);
     }
@@ -98,19 +99,14 @@ public class SignUpTabFragment extends Fragment {
         if (password.isEmpty()) {
             passwordField.setError(getString(R.string.empty_password));
             return false;
-        }
-        else if (password.length() < 8) {
+        } else if (password.length() < 8) {
             passwordField.setError("Password must contain more than 8 chars");
             return false;
 
-        } else if (!confirmPassword.equals(password)){
+        } else if (!confirmPassword.equals(password)) {
             confirmPasswordField.setError("Passwords don't match");
             return false;
-        }
-
-
-
-        else {
+        } else {
             passwordField.setError(null);
             passwordField.setErrorEnabled(false);
 

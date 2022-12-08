@@ -71,6 +71,14 @@ public class PlantProfile {
         this.optimalHumidity = optimalHumidity;
     }
 
+    public int getOptimalLight() {
+        return optimalLight;
+    }
+
+    public void setOptimalLight(int optimalLight) {
+        this.optimalLight = optimalLight;
+    }
+
     public float getOptimalCo2() {
         return optimalCo2;
     }

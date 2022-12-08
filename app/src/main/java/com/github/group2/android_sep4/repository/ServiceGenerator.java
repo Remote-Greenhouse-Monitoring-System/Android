@@ -6,9 +6,14 @@ import com.github.group2.android_sep4.networking.PlantProfileApi;
 import com.github.group2.android_sep4.networking.ThresholdApi;
 import com.github.group2.android_sep4.networking.UserApi;
 
+import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -27,19 +32,20 @@ public class ServiceGenerator {
 
 
     private static String BASE_URL = "https://greenhouse-data.azurewebsites.net";
+    private static String KEY = "JYP!$jFqqFxmy@TsF6zBNMaSd3Fd&";
+
+
 
 
     public static MeasurementApi getMeasurementApi() {
-        if (measurementApi ==null){
-            synchronized (lock){
+        if (measurementApi == null) {
+            synchronized (lock) {
                 if (measurementApi == null) {
 
                     measurementApi = new Retrofit.Builder().baseUrl(BASE_URL)
-
                             .addConverterFactory(GsonConverterFactory.create()).build().create(MeasurementApi.class);
 
                 }
-
             }
         }
         return measurementApi;
@@ -49,6 +55,7 @@ public class ServiceGenerator {
 
 
     public static UserApi getUserApi() {
+
         if (userApi == null) {
             synchronized (lock) {
                 if (userApi == null) {

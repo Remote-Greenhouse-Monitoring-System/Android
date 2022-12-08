@@ -53,6 +53,7 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
     }
 
     private void editPlantProfile(View view) {
+
         Toast.makeText(view.getContext(), "Edit Plant Profile", Toast.LENGTH_SHORT).show();
     }
 

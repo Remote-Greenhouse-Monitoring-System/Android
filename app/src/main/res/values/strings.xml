@@ -37,4 +37,13 @@
     <string name="delete_greenhouse">Are you sure you want to delete this greenhouse?</string>
     <string name="delete_plant_profile">Are you sure you want to delete this plant profile?</string>
     <string name="plant_profile_name">Plant profile name</string>
+    <string name="profile">Profile</string>
+    <string name="name">Name:</string>
+    <string name="email_adress">Email:</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="update_info">Update Info</string>
+    <string name="deleteAccountMessage">Are you sure you want to delete your account? This action cannot be undone.</string>
+    <string name="passwordEdit">Password:</string>
+    <string name="repeat_password">Repeat\npassword:</string>
+    <string name="confirm_new_password">Confirm new password</string>
 </resources>

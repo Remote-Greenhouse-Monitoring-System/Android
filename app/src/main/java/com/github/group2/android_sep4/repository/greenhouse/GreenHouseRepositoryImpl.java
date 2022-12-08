@@ -22,7 +22,7 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
     private MutableLiveData<String> errorMessage;
     private MutableLiveData<String> successMessage;
     private MutableLiveData<List<GreenHouse>> allGreenHouses;
-
+    private MutableLiveData<GreenHouse> searchedGreenHouse;
 
     private static GreenHouseRepository instance;
     private static Lock lock = new ReentrantLock();
@@ -47,9 +47,25 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
         }
         return instance;
     }
-
-
-
+//
+//    public void getGreenHouse(long greenHouse) {
+//        Call<GreenHouse> call = greenHouseApi.updateGreenHouse(greenHouse);
+//        call.enqueue(new Callback<GreenHouse>() {
+//            @Override
+//            public void onResponse(Call<GreenHouse> call, Response<GreenHouse> response) {
+//                if (response.isSuccessful()) {
+//                    successMessage.setValue("Greenhouse updated successfully");
+//                } else {
+//                    setError(response);
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<GreenHouse> call, Throwable t) {
+//
+//            }
+//        });
+  //  }
 
 
     @Override
@@ -97,7 +113,7 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
                 if (response.isSuccessful()) {
                     successMessage.setValue("Greenhouse added successfully");
                 } else {
-                   setError(response);
+                    setError(response);
                 }
             }
 
@@ -171,7 +187,6 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
             this.errorMessage.setValue("Cannot connect to server");
         }
         this.errorMessage.setValue(errorMessage);
-
-
     }
+
 }

@@ -18,7 +18,10 @@ import android.widget.RadioGroup;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.entity.Measurement;
+import com.github.group2.android_sep4.entity.PlantProfile;
+import com.github.group2.android_sep4.entity.Threshold;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
@@ -43,6 +46,9 @@ public class MeasurementFragment extends Fragment {
     private String lineColor;
     private NavController navController;
     private ImageButton backButton;
+    private PlantProfile plantProfile;
+    private Measurement optimalMeasurement, minThreshold, maxThreshold;
+    private LimitLine limitLine, lowerThreshold, upperThreshold;
 
     @Nullable
     @Override
@@ -61,7 +67,7 @@ public class MeasurementFragment extends Fragment {
             switch (measurementTypeFromBundle) {
                 case CO2:
                     radioGroupMeasurement.check(R.id.co2_radio_button);
-                    lineColor = "#000000";
+                    lineColor = "#964B00";
                     break;
                 case HUMIDITY:
                     radioGroupMeasurement.check(R.id.humidity_radio_button);
@@ -84,19 +90,34 @@ public class MeasurementFragment extends Fragment {
             switch (checkedId) {
                 case R.id.co2_radio_button:
                     measurementType = MeasurementType.CO2;
-                    lineColor = "#000000";
+                    lineColor = "#964B00";
+                    limitLine = new LimitLine(optimalMeasurement.getCo2(), "Ideal CO2");
+                    lowerThreshold = new LimitLine(minThreshold.getCo2(), "Min CO2");
+                    upperThreshold = new LimitLine(maxThreshold.getCo2(), "Max CO2");
                     break;
                 case R.id.humidity_radio_button:
                     measurementType = MeasurementType.HUMIDITY;
                     lineColor = "#2986cc";
+                     limitLine = new LimitLine(optimalMeasurement.getHumidity(), "Ideal Humidity");
+                    lowerThreshold = new LimitLine(minThreshold.getHumidity(), "Min Humidity");
+                    upperThreshold = new LimitLine(maxThreshold.getHumidity(), "Max Humidity");
+
                     break;
                 case R.id.temperature_radio_button:
                     measurementType = MeasurementType.TEMPERATURE;
                     lineColor = "#cc0000";
+                     limitLine = new LimitLine(optimalMeasurement.getTemperature(), "Ideal Temperature");
+                    lowerThreshold = new LimitLine(minThreshold.getTemperature(), "Min Temperature");
+                    upperThreshold = new LimitLine(maxThreshold.getTemperature(), "Max Temperature");
+
                     break;
                 case R.id.light_radio_button:
                     measurementType = MeasurementType.LIGHT;
                     lineColor = "#38761d";
+                     limitLine = new LimitLine(optimalMeasurement.getLight(), "Ideal Light");
+                    lowerThreshold = new LimitLine(minThreshold.getLight(), "Min Light");
+                    upperThreshold = new LimitLine(maxThreshold.getLight(), "Max Light");
+
                     break;
             }
 
@@ -142,9 +163,17 @@ public class MeasurementFragment extends Fragment {
         navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
         backButton = view.findViewById(R.id.backButton);
         backButton.setOnClickListener(this::goBack);
+
+      plantProfile = new PlantProfile(1,"plant1", "plant description", 55, 38, 1000, 10763);
+      Threshold threshold= new Threshold(1,40,35,900,10762, 60, 55, 1100, 10765);
+      optimalMeasurement = new Measurement(1, 1, plantProfile.getOptimalTemp(), plantProfile.getOptimalHumidity(), plantProfile.getOptimalCo2(), (int)plantProfile.getOptimalLight(), "2020-12-12 12:12:12");
+      minThreshold = new Measurement(1, 1, threshold.getTemperatureMin(), threshold.getHumidityMin(), threshold.getCo2Min(), (int) threshold.getLightMin(), "2020-12-12 12:12:12");
+        maxThreshold = new Measurement(1, 1, threshold.getTemperatureMax(), threshold.getHumidityMax(), threshold.getCo2Max(), (int) threshold.getLightMax(), "2020-12-12 12:12:12");
+
     }
 
     private void initializeChart(View view) {
+
         lineChart = view.findViewById(R.id.lineChart);
         setupChart();
         measurementViewModel.searchMeasurement(1, 288);
@@ -167,6 +196,7 @@ public class MeasurementFragment extends Fragment {
     }
 
     private void setupChart() {
+        CustomMarkerView mv = new CustomMarkerView(getContext(), R.layout.custom_view_marker);
         lineChart.setDrawBorders(true);
         lineChart.invalidate();
         lineChart.setScaleXEnabled(true);
@@ -175,6 +205,11 @@ public class MeasurementFragment extends Fragment {
         lineChart.setDragEnabled(true);
         lineChart.setDescription(null);
         lineChart.resetZoom();
+        lineChart.setMarker(mv);
+
+        limitLine= new LimitLine(optimalMeasurement.getTemperature(), "Ideal Temperature");
+        lowerThreshold= new LimitLine(minThreshold.getTemperature(), "Lower Threshold");
+        upperThreshold= new LimitLine(maxThreshold.getTemperature(), "Upper Threshold");
 
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -219,8 +254,42 @@ public class MeasurementFragment extends Fragment {
             lineDataSet.setLineWidth(3f);
             lineDataSet.setValueTextSize(10f);
             lineDataSet.setDrawCircles(false);
+
+
+            limitLine.setLineWidth(2f);
+            limitLine.enableDashedLine(10f, 10f, 0f);
+            limitLine.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+            limitLine.setTextSize(10f);
+            limitLine.setLineColor(Color.parseColor("#ff0000"));
+            limitLine.setTextColor(Color.parseColor("#ff0000"));
+
+
+
+           lowerThreshold.setLineWidth(2f);
+           lowerThreshold.enableDashedLine(10f, 10f, 0f);
+           lowerThreshold.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+           lowerThreshold.setTextSize(10f);
+           lowerThreshold.setLineColor(Color.parseColor("#000000"));
+           lowerThreshold.setTextColor(Color.parseColor("#000000"));
+
+
+            upperThreshold.setLineWidth(2f);
+            upperThreshold.enableDashedLine(10f, 10f, 0f);
+            upperThreshold.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+            upperThreshold.setTextSize(10f);
+            upperThreshold.setLineColor(Color.parseColor("#000000"));
+            upperThreshold.setTextColor(Color.parseColor("#000000"));
+
+
             ArrayList<ILineDataSet> dataSets = new ArrayList<>();
             dataSets.add(lineDataSet);
+            YAxis yAxis = lineChart.getAxisLeft();
+            yAxis.removeAllLimitLines();
+            yAxis.addLimitLine(limitLine);
+            yAxis.addLimitLine(lowerThreshold);
+            yAxis.addLimitLine(upperThreshold);
+
+
             LineData data = new LineData(dataSets);
             lineChart.setData(data);
             lineChart.invalidate();

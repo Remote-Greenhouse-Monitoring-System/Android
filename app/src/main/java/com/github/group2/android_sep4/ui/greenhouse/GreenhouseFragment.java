@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +33,7 @@ public class GreenhouseFragment extends Fragment {
     DeletePopup deletePopup;
     LinearLayout activePlantProfileCard, inactivePlantProfileCard;
     Button removePlantProfileButton;
+    long greenhouseId;
 
     @Nullable
     @Override
@@ -78,6 +80,12 @@ public class GreenhouseFragment extends Fragment {
         Button removePlantProfileButton = view.findViewById(R.id.removePlantProfileButton);
         navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
 
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+             greenhouseId = bundle.getInt("greenhouseId");
+             viewModel.setGreenhouseId(greenhouseId);
+        }
+
         backButton.setOnClickListener(this::goBack);
         deleteButton.setOnClickListener(this::deleteGreenhouse);
 
@@ -93,7 +101,8 @@ public class GreenhouseFragment extends Fragment {
 
     private void goToPlantProfileList(View view) {
         Bundle bundle= new Bundle();
-        bundle.putInt("activeGreenhouseId", 1);
+        bundle.putLong("activeGreenhouseId", greenhouseId);
+        Toast.makeText(getContext(), "Greenhouse id: " + greenhouseId, Toast.LENGTH_SHORT).show();
         navController.navigate(R.id.selectPlantProfileFragment, bundle);
     }
 
@@ -116,7 +125,7 @@ public class GreenhouseFragment extends Fragment {
     }
 
     private void checkActivePlantProfile() {
-        viewModel.getActivePlantProfile().observe(getViewLifecycleOwner(), plantProfile -> {
+        viewModel.getActivePlantProfile(greenhouseId).observe(getViewLifecycleOwner(), plantProfile -> {
             if (plantProfile == null) {
                 activePlantProfileCard.setVisibility(View.GONE);
                 inactivePlantProfileCard.setVisibility(View.VISIBLE);

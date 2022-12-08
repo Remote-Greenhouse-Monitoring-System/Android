@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.entity.PlantProfile;
@@ -107,7 +108,9 @@ public class SelectPlantProfileFragment extends Fragment {
         navController.navigate(R.id.homeFragment);
     }
     private void plantProfileClicked(PlantProfile plantProfile) {
-        viewModel.setActivePlantProfile(greenHouseId, plantProfile);
+        viewModel.setActivePlantProfile((int) plantProfile.getId(), greenHouseId);
+        Toast.makeText(getContext(), "Plant profile set "+plantProfile.getName(), Toast.LENGTH_SHORT).show();
+        navController.popBackStack();
     }
 
 }

@@ -35,10 +35,12 @@ public class LoginTabFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         login.setOnClickListener(this::loginPressed);
+        forgetPassword.setOnClickListener(this::forgetPasswordPressed);
         viewModel.getError().observe(getViewLifecycleOwner(), this::errorObserver);
         viewModel.getCurrentUser().observe(getViewLifecycleOwner(), this::userObserver);
         return view;
     }
+
 
     private void userObserver(User user) {
         if (user !=null){
@@ -114,6 +116,10 @@ public class LoginTabFragment extends Fragment {
         forgetPassword= view.findViewById(R.id.forget_pass);
         progressBar = view.findViewById(R.id.progress_bar_login);
         progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    private void forgetPasswordPressed(View view) {
+
     }
 
 

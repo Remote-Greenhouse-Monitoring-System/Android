@@ -79,7 +79,8 @@ public class HomeFragment extends Fragment {
     private void greenHouseClicked(GreenHouseWithLastMeasurementModel greenHouseWithLastMeasurementModel) {
         String greenHouseName = greenHouseWithLastMeasurementModel.getGreenHouseName();
         long greenHouseId = greenHouseWithLastMeasurementModel.getGreenHouseId();
-
+            Bundle bundle = new Bundle();
+            bundle.putLong("greenHouseId", greenHouseId);
         // TODO change view with the info
         // FancyToast.makeText(getContext(), "Greenhouse name: " + greenHouseName + " Greenhouse id: " + greenHouseId, FancyToast.LENGTH_LONG, FancyToast.INFO, true).show();
 

@@ -1,31 +1,50 @@
 package com.github.group2.android_sep4.view.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.PlantProfile;
+import com.github.group2.android_sep4.view.activity.MainActivity;
+import com.github.group2.android_sep4.view.fragment.SelectPlantProfileFragment;
 import com.github.group2.android_sep4.view.uielements.DeletePlantProfilePopup;
+import com.github.group2.android_sep4.viewmodel.PlantProfileViewModel;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapter.ViewHolder> {
 
     private ArrayList<PlantProfile> plantProfiles;
     private ImageButton editButton, deleteButton;
     private DeletePlantProfilePopup deletePopup;
+    private long plantId;
+    private boolean isConfirmed;
+    private NavController navController;
+    private AppCompatActivity activity;
+    private PlantProfileViewModel plantProfileViewModel;
+
+
 
     public PlantProfileAdapter(ArrayList<PlantProfile> plantProfiles) {
         this.plantProfiles = plantProfiles;
     }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -36,16 +55,20 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
     }
 
     private void initializeViews(View view) {
-
-        editButton= view.findViewById(R.id.editPlantProfileButton);
-        deleteButton= view.findViewById(R.id.deletePlantProfileButton);
-        editButton.setOnClickListener(this:: editPlantProfile);
-        deleteButton.setOnClickListener(this:: deletePlantProfile);
+        activity = (AppCompatActivity) view.getContext();
+        navController = Navigation.findNavController(activity,R.id.fragment_container);
+        plantProfileViewModel = new PlantProfileViewModel();
+        //editButton= view.findViewById(R.id.editPlantProfileButton);
+        //deleteButton= view.findViewById(R.id.deletePlantProfileButton);
+        //editButton.setOnClickListener(this:: editPlantProfile);
+        //deleteButton.setOnClickListener(this:: deletePlantProfile);
     }
 
-    private void deletePlantProfile(View view) {
+    private void deletePlantProfile(View view, long id) {
         deletePopup = new DeletePlantProfilePopup();
-        deletePopup.showPopupWindow(view);
+        deletePopup.showPopupWindow(view,id);
+
+
 
     }
 
@@ -61,6 +84,25 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
         holder.plantProfileOptimalTemperature.setText(plantProfiles.get(position).getOptimalTemp()+"\n°C");
         holder.plantProfileOptimalHumidity.setText(plantProfiles.get(position).getOptimalHumidity()+"\n%");
         holder.plantProfileOptimalCO2.setText(Math.round(plantProfiles.get(position).getOptimalCo2())+"\nppm");
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("DELETE",plantProfiles.get(position).getName());
+                deletePlantProfile(v,plantProfiles.get(position).getId());
+            }
+        });
+        holder.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("EDIT",plantProfiles.get(position).getName());
+                plantProfileViewModel.searchPlantProfile(plantProfiles.get(position).getId());
+                plantProfileViewModel.searchThreshold(plantProfiles.get(position).getId());
+                navController.navigate(R.id.editPlantProfileFragment);
+            }
+        });
+
+
+
        // holder.plantProfileOptimalLight.setText(Math.round(plantProfiles.get(position).getOptimalLight())+"\nlux");
 
     }
@@ -74,6 +116,8 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
 
         private TextView plantProfileName, plantProfileDescription;
         private TextView plantProfileOptimalTemperature, plantProfileOptimalHumidity, plantProfileOptimalCO2, plantProfileOptimalLight;
+        private ImageButton deleteButton,editButton;
+
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -83,6 +127,10 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
             plantProfileOptimalHumidity = itemView.findViewById(R.id.plantProfileOptimalHumidity);
             plantProfileOptimalCO2 = itemView.findViewById(R.id.plantProfileOptimalCO2);
             plantProfileOptimalLight = itemView.findViewById(R.id.plantProfileOptimalLight);
+            deleteButton= itemView.findViewById(R.id.deletePlantProfileButton);
+            editButton = itemView.findViewById(R.id.editPlantProfileButton);
+
+
         }
     }
 }

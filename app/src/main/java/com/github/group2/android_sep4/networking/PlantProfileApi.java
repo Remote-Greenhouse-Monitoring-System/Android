@@ -34,7 +34,7 @@ public interface PlantProfileApi
 
     @Headers({API_KEY})
     @GET(route + "/plantProfilesForUser/{uId}")
-    Call<List<PlantProfile>> getPlantProfilesForUser(@Path("pId") long userId);
+    Call<List<PlantProfile>> getPlantProfilesForUser(@Path("uId") long userId);
 
     @Headers({API_KEY})
     @GET(route)

@@ -19,6 +19,7 @@ import com.github.group2.android_sep4.view.GreenhouseSpecificViewModel;
 import com.github.group2.android_sep4.view.adapter.GreenHouseAdapter;
 import com.github.group2.android_sep4.model.GreenHouseWithLastMeasurementModel;
 import com.github.group2.android_sep4.viewmodel.HomeViewModel;
+import com.github.group2.android_sep4.viewmodel.PlantProfileViewModel;
 import com.github.group2.android_sep4.viewmodel.UserViewModel;
 import com.github.group2.android_sep4.viewmodel.MeasurementViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,6 +37,7 @@ public class HomeFragment extends Fragment {
     UserViewModel userViewModel;
     MeasurementViewModel measurementViewModel;
     GreenhouseSpecificViewModel greenhouseSpecificViewModel;
+    PlantProfileViewModel plantProfileViewModel;
     NavController navController;
 
     @Nullable
@@ -47,6 +49,8 @@ public class HomeFragment extends Fragment {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         measurementViewModel = new ViewModelProvider(this).get(MeasurementViewModel.class);
         greenhouseSpecificViewModel = new ViewModelProvider(this).get(GreenhouseSpecificViewModel.class);
+        plantProfileViewModel = new PlantProfileViewModel();
+        plantProfileViewModel.searchPlantProfilesForUser(userViewModel.getCurrentUser().getValue().getId());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new GreenHouseAdapter();

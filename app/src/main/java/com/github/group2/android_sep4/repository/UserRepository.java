@@ -11,7 +11,11 @@ public interface UserRepository {
 
     LiveData<User> getCurrentUser();
 
-    LiveData<String> getError();
+    LiveData<String> getErrorMessage();
+
+    void updateUser(User user);
+
+    void deleteUser(long id);
 
     void login(String email, String password);
 

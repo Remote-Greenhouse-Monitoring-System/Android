@@ -27,7 +27,7 @@ public class UserViewModel extends ViewModel {
     }
 
     public LiveData<String> getError(){
-        return repository.getError();
+        return repository.getErrorMessage();
     }
 
     public void login(String email, String password) {

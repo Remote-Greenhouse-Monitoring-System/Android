@@ -39,19 +39,17 @@ public class GreenhouseFragment extends Fragment
         initializeAllFields(view);
         viewModel = new ViewModelProvider(this).get(GreenhouseSpecificViewModel.class);
 
-        // TODO: This might crash the app -> figure out how to swap child fragments
-        FragmentTransaction fragmentTransaction = getChildFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.placeholder, SelectGreenhouseFragment.class, null).commit();
 
         viewModel.getSelectedGreenhouse().observe(getViewLifecycleOwner(), greenHouseWithLastMeasurementModel -> {
-            greenhouseName.setText(greenHouseWithLastMeasurementModel.getGreenHouseName());
+            greenhouseName.setText(greenHouseWithLastMeasurementModel.getName());
 
             Measurement lastMeasurement = greenHouseWithLastMeasurementModel.getLastMeasurement();
 
             greenhouseTemperature.setText(getString(R.string.unit_temperature, lastMeasurement.getTemperature()));
             greenhouseCO2.setText(getString(R.string.unit_CO2, lastMeasurement.getCo2()));
             greenhouseHumidity.setText(getString(R.string.unit_humidity, lastMeasurement.getHumidity()));
-            greenhouseLight.setText(getString(R.string.unit_light, lastMeasurement.getLight()));
+            //The formatting did not work for the light, so I had to do it manually
+            greenhouseLight.setText( lastMeasurement.getLight() + " lux");
         });
 
         return view;

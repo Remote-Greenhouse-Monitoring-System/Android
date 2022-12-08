@@ -1,15 +1,15 @@
-package com.github.group2.android_sep4.viewmodel;
+package com.github.group2.android_sep4.model;
 
 import com.github.group2.android_sep4.model.Measurement;
 
 public class GreenHouseWithLastMeasurementModel {
     private long greenHouseId;
-    private String greenHouseName;
+    private String name;
     private Measurement lastMeasurement;
 
-    public GreenHouseWithLastMeasurementModel(long greenHouseId, String greenHouseName, Measurement lastMeasurement) {
+    public GreenHouseWithLastMeasurementModel(long greenHouseId, String name, Measurement lastMeasurement) {
         this.greenHouseId = greenHouseId;
-        this.greenHouseName = greenHouseName;
+        this.name = name;
         this.lastMeasurement = lastMeasurement;
     }
 
@@ -21,12 +21,12 @@ public class GreenHouseWithLastMeasurementModel {
         this.greenHouseId = greenHouseId;
     }
 
-    public String getGreenHouseName() {
-        return greenHouseName;
+    public String getName() {
+        return name;
     }
 
-    public void setGreenHouseName(String greenHouseName) {
-        this.greenHouseName = greenHouseName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Measurement getLastMeasurement() {

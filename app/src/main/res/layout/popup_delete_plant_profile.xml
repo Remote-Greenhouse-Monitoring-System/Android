@@ -40,7 +40,7 @@
                 android:layout_gravity="center">
 
                 <Button
-                    android:id="@+id/confirmDeleteButton"
+                    android:id="@+id/confirmDeleteButtonPlantProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/confirm"

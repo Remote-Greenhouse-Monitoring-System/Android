@@ -1,5 +1,7 @@
 package com.github.group2.android_sep4.repository.implementaion;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -153,6 +155,7 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
 
     @Override
     public LiveData<List<PlantProfile>> getPlantProfileForUser() {
+
         return plantProfilesForUser;
     }
 
@@ -197,6 +200,7 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
                     PlantProfile plantProfile = response.body();
                     List<PlantProfile> plantProfiles = allPlantProfiles.getValue();
                     searchedPlantProfile.setValue(plantProfile);
+                    Log.e("PLANT PROFILE",searchedPlantProfile.getValue().toString());
                     allPlantProfiles.setValue(plantProfiles);
                 } else {
                     setError(response);

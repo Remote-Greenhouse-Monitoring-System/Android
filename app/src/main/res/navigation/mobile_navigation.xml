@@ -39,4 +39,8 @@
         android:id="@+id/addPlantProfileFragment"
         android:name="com.github.group2.android_sep4.view.fragment.AddPlantProfileFragment"
         android:label="AddPlantProfileFragment" />
+    <fragment
+        android:id="@+id/editPlantProfileFragment"
+        android:name="com.github.group2.android_sep4.view.fragment.EditPlantProfileFragment"
+        android:label="EditPlantProfileFragment"/>
 </navigation>

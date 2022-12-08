@@ -95,6 +95,14 @@ public class PlantProfile {
         this.threshold = threshold;
     }
 
+    public int getOptimalLight() {
+        return optimalLight;
+    }
+
+    public void setOptimalLight(int optimalLight) {
+        this.optimalLight = optimalLight;
+    }
+
     @Override
     public String toString() {
         return "PlantProfile{" +

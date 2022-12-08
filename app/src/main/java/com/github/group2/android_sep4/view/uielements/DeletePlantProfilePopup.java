@@ -10,14 +10,16 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.github.group2.android_sep4.R;
+import com.github.group2.android_sep4.viewmodel.PlantProfileViewModel;
 
 public class DeletePlantProfilePopup {
 
 
     Button buttonConfirm, buttonCancel;
+    private PlantProfileViewModel plantProfileViewModel = new PlantProfileViewModel();
 
     //PopupWindow display method
-    public void showPopupWindow(final View view) {
+    public void showPopupWindow(final View view,long id) {
         //Create a View object yourself through inflater
         LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(view.getContext().LAYOUT_INFLATER_SERVICE);
         View popupView = inflater.inflate(R.layout.popup_delete_plant_profile, null);
@@ -32,12 +34,13 @@ public class DeletePlantProfilePopup {
 
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-        buttonConfirm = popupView.findViewById(R.id.confirmDeleteButton);
-        buttonCancel = popupView.findViewById(R.id.cancelDeleteButton);
+        buttonConfirm = (Button) popupView.findViewById(R.id.confirmDeleteButtonPlantProfile);
+        buttonCancel = (Button) popupView.findViewById(R.id.cancelDeleteButton);
 
 
         buttonConfirm.setOnClickListener(v -> {
             Toast.makeText(view.getContext(), "Deleted the plant profile", Toast.LENGTH_SHORT).show();
+            plantProfileViewModel.deletePlantProfile(id);
             popupWindow.dismiss();
         });
 

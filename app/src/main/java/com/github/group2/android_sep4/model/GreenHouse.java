@@ -4,11 +4,9 @@ public class GreenHouse {
     private long id;
     private String name;
 
-
     public GreenHouse() {
       // Required for the framework to work
     }
-
 
     public GreenHouse(long id, String name) {
         this.id = id;

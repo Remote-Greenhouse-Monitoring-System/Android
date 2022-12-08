@@ -104,10 +104,4 @@ public class SelectPlantProfileFragment extends Fragment {
 
     }
 
-    @Override
-    public void onResume() {
-
-        super.onResume();
-        setAdapter();
-    }
 }

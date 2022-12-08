@@ -30,17 +30,17 @@
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="36dp"
-                android:text="Add Plant Profile"
+                android:text="Edit Plant Profile"
                 android:textColor="@color/black"
                 android:textSize="30sp"
                 android:textStyle="normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.842"
-                app:layout_constraintStart_toEndOf="@+id/addPlantProfileBackButton"
+                app:layout_constraintStart_toEndOf="@+id/editPlantProfileBackButton"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/addPlantProfileBackButton"
+                android:id="@+id/editPlantProfileBackButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -81,7 +81,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
             <EditText
-                android:id="@+id/addPlantProfileName"
+                android:id="@+id/editPlantProfileName"
                 android:layout_width="143dp"
                 android:layout_height="wrap_content"
                 android:hint="Profile Name"
@@ -103,11 +103,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addPlantProfileName" />
+                app:layout_constraintTop_toBottomOf="@+id/editPlantProfileName" />
 
 
             <EditText
-                android:id="@+id/addPlantProfileDescription"
+                android:id="@+id/editPlantProfileDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -122,14 +122,14 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
+                android:layout_height="200dp"
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:background="#DFDFDF"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/addPlantProfileDescription"
-                app:layout_constraintStart_toStartOf="@+id/addPlantProfileDescription"
-                app:layout_constraintTop_toBottomOf="@+id/addPlantProfileDescription"
+                app:layout_constraintEnd_toEndOf="@+id/editPlantProfileDescription"
+                app:layout_constraintStart_toStartOf="@+id/editPlantProfileDescription"
+                app:layout_constraintTop_toBottomOf="@+id/editPlantProfileDescription"
                 app:layout_constraintVertical_bias="0.09">
 
                 <TextView
@@ -175,9 +175,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
-
                 <EditText
-                    android:id="@+id/addPlantProfileTemp"
+                    android:id="@+id/editPlantProfileTemp"
                     android:layout_width="151dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="40dp"
@@ -188,26 +187,26 @@
                     app:layout_constraintTop_toTopOf="@+id/textView11" />
 
                 <EditText
-                    android:id="@+id/addPlantProfileHumidity"
+                    android:id="@+id/editPlantProfileHumidity"
                     android:layout_width="152dp"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
                     android:inputType="numberDecimal"
                     app:layout_constraintBottom_toBottomOf="@+id/textView13"
-                    app:layout_constraintEnd_toEndOf="@+id/addPlantProfileCO2"
+                    app:layout_constraintEnd_toEndOf="@+id/editPlantProfileCO2"
                     app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="@+id/addPlantProfileCO2"
+                    app:layout_constraintStart_toStartOf="@+id/editPlantProfileCO2"
                     app:layout_constraintTop_toTopOf="@+id/textView13" />
 
                 <EditText
-                    android:id="@+id/addPlantProfileCO2"
+                    android:id="@+id/editPlantProfileCO2"
                     android:layout_width="151dp"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/white"
                     android:inputType="numberDecimal"
                     app:layout_constraintBottom_toBottomOf="@+id/textView14"
-                    app:layout_constraintEnd_toEndOf="@+id/addPlantProfileTemp"
-                    app:layout_constraintStart_toStartOf="@+id/addPlantProfileTemp"
+                    app:layout_constraintEnd_toEndOf="@+id/editPlantProfileTemp"
+                    app:layout_constraintStart_toStartOf="@+id/editPlantProfileTemp"
                     app:layout_constraintTop_toTopOf="@+id/textView14" />
 
                 <TextView
@@ -222,7 +221,7 @@
                     app:layout_constraintVertical_bias="0.75" />
 
                 <EditText
-                    android:id="@+id/addPlantProfileLight"
+                    android:id="@+id/editPlantProfileLight"
                     android:layout_width="151dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="84dp"
@@ -232,7 +231,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.967"
                     app:layout_constraintStart_toEndOf="@+id/textView145"
-                    app:layout_constraintTop_toBottomOf="@+id/addPlantProfileHumidity"
+                    app:layout_constraintTop_toBottomOf="@+id/editPlantProfileHumidity"
                     app:layout_constraintVertical_bias="1.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -329,14 +328,14 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <EditText
-                        android:id="@+id/addPlantProfileTempMin"
+                        android:id="@+id/editPlantProfileTempMin"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:inputType="numberDecimal"/>
 
                     <EditText
-                        android:id="@+id/addPlantProfileTempMax"
+                        android:id="@+id/editPlantProfileTempMax"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -356,14 +355,14 @@
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
                     <EditText
-                        android:id="@+id/addPlantProfileCO2Min"
+                        android:id="@+id/editPlantProfileCO2Min"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:inputType="numberDecimal"/>
 
                     <EditText
-                        android:id="@+id/addPlantProfileCO2Max"
+                        android:id="@+id/editPlantProfileCO2Max"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -383,14 +382,14 @@
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
                     <EditText
-                        android:id="@+id/addPlantProfileHumidityMin"
+                        android:id="@+id/editPlantProfileHumidityMin"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:inputType="numberDecimal"/>
 
                     <EditText
-                        android:id="@+id/addPlantProfileHumidityMax"
+                        android:id="@+id/editPlantProfileHumidityMax"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -399,14 +398,15 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
-                android:id="@+id/addPlantProfileButton"
+                android:id="@+id/confirmEditPlantProfileButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="add"
+                android:text="edit"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

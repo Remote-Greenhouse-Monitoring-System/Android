@@ -1,5 +1,7 @@
 package com.github.group2.android_sep4.repository.implementaion;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -55,6 +57,7 @@ public class ThresholdRepositoryImpl implements ThresholdRepository {
             public void onResponse(Call<Threshold> call, Response<Threshold> response) {
                 if (response.isSuccessful()) {
                     searchedThreshold.setValue(response.body());
+                    Log.e("THRESHOLD",searchedThreshold.getValue().toString());
                 } else {
                     setError(response);
                 }

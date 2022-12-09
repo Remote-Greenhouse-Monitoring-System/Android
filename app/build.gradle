@@ -5,7 +5,7 @@ plugins {
 
 android {
     compileSdk 32
-
+    buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "com.github.group2.android_sep4"
         //changed this from 29 to 27
@@ -13,7 +13,6 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

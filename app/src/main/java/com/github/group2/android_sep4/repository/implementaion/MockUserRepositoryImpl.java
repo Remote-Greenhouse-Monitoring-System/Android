@@ -99,4 +99,9 @@ public class MockUserRepositoryImpl implements UserRepository {
     public void logout() {
         currentUser.setValue(null);
     }
+
+    @Override
+    public LiveData<String> getSuccessMessage() {
+        return null;
+    }
 }

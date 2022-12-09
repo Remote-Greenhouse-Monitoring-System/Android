@@ -34,18 +34,13 @@ public class ServiceGenerator {
         if (measurementApi ==null){
             synchronized (lock){
                 if (measurementApi == null) {
-
                     measurementApi = new Retrofit.Builder().baseUrl(BASE_URL)
-
                             .addConverterFactory(GsonConverterFactory.create()).build().create(MeasurementApi.class);
 
                 }
-
             }
         }
         return measurementApi;
-
-
     }
 
 

@@ -39,4 +39,16 @@ public class UserViewModel extends ViewModel {
 
         repository.logout();
     }
+
+    public void deleteUser(long userId) {
+        repository.deleteUser(userId);
+    }
+
+    public LiveData<String> getErrorMessage() {
+        return repository.getErrorMessage();
+    }
+
+    public LiveData<String> getSuccessMessage() {
+        return repository.getSuccessMessage();
+    }
 }

@@ -68,7 +68,7 @@ public class UserRepositoryImpl implements UserRepository {
         });
     }
 
-    private void setErrorMessage(Response<User> response) {
+    private void setErrorMessage(Response response) {
         String errorMessage = null;
         try {
             errorMessage = "Error :"+ response.code()+ " " +
@@ -115,10 +115,10 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void deleteUser(long id) {
-        Call<User> call = userApi.deleteUser(id);
-        call.enqueue(new Callback<User>() {
+        Call<Void> call = userApi.deleteUser(id);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     currentUser.setValue(null);
                     successMessage.setValue("User deleted successfully");
@@ -128,7 +128,7 @@ public class UserRepositoryImpl implements UserRepository {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 errorMessage.setValue("Cannot connect to server");
             }
         });
@@ -167,5 +167,10 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void logout() {
         currentUser.setValue(null);
+    }
+
+    @Override
+    public LiveData<String> getSuccessMessage() {
+        return  successMessage;
     }
 }

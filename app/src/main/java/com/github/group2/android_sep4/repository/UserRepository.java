@@ -23,4 +23,5 @@ public interface UserRepository {
 
     void logout();
 
+    LiveData<String> getSuccessMessage();
 }

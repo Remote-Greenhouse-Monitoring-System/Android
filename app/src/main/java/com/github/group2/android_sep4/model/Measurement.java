@@ -19,7 +19,8 @@ public class Measurement {
         // The framework needs this for conversion from JSON.
     }
 
-    public Measurement(long id, long greenHouseId, float temperature, float humidity, float co2, long light, String timestamp) {
+    public Measurement(long id, long greenHouseId, float temperature, float humidity, float co2, long light, String timestamp)
+    {
         this.id = id;
         this.greenHouseId = greenHouseId;
         this.temperature = temperature;
@@ -27,6 +28,12 @@ public class Measurement {
         this.co2 = co2;
         this.light = light;
         this.timestamp = timestamp;
+    }
+    public Measurement( float temperature, float humidity, float co2)
+    {
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.co2 = co2;
     }
 
     public long getId() {

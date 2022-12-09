@@ -7,10 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -22,6 +24,8 @@ import com.github.group2.android_sep4.view.MeasurementType;
 import com.github.group2.android_sep4.view.Period;
 import com.github.group2.android_sep4.view.ValueFormatter;
 import com.github.group2.android_sep4.view.uielements.CustomMarkerView;
+import com.github.group2.android_sep4.viewmodel.GreenhouseSpecificViewModel;
+import com.github.group2.android_sep4.viewmodel.PlantProfileViewModel;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
@@ -31,6 +35,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.group2.android_sep4.viewmodel.MeasurementViewModel;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,13 +56,17 @@ public class MeasurementFragment extends Fragment {
     private PlantProfile plantProfile;
     private Measurement optimalMeasurement, minThreshold, maxThreshold;
     private LimitLine limitLine, lowerThreshold, upperThreshold;
+    private GreenhouseSpecificViewModel greenhouseSpecificViewModel;
+    private PlantProfileViewModel plantProfileViewModel;
+    private TextView greenhouseTitle;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.measurement_fragment, container, false);
         Bundle bundle = this.getArguments();
-
+        greenhouseSpecificViewModel = new ViewModelProvider(this).get(GreenhouseSpecificViewModel.class);
+        plantProfileViewModel = new ViewModelProvider(this).get(PlantProfileViewModel.class);
         initializeViews(view);
         initializeChart(view);
 
@@ -165,13 +174,10 @@ public class MeasurementFragment extends Fragment {
         navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
         backButton = view.findViewById(R.id.backButton);
         backButton.setOnClickListener(this::goBack);
+        greenhouseTitle = view.findViewById(R.id.greenhouseSpecificName);
+        greenhouseTitle.setText(greenhouseSpecificViewModel.getSelectedGreenhouse().getValue().getName());
 
-        plantProfile = new PlantProfile(1,"plant1", "plant description", 55, 38, 1000, 10763);
-        Threshold threshold= new Threshold(55,30,60,40,1763,700, 12000, 3000, 1000, 2000);
-        optimalMeasurement = new Measurement(1, 1, plantProfile.getOptimalTemp(), plantProfile.getOptimalHumidity(), plantProfile.getOptimalCo2(), (int)plantProfile.getOptimalLight(), "2020-12-12 12:12:12");
-        minThreshold = new Measurement(1, 1, threshold.getMinLight(), threshold.getMinHumidity(), threshold.getMinCo2(), (int) threshold.getMinLight(), "2020-12-12 12:12:12");
-        maxThreshold = new Measurement(1, 1, threshold.getMaxTemperature(), threshold.getMaxHumidity(), threshold.getMaxCo2(), (int) threshold.getMaxLight(), "2020-12-12 12:12:12");
-
+        checkForPlantProfile();
     }
 
     private void initializeChart(View view) {
@@ -209,9 +215,9 @@ public class MeasurementFragment extends Fragment {
         lineChart.resetZoom();
         lineChart.setMarker(mv);
 
-        limitLine= new LimitLine(optimalMeasurement.getTemperature(), "Ideal Temperature");
-        lowerThreshold= new LimitLine(minThreshold.getTemperature(), "Lower Threshold");
-        upperThreshold= new LimitLine(maxThreshold.getTemperature(), "Upper Threshold");
+        limitLine = new LimitLine(optimalMeasurement.getTemperature(), "Ideal Temperature");
+        lowerThreshold = new LimitLine(minThreshold.getTemperature(), "Lower Threshold");
+        upperThreshold = new LimitLine(maxThreshold.getTemperature(), "Upper Threshold");
 
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -264,7 +270,6 @@ public class MeasurementFragment extends Fragment {
             limitLine.setTextSize(10f);
             limitLine.setLineColor(Color.parseColor("#ff0000"));
             limitLine.setTextColor(Color.parseColor("#ff0000"));
-
 
 
             lowerThreshold.setLineWidth(2f);
@@ -323,5 +328,22 @@ public class MeasurementFragment extends Fragment {
 
     private void goBack(View view) {
         navController.navigate(R.id.greenhouseFragment);
+    }
+
+    private void checkForPlantProfile() {
+        plantProfileViewModel.getActivatedPlantProfile().observe(getViewLifecycleOwner(), plantProfile -> {
+            if (plantProfile != null) {
+                System.out.println(plantProfile);
+
+                Threshold threshold = plantProfile.getThreshold();
+                if (threshold != null) {
+                    System.out.println(threshold);
+                    minThreshold = new Measurement(threshold.getMinLight(), threshold.getMinHumidity(), threshold.getMinCo2());
+                    maxThreshold = new Measurement(threshold.getMaxTemperature(), threshold.getMaxHumidity(), threshold.getMaxCo2());
+                }
+                optimalMeasurement = new Measurement(plantProfile.getOptimalTemp(), plantProfile.getOptimalHumidity(),
+                        plantProfile.getOptimalCo2());
+            }
+        });
     }
 }

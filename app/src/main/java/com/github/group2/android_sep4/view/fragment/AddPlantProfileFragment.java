@@ -67,7 +67,7 @@ public class AddPlantProfileFragment extends Fragment {
                 float maxHumidity = Float.parseFloat(addPlantProfileHumidityMax.getText().toString());
                 float minCo2 = Float.parseFloat(addPlantProfileCO2Min.getText().toString());
                 float maxCo2 = Float.parseFloat(addPlantProfileCO2Max.getText().toString());
-                Threshold threshold = new Threshold(maxTemp,minTemp,maxHumidity,minHumidity,maxCo2,minCo2,1,1);
+                Threshold threshold = new Threshold(maxTemp,minTemp,maxHumidity,minHumidity,maxCo2,minCo2,1,1,1,1);
                 PlantProfile plantProfile = new PlantProfile(0,name,description,optimalTemp,optimalHumidity,optimalCo2,optimalLight);
 
                 plantProfileViewModel.addPlantProfile(userViewModel.getCurrentUser().getValue().getId(),plantProfile);

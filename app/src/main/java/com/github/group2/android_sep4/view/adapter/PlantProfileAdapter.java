@@ -30,7 +30,7 @@ import java.util.List;
 
 public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapter.ViewHolder> {
 
-    private ArrayList<PlantProfile> plantProfiles;
+    private List<PlantProfile> plantProfiles;
     private ImageButton editButton, deleteButton;
     private DeletePlantProfilePopup deletePopup;
     private long plantId;
@@ -38,11 +38,18 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
     private NavController navController;
     private AppCompatActivity activity;
     private PlantProfileViewModel plantProfileViewModel;
+    private OnItemClickListener listener;
 
 
 
-    public PlantProfileAdapter(ArrayList<PlantProfile> plantProfiles) {
+    public PlantProfileAdapter() {
+        this.plantProfiles = new ArrayList<>();
+    }
+
+
+    public void setPlantProfiles(List<PlantProfile> plantProfiles) {
         this.plantProfiles = plantProfiles;
+        notifyDataSetChanged();
     }
 
 
@@ -72,12 +79,15 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
 
     }
 
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
     private void editPlantProfile(View view) {
         Toast.makeText(view.getContext(), "Edit Plant Profile", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PlantProfileAdapter.ViewHolder holder, int position) {
         holder.plantProfileName.setText(plantProfiles.get(position).getName());
         holder.plantProfileDescription.setText(plantProfiles.get(position).getDescription());
 
@@ -130,8 +140,15 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
             deleteButton= itemView.findViewById(R.id.deletePlantProfileButton);
             editButton = itemView.findViewById(R.id.editPlantProfileButton);
 
-
+            itemView.setOnClickListener(v -> {
+                if (listener != null && getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(plantProfiles.get(getAdapterPosition()));
+                }
+            });
         }
+    }
+    public interface OnItemClickListener {
+        void onItemClick(PlantProfile greenHouse);
     }
 }
 

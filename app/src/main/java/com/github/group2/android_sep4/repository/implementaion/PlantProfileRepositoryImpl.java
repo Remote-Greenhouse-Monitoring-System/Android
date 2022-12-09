@@ -65,7 +65,6 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
         Call<PlantProfile> call = plantProfileApi.addPlantProfile(userId, plantProfile);
         call.enqueue(new Callback<PlantProfile>() {
 
-
             @Override
             public void onResponse(Call<PlantProfile> call, Response<PlantProfile> response) {
                 if (response.isSuccessful()) {
@@ -176,12 +175,9 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
 
             @Override
             public void onFailure(Call<List<PlantProfile>> call, Throwable t) {
-
                 errorMessage.setValue("Cannot connect to server");
             }
         });
-
-
     }
 
     @Override
@@ -209,7 +205,6 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
 
             @Override
             public void onFailure(Call<PlantProfile> call, Throwable t) {
-
                 errorMessage.setValue("Cannot connect to server");
             }
         });
@@ -224,25 +219,34 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
 
     @Override
     public void activatePlantProfile(long plantProfileId, long greenHouseId) {
-
-        Call<PlantProfile> call = plantProfileApi.activatePlantProfile(plantProfileId, greenHouseId);
-        call.enqueue(new Callback<PlantProfile>() {
+        System.out.println("*****************************************\nplant profile id: " +
+                plantProfileId + "\ngreenhouse id: " + greenHouseId +
+                "*****************************************\n");
+        Call<Void> call = plantProfileApi.activatePlantProfile(plantProfileId, greenHouseId);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<PlantProfile> call, Response<PlantProfile> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                call.request().url().toString();
                 if (response.isSuccessful()) {
                     successMessage.setValue("Plant profile activated successfully");
+                    System.out.println("*****************************************\n" +
+                            "Plant profile activated successfully" +
+                            "*****************************************\n");
                 } else {
+                    System.out.println("*****************************************\n" +
+                            "Plant profile activation failed" +
+                            response.toString()+response.errorBody()+
+                            "*****************************************\n");
                     setError(response);
                 }
             }
 
             @Override
-            public void onFailure(Call<PlantProfile> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
 
                 errorMessage.setValue("Cannot connect to server");
             }
         });
-
     }
 
     @Override
@@ -283,6 +287,27 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
     @Override
     public LiveData<String> getSuccessMessage() {
         return successMessage;
+    }
+
+    @Override
+    public void deactivatePlantProfile(long greenHouseId) {
+        Call<Void> call = plantProfileApi.deactivatePlantProfile(greenHouseId);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    successMessage.setValue("Plant profile deactivated successfully");
+                } else {
+                    setError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+
+                errorMessage.setValue("Cannot connect to server");
+            }
+        });
     }
 
     private void setError(Response response) {

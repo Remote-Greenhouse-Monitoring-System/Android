@@ -31,5 +31,7 @@ public interface PlantProfileRepository {
     LiveData<String> getErrorMessage();
     LiveData<String> getSuccessMessage();
 
+    void deactivatePlantProfile(long greenHouseId);
+
 
 }

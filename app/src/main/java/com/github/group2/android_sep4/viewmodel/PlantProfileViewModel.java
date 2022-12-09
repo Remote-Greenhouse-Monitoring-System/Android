@@ -1,6 +1,7 @@
 package com.github.group2.android_sep4.viewmodel;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.github.group2.android_sep4.model.PlantProfile;
 import com.github.group2.android_sep4.model.Threshold;
@@ -11,7 +12,7 @@ import com.github.group2.android_sep4.repository.implementaion.ThresholdReposito
 
 import java.util.List;
 
-public class PlantProfileViewModel {
+public class PlantProfileViewModel extends ViewModel {
 
     private PlantProfileRepository plantProfileRepository;
     private ThresholdRepository thresholdRepository;
@@ -130,5 +131,10 @@ public class PlantProfileViewModel {
 
     public void setEditPressed(boolean editPressed) {
         this.editPressed = editPressed;
+    }
+
+    public void deactivatePlantProfile(long greenHouseId)
+    {
+        plantProfileRepository.deactivatePlantProfile(greenHouseId);
     }
 }

@@ -39,4 +39,8 @@ public class HomeViewModel extends ViewModel {
     public LiveData<List<GreenHouseWithLastMeasurementModel>> getGreenHousesWWithLastMeasurement() {
         return repository.getGreenHouseWithLastMeasurement();
     }
+
+    public void addGreenHouse(long userId, GreenHouse greenHouse){
+        repository.addGreenHouse(userId, greenHouse);
+    }
 }

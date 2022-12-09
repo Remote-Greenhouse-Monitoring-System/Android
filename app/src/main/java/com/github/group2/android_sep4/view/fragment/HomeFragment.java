@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.group2.android_sep4.R;
+import com.github.group2.android_sep4.model.GreenHouse;
 import com.github.group2.android_sep4.model.GreenHouseWithLastMeasurementModel;
 import com.github.group2.android_sep4.view.GreenhouseSpecificViewModel;
 import com.github.group2.android_sep4.view.adapter.GreenHouseAdapter;
@@ -87,10 +88,6 @@ public class HomeFragment extends Fragment {
             manager.createNotificationChannel(channel);
         }
         addBtn.setOnClickListener(this::notificationTest);
-
-        if (homeViewModel.getGreenHouseList().getValue().size()>=2){
-            addBtn.hide();
-        }
         addBtn.setOnClickListener(this::addGreenhouse);
 
         return view;
@@ -138,7 +135,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 // DO SOMETHINGS
-                //viewModel.addGreenhouse(new Greenhouse(editText.getText().toString()));
+                homeViewModel.addGreenHouse(userViewModel.getCurrentUser().getValue().getId(), new GreenHouse(editText.getText().toString()));
                 dialogBuilder.dismiss();
             }
         });
@@ -160,6 +157,9 @@ public class HomeFragment extends Fragment {
             return;
         }
 
+        if (greenHouses.size()>=2){
+            addBtn.hide();
+        }
         adapter.setGreenHouses(greenHouses);
 
     }

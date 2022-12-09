@@ -84,7 +84,7 @@
                         android:layout_height="0dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:fontFamily="@font/heletica_regular_family"
+                        android:fontFamily="@font/helvetica_regular_family"
                         android:gravity="center"
                         android:text="22.3 C"
                         android:textSize="16sp" />
@@ -115,7 +115,7 @@
                         android:layout_height="0dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:fontFamily="@font/heletica_regular_family"
+                        android:fontFamily="@font/helvetica_regular_family"
                         android:gravity="center"
                         android:text="320ppm"
                         android:textSize="16sp" />
@@ -146,7 +146,7 @@
                         android:layout_height="0dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:fontFamily="@font/heletica_regular_family"
+                        android:fontFamily="@font/helvetica_regular_family"
                         android:gravity="center"
                         android:text="On"
                         android:textSize="16sp" />
@@ -178,7 +178,7 @@
                         android:layout_height="0dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:fontFamily="@font/heletica_regular_family"
+                        android:fontFamily="@font/helvetica_regular_family"
                         android:gravity="center"
                         android:text="Sachin"
                         android:textSize="16sp" />

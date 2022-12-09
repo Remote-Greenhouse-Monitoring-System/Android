@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -40,6 +41,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
     implementation 'androidx.databinding:compiler:3.2.0-alpha11'
+    implementation 'com.google.firebase:firebase-messaging:23.1.0'
 
 
     testImplementation 'junit:junit:4.13.2'
@@ -53,6 +55,8 @@ dependencies {
 
     // Fancy Toast
     implementation 'io.github.shashank02051997:FancyToast:2.0.2'
+    // Hash
+    implementation "org.mindrot:jbcrypt:0.4"
 
     // MPAndroidChart
     implementation('com.github.PhilJay:MPAndroidChart:v3.1.0') {

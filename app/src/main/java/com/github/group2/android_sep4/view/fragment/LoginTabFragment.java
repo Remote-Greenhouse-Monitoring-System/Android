@@ -12,9 +12,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.User;
+import com.github.group2.android_sep4.view.activity.MainActivity;
 import com.github.group2.android_sep4.viewmodel.UserViewModel;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -26,6 +29,7 @@ public class LoginTabFragment extends Fragment {
     ProgressBar progressBar;
 
     UserViewModel viewModel;
+    NavController navController;
 
 
     @Nullable
@@ -38,7 +42,13 @@ public class LoginTabFragment extends Fragment {
         login.setOnClickListener(this::loginPressed);
         viewModel.getError().observe(getViewLifecycleOwner(), this::errorObserver);
         viewModel.getCurrentUser().observe(getViewLifecycleOwner(), this::userObserver);
+        forgetPassword.setOnClickListener(this::forgetPasswordPressed);
         return view;
+    }
+
+    private void forgetPasswordPressed(View view) {
+        navController.navigate(R.id.forgetPasswordFragment);
+
     }
 
     private void userObserver(User user) {
@@ -115,6 +125,8 @@ public class LoginTabFragment extends Fragment {
         forgetPassword= view.findViewById(R.id.forget_pass);
         progressBar = view.findViewById(R.id.progress_bar_login);
         progressBar.setVisibility(View.INVISIBLE);
+        navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
+
     }
 
 

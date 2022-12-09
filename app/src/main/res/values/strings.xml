@@ -46,4 +46,11 @@
     <string name="delete_account">Delete Account</string>
     <string name="deleteAccountMessage">Are you sure you want to delete your account? This action cannot be undone.</string>
     <string name="plant_profile_name">Plant profile name</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="please_provide_your_email_address_to_reset_your_password">Please provide your email address to reset your password</string>
+    <string name="next">Next</string>
+    <string name="new_password">New Password</string>
+    <string name="save">Save</string>
+    <string name="new_credentials">New Credentials</string>
+    <string name="new_credentials_details">New credentials details</string>
 </resources>

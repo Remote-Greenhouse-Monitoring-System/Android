@@ -1,12 +1,18 @@
 package com.github.group2.android_sep4.view.fragment;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -15,12 +21,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.group2.android_sep4.R;
+import com.github.group2.android_sep4.model.GreenHouseWithLastMeasurementModel;
 import com.github.group2.android_sep4.view.GreenhouseSpecificViewModel;
 import com.github.group2.android_sep4.view.adapter.GreenHouseAdapter;
-import com.github.group2.android_sep4.model.GreenHouseWithLastMeasurementModel;
 import com.github.group2.android_sep4.viewmodel.HomeViewModel;
-import com.github.group2.android_sep4.viewmodel.UserViewModel;
 import com.github.group2.android_sep4.viewmodel.MeasurementViewModel;
+import com.github.group2.android_sep4.viewmodel.UserViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
@@ -66,7 +72,30 @@ public class HomeFragment extends Fragment {
         });
         initializeGreenHouses();
 
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel("notificationTest","My channel", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getActivity().getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+        addBtn.setOnClickListener(this::notificationTest);
+
         return view;
+
+    }
+
+    private void notificationTest(View view) {
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), "notificationTest");
+        builder.setContentTitle("Notification Test");
+        builder.setContentText("This is a test notification");
+        builder.setSmallIcon(R.drawable.green_guard);
+        builder.setAutoCancel(true);
+
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getContext());
+        managerCompat.notify(1, builder.build());
+
+        Toast.makeText(getContext(), "Notification", Toast.LENGTH_SHORT).show();
 
     }
 

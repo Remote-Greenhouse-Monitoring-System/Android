@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private void checkIfSignedIn() {
         String username = preferences.getString("username", null);
         String email = preferences.getString("email", null);
-        Long uID = preferences.getLong("uID", -1);
+        long uID = preferences.getLong("uID", -1);
 
         if (username != null && email != null && uID != -1) {
 

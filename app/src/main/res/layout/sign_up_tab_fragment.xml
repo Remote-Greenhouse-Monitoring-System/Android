@@ -29,6 +29,8 @@
         android:fontFamily="@font/helvetica_bold_font"
         android:hint="@string/username"
         android:textSize="16sp"
+        app:endIconMode="clear_text"
+
         app:layout_constraintBottom_toTopOf="@+id/emailSignUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -52,6 +54,10 @@
         android:fontFamily="@font/helvetica_bold_font"
         android:hint="@string/email"
         android:textSize="16sp"
+        app:startIconDrawable="@drawable/email_icon"
+        app:endIconMode="clear_text"
+
+
         app:layout_constraintBottom_toTopOf="@+id/progressBarSignUp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
@@ -76,6 +82,9 @@
         android:background="@drawable/edittext_bg"
         android:fontFamily="@font/helvetica_bold_font"
         android:hint="@string/password"
+        app:startIconDrawable="@drawable/password_icon"
+        app:endIconMode="password_toggle"
+
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -98,6 +107,8 @@
         android:background="@drawable/edittext_bg"
         android:fontFamily="@font/helvetica_bold_font"
         android:hint="@string/confirm_password"
+        app:endIconMode="password_toggle"
+        app:startIconDrawable="@drawable/password_icon"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

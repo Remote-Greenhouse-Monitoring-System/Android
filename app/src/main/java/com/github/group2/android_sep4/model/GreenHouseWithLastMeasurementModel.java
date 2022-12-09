@@ -1,24 +1,22 @@
 package com.github.group2.android_sep4.model;
 
-import com.github.group2.android_sep4.model.Measurement;
-
 public class GreenHouseWithLastMeasurementModel {
-    private long greenHouseId;
+    private long id;
     private String name;
     private Measurement lastMeasurement;
 
-    public GreenHouseWithLastMeasurementModel(long greenHouseId, String name, Measurement lastMeasurement) {
-        this.greenHouseId = greenHouseId;
+    public GreenHouseWithLastMeasurementModel(long id, String name, Measurement lastMeasurement) {
+        this.id = id;
         this.name = name;
         this.lastMeasurement = lastMeasurement;
     }
 
-    public long getGreenHouseId() {
-        return greenHouseId;
+    public long getId() {
+        return id;
     }
 
-    public void setGreenHouseId(long greenHouseId) {
-        this.greenHouseId = greenHouseId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -39,8 +39,17 @@
         android:id="@+id/addPlantProfileFragment"
         android:name="com.github.group2.android_sep4.view.fragment.AddPlantProfileFragment"
         android:label="AddPlantProfileFragment" />
+
     <fragment
         android:id="@+id/editPlantProfileFragment"
         android:name="com.github.group2.android_sep4.view.fragment.EditPlantProfileFragment"
         android:label="EditPlantProfileFragment"/>
+    <fragment
+        android:id="@+id/changePasswordFragment"
+        android:name="com.github.group2.android_sep4.view.fragment.ChangePasswordFragment"
+        android:label="ChangePasswordFragment" />
+    <fragment
+        android:id="@+id/forgetPasswordFragment"
+        android:name="com.github.group2.android_sep4.view.fragment.ForgetPasswordFragment"
+        android:label="ForgetPasswordFragment" />
 </navigation>

@@ -20,6 +20,7 @@ public interface PlantProfileRepository {
     void searchAllPlantProfiles();
     LiveData<List<PlantProfile>> getAllPlantProfiles();
 
+
     void searchPlantProfile(long plantProfileId);
     LiveData<PlantProfile> getPlantProfile();
 

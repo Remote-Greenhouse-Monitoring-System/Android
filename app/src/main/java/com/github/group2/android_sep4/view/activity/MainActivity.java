@@ -2,6 +2,7 @@ package com.github.group2.android_sep4.view.activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.ActionBar;
@@ -16,6 +17,7 @@ import com.github.group2.android_sep4.viewmodel.MainActivityViewModel;
 import com.github.group2.android_sep4.model.User;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
     private MainActivityViewModel viewModel;
@@ -27,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+
+
 
         preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         checkIfSignedIn();
@@ -51,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private void checkIfSignedIn() {
         String username = preferences.getString("username", null);
         String email = preferences.getString("email", null);
-        Long uID = preferences.getLong("uID", -1);
+        long uID = preferences.getLong("uID", -1);
 
         if (username != null && email != null && uID != -1) {
 

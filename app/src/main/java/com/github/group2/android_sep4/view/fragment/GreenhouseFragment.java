@@ -19,17 +19,14 @@ import androidx.navigation.Navigation;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.Measurement;
-import com.github.group2.android_sep4.model.PlantProfile;
 import com.github.group2.android_sep4.view.uielements.DeletePopup;
-import com.github.group2.android_sep4.viewmodel.GreenhouseSpecificViewModel;
+import com.github.group2.android_sep4.viewmodel.GreenhouseViewModel;
 import com.github.group2.android_sep4.view.MeasurementType;
-import com.github.group2.android_sep4.viewmodel.PlantProfileViewModel;
 import com.google.android.material.card.MaterialCardView;
 
 public class GreenhouseFragment extends Fragment
 {
-    GreenhouseSpecificViewModel viewModel;
-    PlantProfileViewModel plantProfileViewModel;
+    GreenhouseViewModel viewModel;
     TextView greenhouseName, greenhouseTemperature, greenhouseCO2, greenhouseHumidity, greenhouseLight, activePlantProfileName;
     MaterialCardView clickableCard, temperatureCard, co2Card, humidityCard, lightCard;
     ImageButton backButton, deleteButton;
@@ -37,7 +34,6 @@ public class GreenhouseFragment extends Fragment
     DeletePopup deletePopup;
     LinearLayout activePlantProfileCard, inactivePlantProfileCard;
     Button removePlantProfileButton;
-    private PlantProfile plantProfile;
     long greenhouseId;
 
     public GreenhouseFragment() {
@@ -45,14 +41,18 @@ public class GreenhouseFragment extends Fragment
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.greenhouse_specific_fragment, container, false);
+        viewModel = new ViewModelProvider(this).get(GreenhouseViewModel.class);
 
-        viewModel = new ViewModelProvider(this).get(GreenhouseSpecificViewModel.class);
-        plantProfileViewModel= new ViewModelProvider(this).get(PlantProfileViewModel.class);
+        setObservers();
 
+        initializeAllFields(view);
+        checkActivePlantProfile();
+        return view;
+    }
 
+    private void setObservers() {
         viewModel.getSelectedGreenhouse().observe(getViewLifecycleOwner(), greenHouseWithLastMeasurementModel -> {
             greenhouseName.setText(greenHouseWithLastMeasurementModel.getName());
 
@@ -63,9 +63,17 @@ public class GreenhouseFragment extends Fragment
             greenhouseHumidity.setText(getString(R.string.unit_humidity, lastMeasurement.getHumidity()));
             greenhouseLight.setText(getString( R.string.unit_light, lastMeasurement.getLight()));
         });
-        initializeAllFields(view);
-        checkActivePlantProfile();
-        return view;
+
+        viewModel.getActivePlantProfile().observe(getViewLifecycleOwner(), activePlantProfile -> {
+           if (activePlantProfile != null) {
+               activePlantProfileName.setText(activePlantProfile.getName());
+               activePlantProfileCard.setVisibility(View.VISIBLE);
+               inactivePlantProfileCard.setVisibility(View.GONE);
+           } else {
+               activePlantProfileCard.setVisibility(View.GONE);
+               inactivePlantProfileCard.setVisibility(View.VISIBLE);
+           }
+        });
     }
 
     private void initializeAllFields(View view)
@@ -91,13 +99,7 @@ public class GreenhouseFragment extends Fragment
         navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
         activePlantProfileName = view.findViewById(R.id.activePlantProfileText);
 
-//        Bundle bundle = getArguments();
-//        if (bundle != null) {
-//            greenhouseId = bundle.getInt("greenhouseId");
-//            viewModel.setGreenhouseId(viewModel.getSelectedGreenhouse().getValue().getId());
-//        }
-
-        greenhouseId=viewModel.getSelectedGreenhouse().getValue().getId();
+        greenhouseId = viewModel.getSelectedGreenhouse().getValue().getId();
 
         backButton.setOnClickListener(this::goBack);
         deleteButton.setOnClickListener(this::deleteGreenhouse);
@@ -106,14 +108,14 @@ public class GreenhouseFragment extends Fragment
         setOnClickChartOpening(co2Card, MeasurementType.CO2);
         setOnClickChartOpening(humidityCard, MeasurementType.HUMIDITY);
         setOnClickChartOpening(lightCard, MeasurementType.LIGHT);
+
         inactivePlantProfileCard.setOnClickListener(this::goToPlantProfileList);
         removePlantProfileButton.setOnClickListener(this::removePlantProfile);
-       plantProfile=plantProfileViewModel.getActivatedPlantProfile().getValue();
     }
 
     private void goToPlantProfileList(View view) {
-        Bundle bundle= new Bundle();
-        bundle.putLong("activeGreenhouseId", viewModel.getSelectedGreenhouse().getValue().getId());
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isFromSpecificGreenhouse", true);
         Toast.makeText(getContext(), "Greenhouse id: " + viewModel.getSelectedGreenhouse().getValue().getId(), Toast.LENGTH_SHORT).show();
         navController.navigate(R.id.selectPlantProfileFragment, bundle);
     }
@@ -137,13 +139,13 @@ public class GreenhouseFragment extends Fragment
             navController.navigate(R.id.measurementFragment, bundle);
         });
     }
+
     private void checkActivePlantProfile()
     {
-        viewModel.getActivePlantProfile(greenhouseId).observe(getViewLifecycleOwner(), plantProfile -> {
+        viewModel.getActivePlantProfile().observe(getViewLifecycleOwner(), plantProfile -> {
             if (plantProfile == null || plantProfile.getId() == 0 ) {
                 activePlantProfileCard.setVisibility(View.GONE);
                 inactivePlantProfileCard.setVisibility(View.VISIBLE);
-
             } else {
                 activePlantProfileCard.setVisibility(View.VISIBLE);
                 inactivePlantProfileCard.setVisibility(View.GONE);
@@ -153,10 +155,9 @@ public class GreenhouseFragment extends Fragment
     }
 
     private void removePlantProfile(View view) {
-        viewModel.removeActivePlantProfile();
-        plantProfileViewModel.deactivatePlantProfile(viewModel.getSelectedGreenhouse().getValue().getId());
+        viewModel.deactivatePlantProfile();
 
-        activePlantProfileCard.setVisibility(View.GONE);
-        inactivePlantProfileCard.setVisibility(View.VISIBLE);
+//        activePlantProfileCard.setVisibility(View.GONE);
+//        inactivePlantProfileCard.setVisibility(View.VISIBLE);
     }
 }

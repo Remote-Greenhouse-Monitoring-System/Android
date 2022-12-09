@@ -1,11 +1,11 @@
 package com.github.group2.android_sep4.model;
 
-public class GreenHouseWithLastMeasurementModel {
+public class GreenhouseWithLastMeasurementModel {
     private long id;
     private String name;
     private Measurement lastMeasurement;
 
-    public GreenHouseWithLastMeasurementModel(long id, String name, Measurement lastMeasurement) {
+    public GreenhouseWithLastMeasurementModel(long id, String name, Measurement lastMeasurement) {
         this.id = id;
         this.name = name;
         this.lastMeasurement = lastMeasurement;

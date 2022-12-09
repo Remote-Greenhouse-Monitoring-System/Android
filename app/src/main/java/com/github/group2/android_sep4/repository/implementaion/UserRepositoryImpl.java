@@ -8,7 +8,6 @@ import com.github.group2.android_sep4.networking.UserApi;
 import com.github.group2.android_sep4.repository.ServiceGenerator;
 import com.github.group2.android_sep4.repository.UserRepository;
 
-
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -25,17 +24,12 @@ public class UserRepositoryImpl implements UserRepository {
     private MutableLiveData<User> currentUser;
     private UserApi userApi;
 
-
-
     private UserRepositoryImpl() {
         errorMessage = new MutableLiveData<>();
         currentUser = new MutableLiveData<>();
         successMessage = new MutableLiveData<>();
         userApi = ServiceGenerator.getUserApi();
-
-
     }
-
 
     public static UserRepository getInstance() {
         if (instance == null) {
@@ -45,6 +39,7 @@ public class UserRepositoryImpl implements UserRepository {
                 }
             }
         }
+
         return instance;
     }
 
@@ -77,8 +72,6 @@ public class UserRepositoryImpl implements UserRepository {
             this.errorMessage.setValue("Cannot connect to server");
         }
         this.errorMessage.setValue(errorMessage);
-
-
     }
 
     @Override
@@ -136,7 +129,6 @@ public class UserRepositoryImpl implements UserRepository {
                 errorMessage.setValue("Cannot connect to server");
             }
         });
-
     }
 
     @Override

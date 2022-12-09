@@ -3,40 +3,29 @@ package com.github.group2.android_sep4.viewmodel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.github.group2.android_sep4.model.GreenHouse;
-import com.github.group2.android_sep4.model.GreenHouseWithLastMeasurementModel;
-import com.github.group2.android_sep4.repository.GreenHouseRepository;
-import com.github.group2.android_sep4.repository.implementaion.GreenHouseRepositoryImpl;
+import com.github.group2.android_sep4.model.GreenhouseWithLastMeasurementModel;
+import com.github.group2.android_sep4.repository.GreenhouseRepository;
+import com.github.group2.android_sep4.repository.implementaion.GreenhouseRepositoryImpl;
 
 import java.util.List;
 
 public class HomeViewModel extends ViewModel {
 
-
-    private GreenHouseRepository repository = GreenHouseRepositoryImpl.getInstance();
-
-
-    public LiveData<List<GreenHouse>> getGreenHouseList() {
-       return repository.getAllGreenHousesForAnUser();
-    }
-
-    public void searchAllGreenHouses(long userId) {
-        repository.searchAllGreenHousesForAnUser(userId);
-    }
+    private final GreenhouseRepository greenhouseRepository = GreenhouseRepositoryImpl.getInstance();
 
     public LiveData<String> getErrorMessage() {
-        return repository.getErrorMessage();
+        return greenhouseRepository.getErrorMessage();
     }
 
     public LiveData<String> getSuccessMessage() {
-        return repository.getSuccessMessage();
+        return greenhouseRepository.getSuccessMessage();
     }
 
-    public void searchGreenHousesWithLastMeasurement(long id) {
-        repository.searchGreenHouseWithLastMeasurement(id);
+    public LiveData<List<GreenhouseWithLastMeasurementModel>> getGreenHousesWWithLastMeasurement() {
+        return greenhouseRepository.getGreenhouseWithLastMeasurement();
     }
 
-    public LiveData<List<GreenHouseWithLastMeasurementModel>> getGreenHousesWWithLastMeasurement() {
-        return repository.getGreenHouseWithLastMeasurement();
+    public void setSelectedGreenhouse(GreenhouseWithLastMeasurementModel greenhouseWithLastMeasurementModel) {
+        greenhouseRepository.setSelectedGreenhouse(greenhouseWithLastMeasurementModel);
     }
 }

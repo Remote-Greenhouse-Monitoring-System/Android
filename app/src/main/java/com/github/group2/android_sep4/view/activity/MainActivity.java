@@ -27,12 +27,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
-
         preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
         checkIfSignedIn();
         setContentView(R.layout.activity_main);
         initializeAllFields();
-
     }
 
     private void initializeAllFields() {
@@ -51,10 +50,9 @@ public class MainActivity extends AppCompatActivity {
     private void checkIfSignedIn() {
         String username = preferences.getString("username", null);
         String email = preferences.getString("email", null);
-        Long uID = preferences.getLong("uID", -1);
+        long uID = preferences.getLong("uID", -1);
 
         if (username != null && email != null && uID != -1) {
-
             User user = new User();
             user.setUsername(username);
             user.setEmail(email);
@@ -62,18 +60,17 @@ public class MainActivity extends AppCompatActivity {
 
             viewModel.init(user);
         }
+
         viewModel.getCurrentUser().observe(this, user -> {
             if (user != null) {
                 navController.navigate(R.id.homeFragment);
                 bottomNavigationView.setVisibility(View.VISIBLE);
 
                 // Save for later
-
                 preferences.edit().putString("username", user.getUsername()).apply();
                 preferences.edit().putString("email", user.getEmail()).apply();
                 preferences.edit().putLong("uID", user.getId()).apply();
             } else {
-
                 navController.navigate(R.id.loginFragment);
                 bottomNavigationView.setVisibility(View.INVISIBLE);
                 preferences.edit().putString("username", null).apply();

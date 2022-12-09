@@ -52,6 +52,7 @@ public class User {
         return password;
     }
 
+    // This is not supposed to hash the password since this is being used by json to parse the password
     public void setPassword(String password) {
         this.password = password;
     }

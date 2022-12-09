@@ -1,5 +1,6 @@
 package com.github.group2.android_sep4.view.fragment;
 
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
@@ -7,6 +8,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -85,12 +88,15 @@ public class HomeFragment extends Fragment {
         }
         addBtn.setOnClickListener(this::notificationTest);
 
-        return view;
+        if (homeViewModel.getGreenHouseList().getValue().size()>=2){
+            addBtn.hide();
+        }
+        addBtn.setOnClickListener(this::addGreenhouse);
 
+        return view;
     }
 
     private void notificationTest(View view) {
-
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), "notificationTest");
         builder.setContentTitle("Notification Test");
         builder.setContentText("This is a test notification");
@@ -111,6 +117,33 @@ public class HomeFragment extends Fragment {
             homeViewModel.getGreenHousesWWithLastMeasurement().observe(getViewLifecycleOwner(), this::updateGreenHouseList);
         }
 
+    }
+
+    private void addGreenhouse(View view) {
+        AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.popup_add_greenhouse, null);
+
+        EditText editText = dialogView.findViewById(R.id.add_greenhouse);
+        Button buttonSubmit =  dialogView.findViewById(R.id.buttonSubmit);
+        Button buttonCancel = dialogView.findViewById(R.id.buttonCancel);
+
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogBuilder.dismiss();
+            }
+        });
+        buttonSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // DO SOMETHINGS
+                //viewModel.addGreenhouse(new Greenhouse(editText.getText().toString()));
+                dialogBuilder.dismiss();
+            }
+        });
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.show();
     }
 
     private void greenHouseClicked(GreenHouseWithLastMeasurementModel greenHouseWithLastMeasurementModel) {

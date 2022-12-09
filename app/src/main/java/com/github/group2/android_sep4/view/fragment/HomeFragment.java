@@ -91,9 +91,11 @@ public class HomeFragment extends Fragment {
         addBtn.setOnClickListener(this::addGreenhouse);
 
         return view;
+
     }
 
     private void notificationTest(View view) {
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), "notificationTest");
         builder.setContentTitle("Notification Test");
         builder.setContentText("This is a test notification");

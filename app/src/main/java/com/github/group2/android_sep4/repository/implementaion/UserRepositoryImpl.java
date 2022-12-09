@@ -1,7 +1,5 @@
 package com.github.group2.android_sep4.repository.implementaion;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -9,7 +7,6 @@ import com.github.group2.android_sep4.model.User;
 import com.github.group2.android_sep4.networking.UserApi;
 import com.github.group2.android_sep4.repository.ServiceGenerator;
 import com.github.group2.android_sep4.repository.UserRepository;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
@@ -26,29 +23,13 @@ public class UserRepositoryImpl implements UserRepository {
     private MutableLiveData<String> errorMessage, successMessage;
     private MutableLiveData<User> currentUser;
     private UserApi userApi;
-    private FirebaseMessaging firebaseMessaging;
-    private MutableLiveData<String> token;
-
 
     private UserRepositoryImpl() {
         errorMessage = new MutableLiveData<>();
         currentUser = new MutableLiveData<>();
         successMessage = new MutableLiveData<>();
         userApi = ServiceGenerator.getUserApi();
-        token = new MutableLiveData<>();
-        firebaseMessaging = FirebaseMessaging.getInstance();
-        firebaseMessaging.getToken().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                errorMessage.postValue("Fetching FCM registration token failed");
-                return;
-            }
-
-            token.setValue(task.getResult());
-        });
-
-
     }
-
 
     public static UserRepository getInstance() {
         if (instance == null) {
@@ -58,20 +39,18 @@ public class UserRepositoryImpl implements UserRepository {
                 }
             }
         }
+
         return instance;
     }
 
     @Override
     public void addUser(String username, String email, String password) {
-        resetFields();
-
         Call<User> call = userApi.addUser(new User(email, username, password));
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     currentUser.setValue(response.body());
-                    registerNotificationService(response.body().getId());
                 } else {
                     setErrorMessage(response);
                 }
@@ -84,22 +63,15 @@ public class UserRepositoryImpl implements UserRepository {
         });
     }
 
-    private void resetFields() {
-        errorMessage.setValue(null);
-        successMessage.setValue(null);
-    }
-
     private void setErrorMessage(Response response) {
         String errorMessage = null;
         try {
-            errorMessage = "Error :" + response.code() + " " +
+            errorMessage = "Error :"+ response.code()+ " " +
                     response.errorBody().string();
         } catch (IOException e) {
             this.errorMessage.setValue("Cannot connect to server");
         }
         this.errorMessage.setValue(errorMessage);
-
-
     }
 
     @Override
@@ -114,18 +86,13 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void updateUser(User user) {
-        resetFields();
         Call<User> call = userApi.updateUser(user);
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-
-                    User userFromServer = response.body();
-                    currentUser.setValue(userFromServer);
+                    currentUser.setValue(response.body());
                     successMessage.setValue("User updated successfully");
-
-                    registerNotificationService(userFromServer.getId());
 
                 } else {
                     setErrorMessage(response);
@@ -139,47 +106,20 @@ public class UserRepositoryImpl implements UserRepository {
         });
     }
 
-    private void registerNotificationService(long userId) {
-        resetFields();
-//        token.observeForever(tokenValue -> {
-//
-//            if (tokenValue != null && !tokenValue.isEmpty()) {
-//
-//                Log.d("TOKEN", tokenValue);
-//                Call<Void> call = userApi.registerNotificationClient(userId, tokenValue);
-//                call.enqueue(new Callback<Void>() {
-//                    @Override
-//                    public void onResponse(Call<Void> call, Response<Void> response) {
-//                        if (response.isSuccessful()) {
-//                            successMessage.setValue("Notification service registered successfully");
-//                        } else {
-//                            setErrorMessage(response);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<Void> call, Throwable t) {
-//                        errorMessage.setValue("Cannot connect to server");
-//                    }
-//                });
-//
-//            }
-//        });
-
-    }
-
     @Override
     public void deleteUser(long id) {
-        resetFields();
         Call<Void> call = userApi.deleteUser(id);
+
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
+
                 if (response.isSuccessful()) {
-                    currentUser.setValue(null);
                     successMessage.setValue("User deleted successfully");
 
+                    currentUser.setValue(null);
                 } else {
+                    System.out.println("\nOn else ");
                     setErrorMessage(response);
                 }
             }
@@ -189,29 +129,19 @@ public class UserRepositoryImpl implements UserRepository {
                 errorMessage.setValue("Cannot connect to server");
             }
         });
-
-
     }
 
     @Override
     public void login(String email, String password) {
-        resetFields();
-        Call<User> call = userApi.getUserByEmail(email);
+
+        Call<User> call = userApi.login(email, password);
 
 
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-
-
-                    User userFromServerWithHashedPass = response.body();
-                    if (User.checkPassword(password, userFromServerWithHashedPass.getPassword())) {
-                        currentUser.setValue(userFromServerWithHashedPass);
-                        registerNotificationService(userFromServerWithHashedPass.getId());
-                    } else {
-                        errorMessage.setValue("Incorrect password, please try again");
-                    }
+                    currentUser.setValue(response.body());
 
                 } else {
                     setErrorMessage(response);
@@ -232,12 +162,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void logout() {
-        resetFields();
         currentUser.setValue(null);
     }
 
     @Override
     public LiveData<String> getSuccessMessage() {
-        return  successMessage;
+        return successMessage;
     }
 }

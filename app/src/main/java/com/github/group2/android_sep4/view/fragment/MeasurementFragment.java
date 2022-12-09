@@ -19,12 +19,11 @@ import androidx.navigation.Navigation;
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.Measurement;
 import com.github.group2.android_sep4.model.PlantProfile;
-import com.github.group2.android_sep4.model.Threshold;
 import com.github.group2.android_sep4.view.MeasurementType;
 import com.github.group2.android_sep4.view.Period;
 import com.github.group2.android_sep4.view.ValueFormatter;
 import com.github.group2.android_sep4.view.uielements.CustomMarkerView;
-import com.github.group2.android_sep4.viewmodel.GreenhouseSpecificViewModel;
+import com.github.group2.android_sep4.viewmodel.GreenhouseViewModel;
 import com.github.group2.android_sep4.viewmodel.PlantProfileViewModel;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
@@ -45,7 +44,7 @@ import java.util.Locale;
 public class MeasurementFragment extends Fragment {
 
     private LineChart lineChart;
-    private MeasurementViewModel measurementViewModel;
+    private MeasurementViewModel viewModel;
     private Period period;
     private MeasurementType measurementType = MeasurementType.TEMPERATURE;
     private RadioGroup radioGroupMeasurement, radioGroupPeriod;
@@ -53,25 +52,24 @@ public class MeasurementFragment extends Fragment {
     private String lineColor;
     private NavController navController;
     private ImageButton backButton;
-    private PlantProfile plantProfile;
     private Measurement optimalMeasurement, minThreshold, maxThreshold;
     private LimitLine limitLine, lowerThreshold, upperThreshold;
-    private GreenhouseSpecificViewModel greenhouseSpecificViewModel;
+    private GreenhouseViewModel greenhouseViewModel;
     private PlantProfileViewModel plantProfileViewModel;
     private TextView greenhouseTitle;
+    private long selectedGreenhouseId = 0L;
+    private PlantProfile plantProfile;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.measurement_fragment, container, false);
         Bundle bundle = this.getArguments();
-        greenhouseSpecificViewModel = new ViewModelProvider(this).get(GreenhouseSpecificViewModel.class);
-        plantProfileViewModel = new ViewModelProvider(this).get(PlantProfileViewModel.class);
-        initializeViews(view);
-        initializeChart(view);
 
         if (bundle != null) {
             String measurementTypeStringFromBundle = bundle.getString("measurementType");
+            selectedGreenhouseId = bundle.getLong("greenhouseId");
+
             MeasurementType measurementTypeFromBundle = MeasurementType.valueOf(measurementTypeStringFromBundle);
             this.measurementType = measurementTypeFromBundle;
 
@@ -93,45 +91,40 @@ public class MeasurementFragment extends Fragment {
                     lineColor = "#cc0000";
                     break;
             }
-
-            setMeasurementsToChart();
         }
+
+        plantProfileViewModel.getActivePlantProfile(selectedGreenhouseId).observe(getViewLifecycleOwner(), plantProfile -> {
+            this.plantProfile = plantProfile;
+        });
+
+        greenhouseViewModel = new ViewModelProvider(this).get(GreenhouseViewModel.class);
+        plantProfileViewModel = new ViewModelProvider(this).get(PlantProfileViewModel.class);
+        initializeViews(view);
+        initializeChart(view);
+
+        setMeasurementsToChart();
 
         radioGroupMeasurement.setOnCheckedChangeListener((group, checkedId) -> {
             switch (checkedId) {
                 case R.id.co2_radio_button:
                     measurementType = MeasurementType.CO2;
                     lineColor = "#964B00";
-                    limitLine = new LimitLine(optimalMeasurement.getCo2(), "Ideal CO2");
-                    lowerThreshold = new LimitLine(minThreshold.getCo2(), "Min CO2");
-                    upperThreshold = new LimitLine(maxThreshold.getCo2(), "Max CO2");
                     break;
                 case R.id.humidity_radio_button:
                     measurementType = MeasurementType.HUMIDITY;
                     lineColor = "#2986cc";
-                    limitLine = new LimitLine(optimalMeasurement.getHumidity(), "Ideal Humidity");
-                    lowerThreshold = new LimitLine(minThreshold.getHumidity(), "Min Humidity");
-                    upperThreshold = new LimitLine(maxThreshold.getHumidity(), "Max Humidity");
-
                     break;
                 case R.id.temperature_radio_button:
                     measurementType = MeasurementType.TEMPERATURE;
                     lineColor = "#cc0000";
-                    limitLine = new LimitLine(optimalMeasurement.getTemperature(), "Ideal Temperature");
-                    lowerThreshold = new LimitLine(minThreshold.getTemperature(), "Min Temperature");
-                    upperThreshold = new LimitLine(maxThreshold.getTemperature(), "Max Temperature");
-
                     break;
                 case R.id.light_radio_button:
                     measurementType = MeasurementType.LIGHT;
                     lineColor = "#38761d";
-                    limitLine = new LimitLine(optimalMeasurement.getLight(), "Ideal Light");
-                    lowerThreshold = new LimitLine(minThreshold.getLight(), "Min Light");
-                    upperThreshold = new LimitLine(maxThreshold.getLight(), "Max Light");
-
                     break;
             }
 
+            setLimitLines(measurementType);
             setMeasurementsToChart();
         });
 
@@ -139,21 +132,22 @@ public class MeasurementFragment extends Fragment {
             switch (checkedId) {
                 case R.id.last_hour_radio_button:
                     period = Period.HOUR;
-                    measurementViewModel.searchMeasurement(1, 12);
+                    viewModel.searchMeasurement(1, 12);
                     break;
                 case R.id.last_day_radio_button:
                     period = Period.DAY;
-                    measurementViewModel.searchMeasurement(1, 288);
+                    viewModel.searchMeasurement(1, 288);
                     break;
                 case R.id.last_week_radio_button:
                     period = Period.WEEK;
-                    measurementViewModel.searchAllMeasurementPerDays(1, 2016);
+                    viewModel.searchAllMeasurementPerDays(1, 2016);
                     break;
                 case R.id.last_month_radio_button:
                     period = Period.MONTH;
-                    measurementViewModel.searchMeasurement(1, 4000);
+                    viewModel.searchMeasurement(1, 4000);
                     break;
             }
+
             updatePeriod();
             setMeasurementsToChart();
         });
@@ -161,9 +155,41 @@ public class MeasurementFragment extends Fragment {
         return view;
     }
 
+    private void setLimitLines(MeasurementType measurementType) {
+        switch (measurementType) {
+            case CO2:
+                limitLine = getLimitLine(optimalMeasurement.getCo2(), "Ideal CO2");
+                lowerThreshold = getLimitLine(minThreshold.getCo2(), "Min CO2");
+                upperThreshold = getLimitLine(maxThreshold.getCo2(), "Max CO2");
+                break;
+            case HUMIDITY:
+                limitLine = getLimitLine(optimalMeasurement.getHumidity(), "Ideal Humidity");
+                lowerThreshold = getLimitLine(minThreshold.getHumidity(), "Min Humidity");
+                upperThreshold = getLimitLine(maxThreshold.getHumidity(), "Max Humidity");
+                break;
+            case TEMPERATURE:
+                limitLine = getLimitLine(optimalMeasurement.getTemperature(), "Ideal Temperature");
+                lowerThreshold = getLimitLine(minThreshold.getTemperature(), "Min Temperature");
+                upperThreshold = getLimitLine(maxThreshold.getTemperature(), "Max Temperature");
+                break;
+            case LIGHT:
+                limitLine = getLimitLine(optimalMeasurement.getLight(), "Ideal Light");
+                lowerThreshold = getLimitLine(minThreshold.getLight(), "Min Light");
+                upperThreshold = getLimitLine(maxThreshold.getLight(), "Max Light");
+                break;
+        }
+    }
+
+    @NonNull
+    private LimitLine getLimitLine(float value, String label) {
+        return new LimitLine(value, label);
+    }
+
     private void initializeViews(View view) {
-        measurementViewModel = new MeasurementViewModel();
+        viewModel = new MeasurementViewModel();
         period = Period.HOUR;
+
+        checkForPlantProfile();
 
         if (measurementType == null)
             measurementType = MeasurementType.TEMPERATURE;
@@ -175,16 +201,14 @@ public class MeasurementFragment extends Fragment {
         backButton = view.findViewById(R.id.backButton);
         backButton.setOnClickListener(this::goBack);
         greenhouseTitle = view.findViewById(R.id.greenhouseSpecificName);
-        greenhouseTitle.setText(greenhouseSpecificViewModel.getSelectedGreenhouse().getValue().getName());
-
-        checkForPlantProfile();
+        greenhouseTitle.setText(greenhouseViewModel.getSelectedGreenhouse().getValue().getName());
     }
 
     private void initializeChart(View view) {
 
         lineChart = view.findViewById(R.id.lineChart);
         setupChart();
-        measurementViewModel.searchMeasurement(1, 288);
+        viewModel.searchMeasurement(1, 288);
         setMeasurementsToChart();
         lineColor = "#cc0000";
     }
@@ -215,9 +239,8 @@ public class MeasurementFragment extends Fragment {
         lineChart.resetZoom();
         lineChart.setMarker(mv);
 
-        limitLine = new LimitLine(optimalMeasurement.getTemperature(), "Ideal Temperature");
-        lowerThreshold = new LimitLine(minThreshold.getTemperature(), "Lower Threshold");
-        upperThreshold = new LimitLine(maxThreshold.getTemperature(), "Upper Threshold");
+        /*if (plantProfileViewModel.getActivatedPlantProfile().getValue() != null)
+            setLimitLines(MeasurementType.TEMPERATURE);*/
 
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -235,26 +258,27 @@ public class MeasurementFragment extends Fragment {
     private void updatePeriod() {
         switch (period) {
             case HOUR:
-                measurementViewModel.searchAllMeasurementsPerHour(1, 1);
+                viewModel.searchAllMeasurementsPerHour(1, 1);
                 break;
             case DAY:
-                measurementViewModel.searchAllMeasurementPerDays(1, 1);
+                viewModel.searchAllMeasurementPerDays(1, 1);
                 break;
             case WEEK:
-                measurementViewModel.searchAllMeasurementPerDays(1, 7);
+                viewModel.searchAllMeasurementPerDays(1, 7);
                 break;
             case MONTH:
-                measurementViewModel.searchAllMeasurementPerMonth(1, 1, 2022);
+                viewModel.searchAllMeasurementPerMonth(1, 1, 2022);
                 break;
         }
     }
 
     private void setMeasurementsToChart() {
-        measurementViewModel.getSearchedMeasurementList().observe(getViewLifecycleOwner(), measurements -> {
+        viewModel.getSearchedMeasurementList().observe(getViewLifecycleOwner(), measurements -> {
             ArrayList<Entry> yValues = new ArrayList<>();
             for (Measurement measurement : measurements) {
                 yValues.add(new Entry(convertDateToFloat(measurement.getDateTimeAsString()), getSpecificMeasurement(measurement)));
             }
+
             lineDataSet = new LineDataSet(yValues, MeasurementType.valueOf(measurementType.name()).toString());
             lineDataSet.setFillAlpha(110);
             lineDataSet.setColor(Color.parseColor(lineColor));
@@ -263,39 +287,19 @@ public class MeasurementFragment extends Fragment {
             lineDataSet.setValueTextSize(10f);
             lineDataSet.setDrawCircles(false);
 
-
-            limitLine.setLineWidth(2f);
-            limitLine.enableDashedLine(10f, 10f, 0f);
-            limitLine.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
-            limitLine.setTextSize(10f);
-            limitLine.setLineColor(Color.parseColor("#ff0000"));
-            limitLine.setTextColor(Color.parseColor("#ff0000"));
-
-
-            lowerThreshold.setLineWidth(2f);
-            lowerThreshold.enableDashedLine(10f, 10f, 0f);
-            lowerThreshold.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
-            lowerThreshold.setTextSize(10f);
-            lowerThreshold.setLineColor(Color.parseColor("#000000"));
-            lowerThreshold.setTextColor(Color.parseColor("#000000"));
-
-
-            upperThreshold.setLineWidth(2f);
-            upperThreshold.enableDashedLine(10f, 10f, 0f);
-            upperThreshold.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
-            upperThreshold.setTextSize(10f);
-            upperThreshold.setLineColor(Color.parseColor("#000000"));
-            upperThreshold.setTextColor(Color.parseColor("#000000"));
-
-
             ArrayList<ILineDataSet> dataSets = new ArrayList<>();
             dataSets.add(lineDataSet);
             YAxis yAxis = lineChart.getAxisLeft();
             yAxis.removeAllLimitLines();
-            yAxis.addLimitLine(limitLine);
-            yAxis.addLimitLine(lowerThreshold);
-            yAxis.addLimitLine(upperThreshold);
 
+            /*if (plantProfileViewModel.getActivatedPlantProfile().getValue() != null) {
+                setLimitLine(limitLine, "#ff0000");
+                setLimitLine(lowerThreshold, "#000000");
+                setLimitLine(upperThreshold, "#000000");
+                yAxis.addLimitLine(limitLine);
+                yAxis.addLimitLine(lowerThreshold);
+                yAxis.addLimitLine(upperThreshold);
+            }*/
 
             LineData data = new LineData(dataSets);
             lineChart.setData(data);
@@ -303,6 +307,15 @@ public class MeasurementFragment extends Fragment {
             lineChart.notifyDataSetChanged();
             lineChart.animate();
         });
+    }
+
+    private void setLimitLine(LimitLine limitLine, String lineColor) {
+        limitLine.setLineWidth(2f);
+        limitLine.enableDashedLine(10f, 10f, 0f);
+        limitLine.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_TOP);
+        limitLine.setTextSize(10f);
+        limitLine.setLineColor(Color.parseColor(lineColor));
+        limitLine.setTextColor(Color.parseColor(lineColor));
     }
 
     private float getSpecificMeasurement(Measurement measurement) {
@@ -331,19 +344,19 @@ public class MeasurementFragment extends Fragment {
     }
 
     private void checkForPlantProfile() {
-        plantProfileViewModel.getActivatedPlantProfile().observe(getViewLifecycleOwner(), plantProfile -> {
+        /*plantProfileViewModel.getActivatedPlantProfile().observe(getViewLifecycleOwner(), plantProfile -> {
             if (plantProfile != null) {
                 System.out.println(plantProfile);
 
                 Threshold threshold = plantProfile.getThreshold();
                 if (threshold != null) {
                     System.out.println(threshold);
-                    minThreshold = new Measurement(threshold.getMinLight(), threshold.getMinHumidity(), threshold.getMinCo2());
+                    minThreshold = new Measurement(threshold.getMinTemperature(), threshold.getMinHumidity(), threshold.getMinCo2());
                     maxThreshold = new Measurement(threshold.getMaxTemperature(), threshold.getMaxHumidity(), threshold.getMaxCo2());
                 }
-                optimalMeasurement = new Measurement(plantProfile.getOptimalTemp(), plantProfile.getOptimalHumidity(),
-                        plantProfile.getOptimalCo2());
+
+                optimalMeasurement = new Measurement(plantProfile.getOptimalTemp(), plantProfile.getOptimalHumidity(), plantProfile.getOptimalCo2());
             }
-        });
+        });*/
     }
 }

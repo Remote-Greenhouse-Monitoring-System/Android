@@ -47,9 +47,9 @@ public class PlantProfileViewModel extends ViewModel {
         plantProfileRepository.searchPlantProfilesForUser(userId);
     }
 
-    public LiveData<List<PlantProfile>> getPlantProfileForUser()
+    public LiveData<List<PlantProfile>> getPlantProfilesForUser()
     {
-        return plantProfileRepository.getPlantProfileForUser();
+        return plantProfileRepository.getPlantProfilesForUser();
     }
 
     public void searchAllPlantProfiles()
@@ -72,18 +72,18 @@ public class PlantProfileViewModel extends ViewModel {
         return plantProfileRepository.getPlantProfile();
     }
 
-    public void activatePlantProfile(long plantProfileId, long greenHouseId)
-    {
-        plantProfileRepository.activatePlantProfile(plantProfileId,greenHouseId);
-    }
+//    public void activatePlantProfile(long plantProfileId, long greenHouseId)
+//    {
+//        plantProfileRepository.activatePlantProfile(plantProfileId,greenHouseId);
+//    }
 
     public void searchActivatedPlantProfile(long greenHouseId)
     {
         plantProfileRepository.searchActivatedPlantProfile(greenHouseId);
     }
 
-    public LiveData<PlantProfile> getActivatedPlantProfile()
-    {
+    public LiveData<PlantProfile> getActivePlantProfile(long greenHouseId) {
+        plantProfileRepository.searchActivatedPlantProfile(greenHouseId);
         return plantProfileRepository.getActivatedPlantProfile();
     }
 

@@ -24,7 +24,6 @@ import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.GreenHouseWithLastMeasurementModel;
 import com.github.group2.android_sep4.view.GreenhouseSpecificViewModel;
 import com.github.group2.android_sep4.view.adapter.GreenHouseAdapter;
-import com.github.group2.android_sep4.model.GreenHouseWithLastMeasurementModel;
 import com.github.group2.android_sep4.viewmodel.HomeViewModel;
 import com.github.group2.android_sep4.viewmodel.PlantProfileViewModel;
 import com.github.group2.android_sep4.viewmodel.UserViewModel;

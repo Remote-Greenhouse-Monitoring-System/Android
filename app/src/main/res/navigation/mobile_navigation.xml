@@ -51,4 +51,5 @@
         android:id="@+id/forgetPasswordFragment"
         android:name="com.github.group2.android_sep4.view.fragment.ForgetPasswordFragment"
         android:label="ForgetPasswordFragment" />
+
 </navigation>

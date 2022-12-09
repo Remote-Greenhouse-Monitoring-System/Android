@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1084551066127",
+    "project_id": "android-sep4",
+    "storage_bucket": "android-sep4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1084551066127:android:52cc9b6c6f4deb5185a97a",
+        "android_client_info": {
+          "package_name": "com.github.group2.android_sep4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1084551066127-d7uasr7h37qu756ulu1p17835587s3fk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlk5Q5XTRBla-rNB0mRcePZC5V4eDQFMA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1084551066127-d7uasr7h37qu756ulu1p17835587s3fk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

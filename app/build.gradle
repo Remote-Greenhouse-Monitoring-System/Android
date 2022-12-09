@@ -55,6 +55,8 @@ dependencies {
 
     // Fancy Toast
     implementation 'io.github.shashank02051997:FancyToast:2.0.2'
+    // Hash
+    implementation "org.mindrot:jbcrypt:0.4"
 
     // MPAndroidChart
     implementation('com.github.PhilJay:MPAndroidChart:v3.1.0') {

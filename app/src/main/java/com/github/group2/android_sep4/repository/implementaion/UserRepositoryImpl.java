@@ -1,5 +1,7 @@
 package com.github.group2.android_sep4.repository.implementaion;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -44,6 +46,7 @@ public class UserRepositoryImpl implements UserRepository {
             token.setValue(task.getResult());
         });
 
+
     }
 
 
@@ -68,6 +71,7 @@ public class UserRepositoryImpl implements UserRepository {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     currentUser.setValue(response.body());
+                    registerNotificationService(response.body().getId());
                 } else {
                     setErrorMessage(response);
                 }
@@ -137,29 +141,30 @@ public class UserRepositoryImpl implements UserRepository {
 
     private void registerNotificationService(long userId) {
         resetFields();
-        token.observeForever(tokenValue -> {
-
-            if (tokenValue != null && !tokenValue.isEmpty()) {
-
-                Call<Void> call = userApi.registerNotificationClient(userId, tokenValue);
-                call.enqueue(new Callback<Void>() {
-                    @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            successMessage.setValue("Notification service registered successfully");
-                        } else {
-                            setErrorMessage(response);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        errorMessage.setValue("Cannot connect to server");
-                    }
-                });
-
-            }
-        });
+//        token.observeForever(tokenValue -> {
+//
+//            if (tokenValue != null && !tokenValue.isEmpty()) {
+//
+//                Log.d("TOKEN", tokenValue);
+//                Call<Void> call = userApi.registerNotificationClient(userId, tokenValue);
+//                call.enqueue(new Callback<Void>() {
+//                    @Override
+//                    public void onResponse(Call<Void> call, Response<Void> response) {
+//                        if (response.isSuccessful()) {
+//                            successMessage.setValue("Notification service registered successfully");
+//                        } else {
+//                            setErrorMessage(response);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<Void> call, Throwable t) {
+//                        errorMessage.setValue("Cannot connect to server");
+//                    }
+//                });
+//
+//            }
+//        });
 
     }
 
@@ -190,15 +195,22 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void login(String email, String password) {
         resetFields();
-        Call<User> call = userApi.login(email, password);
+        Call<User> call = userApi.getUserByEmail(email);
 
 
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-                    currentUser.setValue(response.body());
 
+
+                    User userFromServerWithHashedPass = response.body();
+                    if (User.checkPassword(password, userFromServerWithHashedPass.getPassword())) {
+                        currentUser.setValue(userFromServerWithHashedPass);
+                        registerNotificationService(userFromServerWithHashedPass.getId());
+                    } else {
+                        errorMessage.setValue("Incorrect password, please try again");
+                    }
 
                 } else {
                     setErrorMessage(response);

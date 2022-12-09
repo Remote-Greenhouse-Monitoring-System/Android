@@ -13,6 +13,10 @@ public class GreenHouse {
         this.name = name;
     }
 
+    public GreenHouse(String name) {
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }

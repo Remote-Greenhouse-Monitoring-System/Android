@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.github.group2.android_sep4.model.GreenHouse;
-import com.github.group2.android_sep4.model.GreenHouseWithLastMeasurementModel;
 import com.github.group2.android_sep4.networking.GreenHouseApi;
 import com.github.group2.android_sep4.repository.GreenHouseRepository;
 import com.github.group2.android_sep4.repository.ServiceGenerator;
@@ -23,21 +22,19 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
 
     private MutableLiveData<String> errorMessage;
     private MutableLiveData<String> successMessage;
-    private MutableLiveData<List<GreenHouse>> allGreenHouses;
-    private MutableLiveData<List<GreenHouseWithLastMeasurementModel>> allGreenHousesWithLastMeasurement;
+    private MutableLiveData<List<GreenHouse>> allGreenHousesWithLastMeasurement;
 
 
     private static GreenHouseRepository instance;
     private static Lock lock = new ReentrantLock();
 
     private GreenHouseApi greenHouseApi;
-    private MutableLiveData<GreenHouseWithLastMeasurementModel> selectedGreenhouse;
+    private MutableLiveData<GreenHouse> selectedGreenhouse;
 
     private GreenHouseRepositoryImpl() {
         greenHouseApi = ServiceGenerator.getGreenHouseApi();
         errorMessage = new MutableLiveData<>();
         successMessage = new MutableLiveData<>();
-        allGreenHouses = new MutableLiveData<>();
         allGreenHousesWithLastMeasurement = new MutableLiveData<>();
         selectedGreenhouse = new MutableLiveData<>();
 
@@ -58,47 +55,17 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
 
 
 
-    @Override
-    public void searchAllGreenHousesForAnUser(long userId) {
-
-        clearInfos();
-
-        Call<List<GreenHouse>> call = greenHouseApi.getGreenHouses(userId);
-        call.enqueue(new Callback<List<GreenHouse>>() {
 
 
-            @Override
-            public void onResponse(Call<List<GreenHouse>> call, Response<List<GreenHouse>> response) {
-                List<GreenHouse> greenHouseList = response.body();
-                allGreenHouses.setValue(greenHouseList);
-            }
 
-            @Override
-            public void onFailure(Call<List<GreenHouse>> call, Throwable t) {
 
-                errorMessage.setValue("Cannot connect to the server");
-            }
-        });
-
-    }
-
-    private void clearInfos() {
-        errorMessage.setValue(null);
-        successMessage.setValue(null);
-
-    }
-
-    @Override
-    public LiveData<List<GreenHouse>> getAllGreenHousesForAnUser() {
-        return allGreenHouses;
-    }
 
     @Override
     public void searchGreenHouseWithLastMeasurement(long userId) {
-        Call<List<GreenHouseWithLastMeasurementModel>> call = greenHouseApi.getGreenHouseByUserWithLastMeasurement(userId);
-        call.enqueue(new Callback<List<GreenHouseWithLastMeasurementModel>>() {
+        Call<List<GreenHouse>> call = greenHouseApi.getGreenHouseByUserWithLastMeasurement(userId);
+        call.enqueue(new Callback<List<GreenHouse>>() {
             @Override
-            public void onResponse(Call<List<GreenHouseWithLastMeasurementModel>> call, Response<List<GreenHouseWithLastMeasurementModel>> response) {
+            public void onResponse(Call<List<GreenHouse>> call, Response<List<GreenHouse>> response) {
                 if (response.isSuccessful()) {
                     allGreenHousesWithLastMeasurement.setValue(response.body());
                 } else {
@@ -107,28 +74,31 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
             }
 
             @Override
-            public void onFailure(Call<List<GreenHouseWithLastMeasurementModel>> call, Throwable t) {
+            public void onFailure(Call<List<GreenHouse>> call, Throwable t) {
                 errorMessage.setValue("Cannot connect to the server");
             }
         });
     }
 
     @Override
-    public LiveData<List<GreenHouseWithLastMeasurementModel>> getGreenHouseWithLastMeasurement() {
+    public LiveData<List<GreenHouse>> getGreenHouseWithLastMeasurement() {
         return allGreenHousesWithLastMeasurement;
     }
 
     @Override
     public void addGreenHouse(long userId, GreenHouse greenHouse) {
-        clearInfos();
+        resetInfos();
         Call<GreenHouse> call = greenHouseApi.addGreenHouse(userId, greenHouse);
         call.enqueue(new Callback<GreenHouse>() {
             @Override
             public void onResponse(Call<GreenHouse> call, Response<GreenHouse> response) {
                 if (response.isSuccessful()) {
+                    GreenHouse addedGreenHouse = response.body();
+                    allGreenHousesWithLastMeasurement.getValue().add(addedGreenHouse);
+                    allGreenHousesWithLastMeasurement.setValue(allGreenHousesWithLastMeasurement.getValue());
                     successMessage.setValue("Greenhouse added successfully");
                 } else {
-                   setError(response);
+                    setError(response);
                 }
             }
 
@@ -141,7 +111,7 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
 
     @Override
     public void deleteGreenHouse(long greenHouseId) {
-        clearInfos();
+        resetInfos();
         Call<GreenHouse> call = greenHouseApi.deleteGreenHouse(greenHouseId);
         call.enqueue(new Callback<GreenHouse>() {
             @Override
@@ -164,7 +134,7 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
 
     @Override
     public void updateGreenHouse(GreenHouse greenHouse) {
-        clearInfos();
+        resetInfos();
         Call<GreenHouse> call = greenHouseApi.updateGreenHouse(greenHouse);
         call.enqueue(new Callback<GreenHouse>() {
             @Override
@@ -179,6 +149,7 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
             @Override
             public void onFailure(Call<GreenHouse> call, Throwable t) {
 
+                errorMessage.setValue("Cannot connect to the server");
             }
         });
 
@@ -195,13 +166,19 @@ public class GreenHouseRepositoryImpl implements GreenHouseRepository {
     }
 
     @Override
-    public void setSelectedGreenHouse(GreenHouseWithLastMeasurementModel greenHouseWithLastMeasurementModel) {
-        this.selectedGreenhouse.setValue(greenHouseWithLastMeasurementModel);
+    public void setSelectedGreenHouse(GreenHouse greenHouse) {
+        this.selectedGreenhouse.setValue(greenHouse);
     }
 
     @Override
-    public LiveData<GreenHouseWithLastMeasurementModel> getSelectedGreenhouse() {
+    public LiveData<GreenHouse> getSelectedGreenhouse() {
         return selectedGreenhouse;
+    }
+
+    @Override
+    public void resetInfos() {
+        errorMessage.setValue(null);
+        successMessage.setValue(null);
     }
 
     private void setError(Response response) {

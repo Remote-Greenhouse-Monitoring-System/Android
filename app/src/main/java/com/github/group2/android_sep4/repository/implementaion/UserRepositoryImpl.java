@@ -1,7 +1,5 @@
 package com.github.group2.android_sep4.repository.implementaion;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -63,8 +61,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void addUser(String username, String email, String password) {
-        resetFields();
-
+        resetInfos();
         Call<User> call = userApi.addUser(new User(email, username, password));
         call.enqueue(new Callback<User>() {
             @Override
@@ -84,10 +81,6 @@ public class UserRepositoryImpl implements UserRepository {
         });
     }
 
-    private void resetFields() {
-        errorMessage.setValue(null);
-        successMessage.setValue(null);
-    }
 
     private void setErrorMessage(Response response) {
         String errorMessage = null;
@@ -114,7 +107,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void updateUser(User user) {
-        resetFields();
+        resetInfos();
         Call<User> call = userApi.updateUser(user);
         call.enqueue(new Callback<User>() {
             @Override
@@ -140,8 +133,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     private void registerNotificationService(long userId) {
-        resetFields();
-//        token.observeForever(tokenValue -> {
+        resetInfos();//        token.observeForever(tokenValue -> {
 //
 //            if (tokenValue != null && !tokenValue.isEmpty()) {
 //
@@ -170,7 +162,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void deleteUser(long id) {
-        resetFields();
+        resetInfos();
         Call<Void> call = userApi.deleteUser(id);
         call.enqueue(new Callback<Void>() {
             @Override
@@ -194,7 +186,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void login(String email, String password) {
-        resetFields();
+        resetInfos();
         Call<User> call = userApi.getUserByEmail(email);
 
 
@@ -231,12 +223,18 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void logout() {
-        resetFields();
+        resetInfos();
         currentUser.setValue(null);
     }
 
     @Override
     public LiveData<String> getSuccessMessage() {
-        return  successMessage;
+        return successMessage;
+    }
+
+    @Override
+    public void resetInfos() {
+        errorMessage.setValue(null);
+        successMessage.setValue(null);
     }
 }

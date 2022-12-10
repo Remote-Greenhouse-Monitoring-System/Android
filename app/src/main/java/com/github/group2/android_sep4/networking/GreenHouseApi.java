@@ -3,7 +3,6 @@ package com.github.group2.android_sep4.networking;
 import static com.github.group2.android_sep4.repository.ServiceGenerator.API_KEY;
 
 import com.github.group2.android_sep4.model.GreenHouse;
-import com.github.group2.android_sep4.model.GreenHouseWithLastMeasurementModel;
 
 import java.util.List;
 
@@ -39,6 +38,6 @@ public interface GreenHouseApi {
 
     @Headers({API_KEY})
     @GET(route + "/greenhousesWithLastMeasurements/{uId}")
-    Call<List<GreenHouseWithLastMeasurementModel>> getGreenHouseByUserWithLastMeasurement(@Path("uId") long userId);
+    Call<List<GreenHouse>> getGreenHouseByUserWithLastMeasurement(@Path("uId") long userId);
 
 }

@@ -43,4 +43,5 @@
     <string name="save">Save</string>
     <string name="new_credentials">New Credentials</string>
     <string name="new_credentials_details">New credentials details</string>
+    <string name="delete_greenhouse_message"> Deleting this greenhouse will delete all the measurements associated with this greenhouse .Are you sure you want to delete this greenhouse?</string>
 </resources>

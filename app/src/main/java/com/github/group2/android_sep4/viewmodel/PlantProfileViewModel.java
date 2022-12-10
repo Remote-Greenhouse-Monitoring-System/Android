@@ -4,10 +4,13 @@ import androidx.lifecycle.LiveData;
 
 import com.github.group2.android_sep4.model.PlantProfile;
 import com.github.group2.android_sep4.model.Threshold;
+import com.github.group2.android_sep4.model.User;
 import com.github.group2.android_sep4.repository.PlantProfileRepository;
 import com.github.group2.android_sep4.repository.ThresholdRepository;
+import com.github.group2.android_sep4.repository.UserRepository;
 import com.github.group2.android_sep4.repository.implementaion.PlantProfileRepositoryImpl;
 import com.github.group2.android_sep4.repository.implementaion.ThresholdRepositoryImpl;
+import com.github.group2.android_sep4.repository.implementaion.UserRepositoryImpl;
 
 import java.util.List;
 
@@ -15,12 +18,13 @@ public class PlantProfileViewModel {
 
     private PlantProfileRepository plantProfileRepository;
     private ThresholdRepository thresholdRepository;
-    private boolean editPressed ;
+    private UserRepository userRepository;
 
     public PlantProfileViewModel()
     {
         plantProfileRepository = PlantProfileRepositoryImpl.getInstance();
         thresholdRepository = ThresholdRepositoryImpl.getInstance();
+        userRepository = UserRepositoryImpl.getInstance();
     }
 
 
@@ -124,11 +128,10 @@ public class PlantProfileViewModel {
         return thresholdRepository.getSuccessMessage();
     }
 
-    public boolean isEditPressed() {
-        return editPressed;
+    /* USER METHODS*/
+
+    public LiveData<User> getCurrentUser(){
+        return userRepository.getCurrentUser();
     }
 
-    public void setEditPressed(boolean editPressed) {
-        this.editPressed = editPressed;
-    }
 }

@@ -58,22 +58,11 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
         activity = (AppCompatActivity) view.getContext();
         navController = Navigation.findNavController(activity,R.id.fragment_container);
         plantProfileViewModel = new PlantProfileViewModel();
-        //editButton= view.findViewById(R.id.editPlantProfileButton);
-        //deleteButton= view.findViewById(R.id.deletePlantProfileButton);
-        //editButton.setOnClickListener(this:: editPlantProfile);
-        //deleteButton.setOnClickListener(this:: deletePlantProfile);
     }
 
     private void deletePlantProfile(View view, long id) {
         deletePopup = new DeletePlantProfilePopup();
         deletePopup.showPopupWindow(view,id);
-
-
-
-    }
-
-    private void editPlantProfile(View view) {
-        Toast.makeText(view.getContext(), "Edit Plant Profile", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -100,11 +89,6 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
                 navController.navigate(R.id.editPlantProfileFragment);
             }
         });
-
-
-
-       // holder.plantProfileOptimalLight.setText(Math.round(plantProfiles.get(position).getOptimalLight())+"\nlux");
-
     }
 
     @Override
@@ -129,8 +113,6 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
             plantProfileOptimalLight = itemView.findViewById(R.id.plantProfileOptimalLight);
             deleteButton= itemView.findViewById(R.id.deletePlantProfileButton);
             editButton = itemView.findViewById(R.id.editPlantProfileButton);
-
-
         }
     }
 }

@@ -41,6 +41,7 @@ public class DeletePlantProfilePopup {
         buttonConfirm.setOnClickListener(v -> {
             Toast.makeText(view.getContext(), "Deleted the plant profile", Toast.LENGTH_SHORT).show();
             plantProfileViewModel.deletePlantProfile(id);
+            plantProfileViewModel.searchPlantProfilesForUser(plantProfileViewModel.getCurrentUser().getValue().getId());
             popupWindow.dismiss();
         });
 

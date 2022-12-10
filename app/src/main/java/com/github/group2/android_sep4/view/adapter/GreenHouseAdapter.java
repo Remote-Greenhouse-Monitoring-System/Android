@@ -40,10 +40,13 @@ public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.Vi
     public void onBindViewHolder(@NonNull GreenHouseAdapter.ViewHolder holder, int position) {
         GreenHouse greenHouse = greenHouses.get(position);
         holder.name.setText(greenHouse.getName());
-        holder.co2.setText(greenHouse.getLastMeasurement().getCo2() + " ppm");
-        holder.temperature.setText(greenHouse.getLastMeasurement().getTemperature() + " °C");
-        holder.humidity.setText(greenHouse.getLastMeasurement().getHumidity() + " %");
-        holder.light.setText(greenHouse.getLastMeasurement().getLight() + " lux");
+        if (greenHouse.getLastMeasurement() != null) {
+            holder.co2.setText(greenHouse.getLastMeasurement().getCo2() + " ppm");
+            holder.temperature.setText(greenHouse.getLastMeasurement().getTemperature() + " °C");
+            holder.humidity.setText(greenHouse.getLastMeasurement().getHumidity() + " %");
+            holder.light.setText(greenHouse.getLastMeasurement().getLight() + " lux");
+        }
+
     }
 
     @Override

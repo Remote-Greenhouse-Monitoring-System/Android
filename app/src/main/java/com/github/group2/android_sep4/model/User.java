@@ -75,7 +75,7 @@ public class User {
                 '}';
     }
 
-    private String hashPassword(String plainTextPassword) {
+    private   String hashPassword(String plainTextPassword) {
         String salt = BCrypt.gensalt(12);
         return BCrypt.hashpw(plainTextPassword, salt);
     }

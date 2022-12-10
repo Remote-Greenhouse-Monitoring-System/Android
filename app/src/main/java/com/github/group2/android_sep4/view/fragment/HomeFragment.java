@@ -1,9 +1,6 @@
 package com.github.group2.android_sep4.view.fragment;
 
 import android.app.AlertDialog;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,13 +18,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.group2.android_sep4.R;
-import com.github.group2.android_sep4.model.GreenHouse;
-import com.github.group2.android_sep4.view.GreenhouseSpecificViewModel;
+import com.github.group2.android_sep4.model.Greenhouse;
 import com.github.group2.android_sep4.view.adapter.GreenHouseAdapter;
 import com.github.group2.android_sep4.viewmodel.HomeViewModel;
-import com.github.group2.android_sep4.viewmodel.PlantProfileViewModel;
-import com.github.group2.android_sep4.viewmodel.UserViewModel;
-import com.github.group2.android_sep4.viewmodel.MeasurementViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
@@ -35,84 +28,60 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
 
-
     FloatingActionButton addBtn;
     RecyclerView recyclerView;
     GreenHouseAdapter adapter;
-    HomeViewModel homeViewModel;
-    UserViewModel userViewModel;
-    MeasurementViewModel measurementViewModel;
-    GreenhouseSpecificViewModel greenhouseSpecificViewModel;
-    PlantProfileViewModel plantProfileViewModel;
+    HomeViewModel viewModel;
     NavController navController;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+
         initializeAllFields(view);
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-        measurementViewModel = new ViewModelProvider(this).get(MeasurementViewModel.class);
-        greenhouseSpecificViewModel = new ViewModelProvider(this).get(GreenhouseSpecificViewModel.class);
-        plantProfileViewModel = new PlantProfileViewModel();
-        plantProfileViewModel.searchPlantProfilesForUser(userViewModel.getCurrentUser().getValue().getId());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new GreenHouseAdapter();
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this::greenHouseClicked);
 
-        homeViewModel.getErrorMessage().observe(getViewLifecycleOwner(), s -> {
-            if (s != null) {
-                FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
-                homeViewModel.resetInfos();
-            }
-        });
-
-        homeViewModel.getSuccessMessage().observe(getViewLifecycleOwner(), s -> {
-            if (s != null) {
-                FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
-                homeViewModel.resetInfos();
-            }
-        });
+        setObservers();
         initializeGreenHouses();
 
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            NotificationChannel channel = new NotificationChannel("notificationTest","My channel", NotificationManager.IMPORTANCE_DEFAULT);
-            NotificationManager manager = getActivity().getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
-        }
-//        addBtn.setOnClickListener(this::notificationTest);
         addBtn.setOnClickListener(this::addGreenhouse);
 
         return view;
-
     }
 
-//    private void notificationTest(View view) {
-//
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), "notificationTest");
-//        builder.setContentTitle("Notification Test");
-//        builder.setContentText("This is a test notification");
-//        builder.setSmallIcon(R.drawable.green_guard);
-//        builder.setAutoCancel(true);
-//
-//        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getContext());
-//        managerCompat.notify(1, builder.build());
-//
-//        Toast.makeText(getContext(), "Notification", Toast.LENGTH_SHORT).show();
-//
-//    }
+    private void setObservers() {
+        viewModel.getErrorMessage().observe(getViewLifecycleOwner(), s -> {
+            if (s != null) {
+                FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+                viewModel.resetInfo();
+            }
+        });
+
+        viewModel.getSuccessMessage().observe(getViewLifecycleOwner(), s -> {
+            if (s != null) {
+                FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
+                viewModel.resetInfo();
+            }
+        });
+        viewModel.getGreenHousesWithLastMeasurement().observe(getViewLifecycleOwner(), greenHouseWithLastMeasurementModels -> {
+            if (greenHouseWithLastMeasurementModels != null) {
+                adapter.setGreenhouses(greenHouseWithLastMeasurementModels);
+            }
+        });
+    }
 
     private void initializeGreenHouses() {
 
-        if (userViewModel.getCurrentUser().getValue() != null) {
-            homeViewModel.searchGreenHousesWithLastMeasurement(userViewModel.getCurrentUser().getValue().getId());
-            homeViewModel.getGreenHousesWWithLastMeasurement().observe(getViewLifecycleOwner(), this::updateGreenHouseList);
+        if (viewModel.getCurrentUser().getValue() != null) {
+            viewModel.searchAllGreenhousesForAUser(viewModel.getCurrentUser().getValue().getId());
+            viewModel.getGreenHousesWithLastMeasurement().observe(getViewLifecycleOwner(), this::updateGreenHouseList);
         }
-
     }
 
     private void addGreenhouse(View view) {
@@ -130,11 +99,12 @@ public class HomeFragment extends Fragment {
                 dialogBuilder.dismiss();
             }
         });
+
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // DO SOMETHINGS
-                homeViewModel.addGreenHouse(userViewModel.getCurrentUser().getValue().getId(), new GreenHouse(editText.getText().toString()));
+                viewModel.addGreenhouse(viewModel.getCurrentUser().getValue().getId(), new Greenhouse(editText.getText().toString()));
                 dialogBuilder.dismiss();
             }
         });
@@ -142,28 +112,23 @@ public class HomeFragment extends Fragment {
         dialogBuilder.show();
     }
 
-    private void greenHouseClicked(GreenHouse greenHouse) {
-
-        greenhouseSpecificViewModel.setSelectedGreenHouse(greenHouse);
-
-
+    private void greenHouseClicked(Greenhouse greenhouse) {
+        viewModel.setSelectedGreenhouse(greenhouse);
         navController.navigate(R.id.greenhouseFragment);
     }
 
-    private void updateGreenHouseList(List<GreenHouse> greenHouses) {
-
-        if (greenHouses == null) {
+    private void updateGreenHouseList(List<Greenhouse> greenhouses) {
+        if (greenhouses == null) {
             return;
         }
 
-        if (greenHouses.size()>=2){
+        if (greenhouses.size()>=2){
             addBtn.hide();
-        }
-        else{
+        } else {
             addBtn.show();
         }
-        adapter.setGreenHouses(greenHouses);
 
+        adapter.setGreenhouses(greenhouses);
     }
 
     private void initializeAllFields(View view) {

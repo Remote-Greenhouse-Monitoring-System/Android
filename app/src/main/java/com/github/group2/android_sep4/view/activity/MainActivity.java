@@ -47,10 +47,10 @@ public class MainActivity extends AppCompatActivity {
 
 
         preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+
         checkIfSignedIn();
         setContentView(R.layout.activity_main);
         initializeAllFields();
-
     }
 
     private void initializeAllFields() {
@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
         long uID = preferences.getLong("uID", -1);
 
         if (username != null && email != null && uID != -1) {
-
             User user = new User();
             user.setUsername(username);
             user.setEmail(email);
@@ -80,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
             viewModel.init(user);
         }
+
         viewModel.getCurrentUser().observe(this, user -> {
             if (user != null) {
                 navController.navigate(R.id.homeFragment);
@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
                 registerNotificationToken(user);
 
                 // Save for later
-
                 preferences.edit().putString("username", user.getUsername()).apply();
                 preferences.edit().putString("email", user.getEmail()).apply();
                 preferences.edit().putLong("uID", user.getId()).apply();

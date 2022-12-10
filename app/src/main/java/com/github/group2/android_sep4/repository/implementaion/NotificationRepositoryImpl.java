@@ -2,7 +2,7 @@ package com.github.group2.android_sep4.repository.implementaion;
 
 import android.util.Log;
 
-import com.github.group2.android_sep4.model.GreenHouse;
+import com.github.group2.android_sep4.model.Greenhouse;
 import com.github.group2.android_sep4.networking.NotificationApi;
 import com.github.group2.android_sep4.repository.NotificationRepository;
 import com.github.group2.android_sep4.repository.ServiceGenerator;
@@ -34,13 +34,12 @@ public class NotificationRepositoryImpl implements NotificationRepository {
         return instance;
     }
 
-
     @Override
     public void registerNotificationToken(String token, long userId) {
-        Call<GreenHouse> call = api.registerNotificationService(token, userId);
-        call.enqueue(new retrofit2.Callback<GreenHouse>() {
+        Call<Greenhouse> call = api.registerNotificationService(token, userId);
+        call.enqueue(new retrofit2.Callback<Greenhouse>() {
             @Override
-            public void onResponse(Call<GreenHouse> call, retrofit2.Response<GreenHouse> response) {
+            public void onResponse(Call<Greenhouse> call, retrofit2.Response<Greenhouse> response) {
                 if (response.isSuccessful()) {
                     Log.d("token", "Notification token registered successfully");
                 } else {
@@ -49,11 +48,11 @@ public class NotificationRepositoryImpl implements NotificationRepository {
             }
 
             @Override
-            public void onFailure(Call<GreenHouse> call, Throwable t) {
+            public void onFailure(Call<Greenhouse> call, Throwable t) {
                 System.out.println("Notification token not registered");
             }
         });
-
     }
+
 }
 

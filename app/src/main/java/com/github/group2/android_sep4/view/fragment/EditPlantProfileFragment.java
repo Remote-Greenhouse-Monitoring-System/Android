@@ -2,13 +2,10 @@ package com.github.group2.android_sep4.view.fragment;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +16,7 @@ import android.widget.ImageButton;
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.PlantProfile;
 import com.github.group2.android_sep4.model.Threshold;
-import com.github.group2.android_sep4.viewmodel.PlantProfileViewModel;
+import com.github.group2.android_sep4.viewmodel.AddPlantProfileViewModel;
 import com.github.group2.android_sep4.viewmodel.UserViewModel;
 
 public class EditPlantProfileFragment extends Fragment {
@@ -30,7 +27,7 @@ public class EditPlantProfileFragment extends Fragment {
             editPlantProfileCO2,editPlantProfileLight,editPlantProfileTempMin,editPlantProfileTempMax,editPlantProfileCO2Min,
             editPlantProfileCO2Max,editPlantProfileHumidityMin,editPlantProfileHumidityMax;
     private Button editPlantProfileButton;
-    private PlantProfileViewModel plantProfileViewModel;
+    private AddPlantProfileViewModel addPlantProfileViewModel;
     private UserViewModel userViewModel;
     private PlantProfile plantProfileFound;
     private Threshold thresholdFound;
@@ -68,11 +65,11 @@ public class EditPlantProfileFragment extends Fragment {
                 float maxHumidity = Float.parseFloat(editPlantProfileHumidityMax.getText().toString());
                 float minCo2 = Float.parseFloat(editPlantProfileCO2Min.getText().toString());
                 float maxCo2 = Float.parseFloat(editPlantProfileCO2Max.getText().toString());
-                Threshold threshold = new Threshold(maxTemp,minTemp,maxHumidity,minHumidity,maxCo2,minCo2,1,1);
+                Threshold threshold = new Threshold(maxTemp,minTemp,maxHumidity,minHumidity,maxCo2,minCo2,1,1,1,1);
                 PlantProfile plantProfile = new PlantProfile(0,name,description,optimalTemp,optimalHumidity,optimalCo2,optimalLight);
 
-                plantProfileViewModel.updatePlantProfile(plantProfile);
-                plantProfileViewModel.updateThreshold(plantProfile.getId(),threshold);
+                addPlantProfileViewModel.updatePlantProfile(plantProfile);
+                addPlantProfileViewModel.updateThreshold(plantProfile.getId(),threshold);
 
 
             }
@@ -80,8 +77,8 @@ public class EditPlantProfileFragment extends Fragment {
 
 
 
-        plantProfileFound = plantProfileViewModel.getPlantProfile().getValue();
-        thresholdFound = plantProfileViewModel.getSearchedThreshold().getValue();
+        plantProfileFound = addPlantProfileViewModel.getPlantProfile().getValue();
+        thresholdFound = addPlantProfileViewModel.getSearchedThreshold().getValue();
         if(plantProfileFound == null && thresholdFound == null)
         {
 
@@ -102,18 +99,18 @@ public class EditPlantProfileFragment extends Fragment {
         editPlantProfileHumidity.setText(String.valueOf(plantProfileFound.getOptimalHumidity())) ;
         editPlantProfileCO2.setText(String.valueOf(plantProfileFound.getOptimalCo2())) ;
         editPlantProfileLight.setText(String.valueOf(plantProfileFound.getOptimalLight()));
-        editPlantProfileTempMin.setText(String.valueOf(thresholdFound.getMinTemperature())) ;
-        editPlantProfileTempMax.setText(String.valueOf(thresholdFound.getMaxTemperature())) ;
-        editPlantProfileCO2Min.setText(String.valueOf(thresholdFound.getMinCo2())) ;
-        editPlantProfileCO2Max.setText(String.valueOf(thresholdFound.getMaxCo2())) ;
-        editPlantProfileHumidityMin.setText(String.valueOf(thresholdFound.getMinHumidity())) ;
+        editPlantProfileTempMin.setText(String.valueOf(thresholdFound.getTemperatureMin())) ;
+        editPlantProfileTempMax.setText(String.valueOf(thresholdFound.getTemperatureMax())) ;
+        editPlantProfileCO2Min.setText(String.valueOf(thresholdFound.getCo2Min())) ;
+        editPlantProfileCO2Max.setText(String.valueOf(thresholdFound.getCo2Max())) ;
+        editPlantProfileHumidityMin.setText(String.valueOf(thresholdFound.getHumidityMin())) ;
         editPlantProfileHumidityMax.setText(String.valueOf(thresholdFound.getMaxHumidity())) ;
 
     }
 
     private void initializeViews(View view)
     {
-        plantProfileViewModel = new PlantProfileViewModel();
+        addPlantProfileViewModel = new AddPlantProfileViewModel();
         userViewModel = new UserViewModel();
         editPlantProfileName =  (EditText) view.findViewById(R.id.editPlantProfileName);
         editPlantProfileDescription= (EditText) view.findViewById(R.id.editPlantProfileDescription);

@@ -37,9 +37,9 @@ public class MeasurementRepositoryImpl implements MeasurementRepository {
     }
 
     public static MeasurementRepository getInstance(){
-        if (instance ==null){
-            synchronized (lock){
-                if (instance == null){
+        if (instance == null) {
+            synchronized (lock) {
+                if (instance == null) {
                     instance = new MeasurementRepositoryImpl();
                 }
             }
@@ -67,7 +67,6 @@ public class MeasurementRepositoryImpl implements MeasurementRepository {
 
             @Override
             public void onFailure(Call<List<Measurement>> call, Throwable t) {
-
                 error.setValue(t.getMessage());
             }
         });
@@ -126,7 +125,6 @@ public class MeasurementRepositoryImpl implements MeasurementRepository {
 
     @Override
     public void searchAllMeasurementPerDays(long greenHouseId, int days) {
-
         Call<List<Measurement>> call = api.getAllMeasurementPerDays(greenHouseId, days);
 
         call.enqueue(new Callback<List<Measurement>>() {
@@ -153,7 +151,6 @@ public class MeasurementRepositoryImpl implements MeasurementRepository {
 
     @Override
     public void searchAllMeasurementPerMonth(long greenHouseId, int month, int year) {
-
         Call<List<Measurement>> call = api.getAllMeasurementPerMonth(greenHouseId, month, year);
         call.enqueue(new Callback<List<Measurement>>() {
             @Override
@@ -199,7 +196,6 @@ public class MeasurementRepositoryImpl implements MeasurementRepository {
                 error.setValue(t.getMessage());
             }
         });
-
     }
 
     @Override

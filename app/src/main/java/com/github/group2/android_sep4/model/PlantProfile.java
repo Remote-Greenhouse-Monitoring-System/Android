@@ -71,16 +71,13 @@ public class PlantProfile {
         this.optimalHumidity = optimalHumidity;
     }
 
+
     public float getOptimalCo2() {
         return optimalCo2;
     }
 
     public void setOptimalCo2(float optimalCo2) {
         this.optimalCo2 = optimalCo2;
-    }
-
-    public Threshold getThreshold() {
-        return threshold;
     }
 
     public void setThreshold(Threshold threshold) {

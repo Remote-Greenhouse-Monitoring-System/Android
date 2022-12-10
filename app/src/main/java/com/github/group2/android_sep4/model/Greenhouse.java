@@ -1,19 +1,22 @@
 package com.github.group2.android_sep4.model;
 
-public class GreenHouse {
+public class Greenhouse {
     private long id;
     private String name;
     private Measurement lastMeasurement;
 
-    public GreenHouse(long id, String name, Measurement lastMeasurement) {
+    public Greenhouse() {
+      // Required for the framework to work
+    }
+
+    public Greenhouse(long id, String name, Measurement lastMeasurement) {
         this.id = id;
         this.name = name;
         this.lastMeasurement = lastMeasurement;
     }
 
-    public GreenHouse( String name) {
+    public Greenhouse( String name) {
         this.name = name;
-
     }
 
     public long getId() {

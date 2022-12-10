@@ -9,12 +9,9 @@ import com.github.group2.android_sep4.repository.implementaion.UserRepositoryImp
 
 public class UserViewModel extends ViewModel {
 
-
     private UserRepository repository;
 
-
     public UserViewModel() {
-//        repository = MockUserRepositoryImpl.getInstance();
         repository = UserRepositoryImpl.getInstance();
     }
 
@@ -32,11 +29,9 @@ public class UserViewModel extends ViewModel {
 
     public void login(String email, String password) {
         repository.login(email, password);
-
     }
 
     public void logout() {
-
         repository.logout();
     }
 
@@ -44,11 +39,18 @@ public class UserViewModel extends ViewModel {
         repository.deleteUser(userId);
     }
 
+    public void updateUser(String username, String email, String password) {
+        getCurrentUser().getValue().setUsername(username);
+        getCurrentUser().getValue().setEmail(email);
+        getCurrentUser().getValue().setPassword(password);
+        repository.updateUser(getCurrentUser().getValue());
+    }
+
     public LiveData<String> getErrorMessage() {
         return repository.getErrorMessage();
     }
 
-    public LiveData<String> getSuccessMessage() {
+    public LiveData<String> getSuccesMessage() {
         return repository.getSuccessMessage();
     }
 

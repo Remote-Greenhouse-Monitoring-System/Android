@@ -60,6 +60,7 @@ dependencies {
 
     // Fancy alert dialog
     implementation 'com.github.Shashank02051997:FancyAlertDialog-Android:0.3'
+
     // Hash
     implementation "org.mindrot:jbcrypt:0.4"
 
@@ -74,5 +75,4 @@ dependencies {
 
     // Mockito framework
     testImplementation 'org.mockito:mockito-core:1.10.19'
-
 }

@@ -1,5 +1,6 @@
 package com.github.group2.android_sep4.view.uielements;
 
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -9,20 +10,24 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 import com.github.group2.android_sep4.R;
-import com.github.group2.android_sep4.viewmodel.AddPlantProfileViewModel;
+import com.github.group2.android_sep4.model.User;
+import com.github.group2.android_sep4.viewmodel.UserViewModel;
 
-public class DeletePlantProfilePopup {
-
-
+public class DeleteAccountPopup {
     Button buttonConfirm, buttonCancel;
-    private AddPlantProfileViewModel addPlantProfileViewModel = new AddPlantProfileViewModel();
+    boolean deleteAccount = false;
+    private UserViewModel userViewModel;
 
     //PopupWindow display method
-    public void showPopupWindow(final View view,long id) {
+    public void showPopupWindow(final View view, UserViewModel viewModel) {
+
         //Create a View object yourself through inflater
         LayoutInflater inflater = (LayoutInflater) view.getContext().getSystemService(view.getContext().LAYOUT_INFLATER_SERVICE);
-        View popupView = inflater.inflate(R.layout.popup_delete_plant_profile, null);
+        View popupView = inflater.inflate(R.layout.delete_account_popup, null);
 
         //Specify the length and width through constants
         int width = LinearLayout.LayoutParams.WRAP_CONTENT;
@@ -34,16 +39,15 @@ public class DeletePlantProfilePopup {
 
         popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
 
-        buttonConfirm = (Button) popupView.findViewById(R.id.confirmDeleteButtonPlantProfile);
-        buttonCancel = (Button) popupView.findViewById(R.id.cancelDeleteButton);
+        buttonConfirm = popupView.findViewById(R.id.confirmDeleteButton);
+        buttonCancel = popupView.findViewById(R.id.cancelDeleteButton);
 
 
         buttonConfirm.setOnClickListener(v -> {
-            Toast.makeText(view.getContext(), "Deleted the plant profile", Toast.LENGTH_SHORT).show();
-            addPlantProfileViewModel.deletePlantProfile(id);
+            viewModel.deleteUser(viewModel.getCurrentUser().getValue().getId());
             popupWindow.dismiss();
-        });
 
+        });
         buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,5 +66,7 @@ public class DeletePlantProfilePopup {
         });
     }
 
-
+    public boolean isDeleteAccount() {
+        return deleteAccount;
+    }
 }

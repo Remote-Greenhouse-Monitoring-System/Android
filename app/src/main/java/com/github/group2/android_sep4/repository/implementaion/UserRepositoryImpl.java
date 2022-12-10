@@ -7,6 +7,7 @@ import com.github.group2.android_sep4.model.User;
 import com.github.group2.android_sep4.networking.UserApi;
 import com.github.group2.android_sep4.repository.ServiceGenerator;
 import com.github.group2.android_sep4.repository.UserRepository;
+
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.IOException;
@@ -24,9 +25,9 @@ public class UserRepositoryImpl implements UserRepository {
     private MutableLiveData<String> errorMessage, successMessage;
     private MutableLiveData<User> currentUser;
     private UserApi userApi;
+
     private FirebaseMessaging firebaseMessaging;
     private MutableLiveData<String> token;
-
 
     private UserRepositoryImpl() {
         errorMessage = new MutableLiveData<>();
@@ -43,10 +44,7 @@ public class UserRepositoryImpl implements UserRepository {
 
             token.setValue(task.getResult());
         });
-
-
     }
-
 
     public static UserRepository getInstance() {
         if (instance == null) {
@@ -68,7 +66,6 @@ public class UserRepositoryImpl implements UserRepository {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     currentUser.setValue(response.body());
-
                 } else {
                     setErrorMessage(response);
                 }
@@ -81,7 +78,6 @@ public class UserRepositoryImpl implements UserRepository {
         });
     }
 
-
     private void setErrorMessage(Response response) {
         String errorMessage = null;
         try {
@@ -91,8 +87,6 @@ public class UserRepositoryImpl implements UserRepository {
             this.errorMessage.setValue("Cannot connect to server");
         }
         this.errorMessage.setValue(errorMessage);
-
-
     }
 
     @Override
@@ -113,12 +107,9 @@ public class UserRepositoryImpl implements UserRepository {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-
                     User userFromServer = response.body();
                     currentUser.setValue(userFromServer);
                     successMessage.setValue("User updated successfully");
-
-
                 } else {
                     setErrorMessage(response);
                 }
@@ -131,7 +122,6 @@ public class UserRepositoryImpl implements UserRepository {
         });
     }
 
-
     @Override
     public void deleteUser(long id) {
         resetInfos();
@@ -142,7 +132,6 @@ public class UserRepositoryImpl implements UserRepository {
                 if (response.isSuccessful()) {
                     currentUser.setValue(null);
                     successMessage.setValue("User deleted successfully");
-
                 } else {
                     setErrorMessage(response);
                 }
@@ -153,7 +142,6 @@ public class UserRepositoryImpl implements UserRepository {
                 errorMessage.setValue("Cannot connect to server");
             }
         });
-
     }
 
     @Override
@@ -166,8 +154,6 @@ public class UserRepositoryImpl implements UserRepository {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
-
-
                     User userFromServerWithHashedPass = response.body();
                     if (User.checkPassword(password, userFromServerWithHashedPass.getPassword())) {
                         currentUser.setValue(userFromServerWithHashedPass);

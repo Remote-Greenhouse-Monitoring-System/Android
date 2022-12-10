@@ -18,14 +18,14 @@ import retrofit2.http.Path;
  */
 public interface MeasurementApi {
 
-    String route = "Measurement";
+    String route = "Measurement/";
 
     @Headers({API_KEY})
-    @GET(route+"/all/{gId}/{amount}")
+    @GET(route +"all/{gId}/{amount}")
     Call<List<Measurement>> getMeasurements(@Path("gId") long greenHouseId, @Path("amount") int amount);
 
     @Headers({API_KEY})
-    @GET(route+ "last/{gId}")
+    @GET(route + "last/{gId}")
     Call<Measurement> getLastMeasurement(@Path("gId") long greenHouseId);
 
     @Headers({API_KEY})
@@ -41,7 +41,7 @@ public interface MeasurementApi {
     Call<List<Measurement>> getAllMeasurementPerMonth(@Path("gId") long greenHouseId, @Path("month")int month,  @Path("year") int year);
 
     @Headers({API_KEY})
-    @GET(route +"allPerYear/{gId}/{year}")
+    @GET(route + "allPerYear/{gId}/{year}")
     Call<List<Measurement>> getAllMeasurementPerYear(@Path("gId") long greenHouseId, @Path("year") int year);
 
 }

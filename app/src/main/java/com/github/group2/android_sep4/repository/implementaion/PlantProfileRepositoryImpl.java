@@ -9,6 +9,7 @@ import com.github.group2.android_sep4.model.PlantProfile;
 import com.github.group2.android_sep4.networking.PlantProfileApi;
 import com.github.group2.android_sep4.repository.ServiceGenerator;
 import com.github.group2.android_sep4.repository.PlantProfileRepository;
+import com.github.group2.android_sep4.repository.callback.ApiCallback;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,13 +29,11 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
     private MutableLiveData<String> errorMessage;
     private MutableLiveData<String> successMessage;
 
-
     private PlantProfileApi plantProfileApi;
     private MutableLiveData<List<PlantProfile>> plantProfilesForUser;
     private MutableLiveData<List<PlantProfile>> allPlantProfiles;
     private MutableLiveData<PlantProfile> searchedPlantProfile;
     private MutableLiveData<PlantProfile> activatedPlantProfile;
-
 
     private PlantProfileRepositoryImpl() {
         plantProfileApi = ServiceGenerator.getPlantProfileApi();
@@ -44,9 +43,7 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
         allPlantProfiles = new MutableLiveData<>();
         searchedPlantProfile = new MutableLiveData<>();
         activatedPlantProfile = new MutableLiveData<>();
-
     }
-
 
     public static PlantProfileRepository getInstance() {
         if (instance == null) {
@@ -59,12 +56,10 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
         return instance;
     }
 
-
     @Override
     public void addPlantProfile(long userId, PlantProfile plantProfile) {
         Call<PlantProfile> call = plantProfileApi.addPlantProfile(userId, plantProfile);
         call.enqueue(new Callback<PlantProfile>() {
-
 
             @Override
             public void onResponse(Call<PlantProfile> call, Response<PlantProfile> response) {
@@ -126,7 +121,6 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
                 errorMessage.setValue("Cannot connect to server");
             }
         });
-
     }
 
     @Override
@@ -150,12 +144,10 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
                 errorMessage.setValue("Cannot connect to server");
             }
         });
-
     }
 
     @Override
-    public LiveData<List<PlantProfile>> getPlantProfileForUser() {
-
+    public LiveData<List<PlantProfile>> getPlantProfilesForUser() {
         return plantProfilesForUser;
     }
 
@@ -176,12 +168,9 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
 
             @Override
             public void onFailure(Call<List<PlantProfile>> call, Throwable t) {
-
                 errorMessage.setValue("Cannot connect to server");
             }
         });
-
-
     }
 
     @Override
@@ -209,12 +198,9 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
 
             @Override
             public void onFailure(Call<PlantProfile> call, Throwable t) {
-
                 errorMessage.setValue("Cannot connect to server");
             }
         });
-
-
     }
 
     @Override
@@ -223,31 +209,31 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
     }
 
     @Override
-    public void activatePlantProfile(long plantProfileId, long greenHouseId) {
-
-        Call<PlantProfile> call = plantProfileApi.activatePlantProfile(plantProfileId, greenHouseId);
-        call.enqueue(new Callback<PlantProfile>() {
+    public void activatePlantProfile(long plantProfileId, long greenHouseId, final ApiCallback callback) {
+        Call<Void> call = plantProfileApi.activatePlantProfile(plantProfileId, greenHouseId);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<PlantProfile> call, Response<PlantProfile> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                call.request().url().toString();
                 if (response.isSuccessful()) {
                     successMessage.setValue("Plant profile activated successfully");
+                    callback.onResponse(true);
                 } else {
                     setError(response);
+                    callback.onResponse(false);
                 }
             }
 
             @Override
-            public void onFailure(Call<PlantProfile> call, Throwable t) {
-
+            public void onFailure(Call<Void> call, Throwable t) {
                 errorMessage.setValue("Cannot connect to server");
+                callback.onResponse(false);
             }
         });
-
     }
 
     @Override
     public void searchActivatedPlantProfile(long greenHouseId) {
-
         Call<PlantProfile> call = plantProfileApi.getActivatedPlantProfile(greenHouseId);
         call.enqueue(new Callback<PlantProfile>() {
             @Override
@@ -262,12 +248,9 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
 
             @Override
             public void onFailure(Call<PlantProfile> call, Throwable t) {
-
                 errorMessage.setValue("Cannot connect to server");
             }
         });
-
-
     }
 
     @Override
@@ -285,6 +268,27 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
         return successMessage;
     }
 
+    @Override
+    public void deactivatePlantProfile(long greenHouseId) {
+        Call<Void> call = plantProfileApi.deactivatePlantProfile(greenHouseId);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.isSuccessful()) {
+                    successMessage.setValue("Plant profile deactivated successfully");
+                    activatedPlantProfile.setValue(null);
+                } else {
+                    setError(response);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                errorMessage.setValue("Cannot connect to server");
+            }
+        });
+    }
+
     private void setError(Response response) {
         String errorMessage = null;
         try {
@@ -294,7 +298,5 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
             this.errorMessage.setValue("Cannot connect to server");
         }
         this.errorMessage.setValue(errorMessage);
-
-
     }
 }

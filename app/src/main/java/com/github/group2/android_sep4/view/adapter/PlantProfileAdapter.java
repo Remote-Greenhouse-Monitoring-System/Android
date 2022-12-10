@@ -4,25 +4,20 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.PlantProfile;
-import com.github.group2.android_sep4.view.activity.MainActivity;
-import com.github.group2.android_sep4.view.fragment.SelectPlantProfileFragment;
 import com.github.group2.android_sep4.view.uielements.DeletePlantProfilePopup;
-import com.github.group2.android_sep4.viewmodel.PlantProfileViewModel;
+import com.github.group2.android_sep4.viewmodel.AddPlantProfileViewModel;
 
 
 import java.util.ArrayList;
@@ -30,19 +25,26 @@ import java.util.List;
 
 public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapter.ViewHolder> {
 
-    private ArrayList<PlantProfile> plantProfiles;
+    private List<PlantProfile> plantProfiles;
     private ImageButton editButton, deleteButton;
     private DeletePlantProfilePopup deletePopup;
     private long plantId;
     private boolean isConfirmed;
     private NavController navController;
     private AppCompatActivity activity;
-    private PlantProfileViewModel plantProfileViewModel;
+    private AddPlantProfileViewModel addPlantProfileViewModel;
+    private OnItemClickListener listener;
 
 
 
-    public PlantProfileAdapter(ArrayList<PlantProfile> plantProfiles) {
+    public PlantProfileAdapter() {
+        this.plantProfiles = new ArrayList<>();
+    }
+
+
+    public void setPlantProfiles(List<PlantProfile> plantProfiles) {
         this.plantProfiles = plantProfiles;
+        notifyDataSetChanged();
     }
 
 
@@ -57,7 +59,7 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
     private void initializeViews(View view) {
         activity = (AppCompatActivity) view.getContext();
         navController = Navigation.findNavController(activity,R.id.fragment_container);
-        plantProfileViewModel = new PlantProfileViewModel();
+        addPlantProfileViewModel = new AddPlantProfileViewModel();
         //editButton= view.findViewById(R.id.editPlantProfileButton);
         //deleteButton= view.findViewById(R.id.deletePlantProfileButton);
         //editButton.setOnClickListener(this:: editPlantProfile);
@@ -72,12 +74,15 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
 
     }
 
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
     private void editPlantProfile(View view) {
         Toast.makeText(view.getContext(), "Edit Plant Profile", Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull PlantProfileAdapter.ViewHolder holder, int position) {
         holder.plantProfileName.setText(plantProfiles.get(position).getName());
         holder.plantProfileDescription.setText(plantProfiles.get(position).getDescription());
 
@@ -95,8 +100,8 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
             @Override
             public void onClick(View v) {
                 Log.e("EDIT",plantProfiles.get(position).getName());
-                plantProfileViewModel.searchPlantProfile(plantProfiles.get(position).getId());
-                plantProfileViewModel.searchThreshold(plantProfiles.get(position).getId());
+                addPlantProfileViewModel.searchPlantProfile(plantProfiles.get(position).getId());
+                addPlantProfileViewModel.searchThreshold(plantProfiles.get(position).getId());
                 navController.navigate(R.id.editPlantProfileFragment);
             }
         });
@@ -130,8 +135,15 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
             deleteButton= itemView.findViewById(R.id.deletePlantProfileButton);
             editButton = itemView.findViewById(R.id.editPlantProfileButton);
 
-
+            itemView.setOnClickListener(v -> {
+                if (listener != null && getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(plantProfiles.get(getAdapterPosition()));
+                }
+            });
         }
+    }
+    public interface OnItemClickListener {
+        void onItemClick(PlantProfile greenHouse);
     }
 }
 

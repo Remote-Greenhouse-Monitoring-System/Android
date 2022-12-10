@@ -1,16 +1,18 @@
 package com.github.group2.android_sep4.model;
 
 public class Threshold {
-    private float maxTemperature, minTemperature, maxHumidity, minHumidity, maxCo2, minCo2;
+    private float temperatureMax, temperatureMin, humidityMax, humidityMin, co2Max, co2Min, lightMax, lightMin;
     private int durationLight, offsetLight;
 
-    public Threshold(float maxTemperature, float minTemperature, float maxHumidity, float minHumidity, float maxCo2, float minCo2, int durationLight, int offsetLight) {
-        this.maxTemperature = maxTemperature;
-        this.minTemperature = minTemperature;
-        this.maxHumidity = maxHumidity;
-        this.minHumidity = minHumidity;
-        this.maxCo2 = maxCo2;
-        this.minCo2 = minCo2;
+    public Threshold(float temperatureMax, float temperatureMin, float humidityMax, float humidityMin, float co2Max, float co2Min, float lightMin, float lightMax, int durationLight, int offsetLight) {
+        this.temperatureMax = temperatureMax;
+        this.temperatureMin = temperatureMin;
+        this.humidityMax = humidityMax;
+        this.humidityMin = humidityMin;
+        this.co2Max = co2Max;
+        this.co2Min = co2Min;
+        this.lightMax = lightMax;
+        this.lightMin = lightMin;
         this.durationLight = durationLight;
         this.offsetLight = offsetLight;
     }
@@ -18,52 +20,52 @@ public class Threshold {
     public Threshold() {
     }
 
-    public float getMaxTemperature() {
-        return maxTemperature;
+    public float getTemperatureMax() {
+        return temperatureMax;
     }
 
-    public void setMaxTemperature(float maxTemperature) {
-        this.maxTemperature = maxTemperature;
+    public void setTemperatureMax(float temperatureMax) {
+        this.temperatureMax = temperatureMax;
     }
 
-    public float getMinTemperature() {
-        return minTemperature;
+    public float getTemperatureMin() {
+        return temperatureMin;
     }
 
-    public void setMinTemperature(float minTemperature) {
-        this.minTemperature = minTemperature;
+    public void setTemperatureMin(float temperatureMin) {
+        this.temperatureMin = temperatureMin;
     }
 
     public float getMaxHumidity() {
-        return maxHumidity;
+        return humidityMax;
     }
 
     public void setMaxHumidity(float maxHumidity) {
-        this.maxHumidity = maxHumidity;
+        this.humidityMax = maxHumidity;
     }
 
-    public float getMinHumidity() {
-        return minHumidity;
+    public float getHumidityMin() {
+        return humidityMin;
     }
 
-    public void setMinHumidity(float minHumidity) {
-        this.minHumidity = minHumidity;
+    public void setHumidityMin(float humidityMin) {
+        this.humidityMin = humidityMin;
     }
 
-    public float getMaxCo2() {
-        return maxCo2;
+    public float getCo2Max() {
+        return co2Max;
     }
 
-    public void setMaxCo2(float maxCo2) {
-        this.maxCo2 = maxCo2;
+    public void setCo2Max(float co2Max) {
+        this.co2Max = co2Max;
     }
 
-    public float getMinCo2() {
-        return minCo2;
+    public float getCo2Min() {
+        return co2Min;
     }
 
-    public void setMinCo2(float minCo2) {
-        this.minCo2 = minCo2;
+    public void setCo2Min(float co2Min) {
+        this.co2Min = co2Min;
     }
 
     public int getDurationLight() {
@@ -82,15 +84,33 @@ public class Threshold {
         this.offsetLight = offsetLight;
     }
 
+    public float getLightMax() {
+        return lightMax;
+    }
+
+    public void setLightMax(float lightMax) {
+        this.lightMax = lightMax;
+    }
+
+    public float getLightMin() {
+        return lightMin;
+    }
+
+    public void setLightMin(float lightMin) {
+        this.lightMin = lightMin;
+    }
+
     @Override
     public String toString() {
         return "Threshold{" +
-                "maxTemperature=" + maxTemperature +
-                ", minTemperature=" + minTemperature +
-                ", maxHumidity=" + maxHumidity +
-                ", minHumidity=" + minHumidity +
-                ", maxCo2=" + maxCo2 +
-                ", minCo2=" + minCo2 +
+                "maxTemperature=" + temperatureMax +
+                ", minTemperature=" + temperatureMin +
+                ", maxHumidity=" + humidityMax +
+                ", minHumidity=" + humidityMin +
+                ", maxCo2=" + co2Max +
+                ", minCo2=" + co2Min +
+                ", minLight=" + lightMax +
+                ", maxLight=" + lightMin +
                 ", durationLight=" + durationLight +
                 ", offsetLight=" + offsetLight +
                 '}';

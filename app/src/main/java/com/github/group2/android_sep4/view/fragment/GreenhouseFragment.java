@@ -1,5 +1,6 @@
 package com.github.group2.android_sep4.view.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,46 +11,47 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.Measurement;
-import com.github.group2.android_sep4.view.uielements.DeletePopup;
 import com.github.group2.android_sep4.view.GreenhouseSpecificViewModel;
 import com.github.group2.android_sep4.view.MeasurementType;
 import com.google.android.material.card.MaterialCardView;
+import com.shashank.sony.fancydialoglib.Animation;
+import com.shashank.sony.fancydialoglib.FancyAlertDialog;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
-public class GreenhouseFragment extends Fragment
-{
+public class GreenhouseFragment extends Fragment {
     GreenhouseSpecificViewModel viewModel;
     TextView greenhouseName, greenhouseTemperature, greenhouseCO2, greenhouseHumidity, greenhouseLight;
     MaterialCardView clickableCard, temperatureCard, co2Card, humidityCard, lightCard;
     ImageButton backButton, deleteButton;
     NavController navController;
-    DeletePopup deletePopup;
+
+    private long greenhouseId;
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.greenhouse_specific_fragment, container, false);
         initializeAllFields(view);
         viewModel = new ViewModelProvider(this).get(GreenhouseSpecificViewModel.class);
 
 
-        viewModel.getSelectedGreenhouse().observe(getViewLifecycleOwner(), greenHouseWithLastMeasurementModel -> {
-            greenhouseName.setText(greenHouseWithLastMeasurementModel.getName());
+        viewModel.getSelectedGreenhouse().observe(getViewLifecycleOwner(), greenHouse -> {
+            greenhouseId = greenHouse.getId();
+            greenhouseName.setText(greenHouse.getName());
 
-            Measurement lastMeasurement = greenHouseWithLastMeasurementModel.getLastMeasurement();
+            Measurement lastMeasurement = greenHouse.getLastMeasurement();
 
             greenhouseTemperature.setText(getString(R.string.unit_temperature, lastMeasurement.getTemperature()));
             greenhouseCO2.setText(getString(R.string.unit_CO2, lastMeasurement.getCo2()));
             greenhouseHumidity.setText(getString(R.string.unit_humidity, lastMeasurement.getHumidity()));
             //The formatting did not work for the light, so I had to do it manually
-            greenhouseLight.setText( lastMeasurement.getLight() + " lux");
+            greenhouseLight.setText(lastMeasurement.getLight() + " lux");
         });
 
         return view;
@@ -87,10 +89,31 @@ public class GreenhouseFragment extends Fragment
         navController.navigate(R.id.selectPlantProfileFragment);
     }
 
-    private void deleteGreenhouse(View view)
-    {
-        deletePopup = new DeletePopup();
-        deletePopup.showPopupWindow(view);
+    private void deleteGreenhouse(View view) {
+        String message = getString(R.string.delete_greenhouse_message);
+        FancyAlertDialog.Builder.with(getContext())
+                .setTitle("Delete greenhouse")
+                .setBackgroundColorRes(R.color.palette_red)
+                .setMessage(message)
+                .setNegativeBtnText("Cancel")
+                .setPositiveBtnBackgroundRes(R.color.palette_red)
+                .setPositiveBtnText("Confirm")
+                .setNegativeBtnBackgroundRes(R.color.palette_grey)
+                .setAnimation(Animation.SLIDE)
+                .isCancellable(true)
+                .setIcon(R.drawable.ic_baseline_delete_outline_24, View.VISIBLE)
+                .onPositiveClicked(dialog -> {
+                    viewModel.deleteGreenhouse(greenhouseId);
+                    navController.navigate(R.id.homeFragment);
+                })
+                .onNegativeClicked(dialog -> {
+                    dialog.dismiss();
+                    FancyToast.makeText(getContext(), "Cancelled", FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
+                })
+                .build()
+                .show();
+
+
     }
 
     private void goBack(View view)

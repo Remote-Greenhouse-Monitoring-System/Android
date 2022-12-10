@@ -3,18 +3,17 @@ package com.github.group2.android_sep4.model;
 public class GreenHouse {
     private long id;
     private String name;
+    private Measurement lastMeasurement;
 
-    public GreenHouse() {
-      // Required for the framework to work
-    }
-
-    public GreenHouse(long id, String name) {
+    public GreenHouse(long id, String name, Measurement lastMeasurement) {
         this.id = id;
         this.name = name;
+        this.lastMeasurement = lastMeasurement;
     }
 
-    public GreenHouse(String name) {
+    public GreenHouse( String name) {
         this.name = name;
+
     }
 
     public long getId() {
@@ -31,5 +30,13 @@ public class GreenHouse {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Measurement getLastMeasurement() {
+        return lastMeasurement;
+    }
+
+    public void setLastMeasurement(Measurement lastMeasurement) {
+        this.lastMeasurement = lastMeasurement;
     }
 }

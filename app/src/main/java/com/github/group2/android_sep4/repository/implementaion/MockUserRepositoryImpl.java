@@ -104,4 +104,9 @@ public class MockUserRepositoryImpl implements UserRepository {
     public LiveData<String> getSuccessMessage() {
         return null;
     }
+
+    @Override
+    public void resetInfos() {
+
+    }
 }

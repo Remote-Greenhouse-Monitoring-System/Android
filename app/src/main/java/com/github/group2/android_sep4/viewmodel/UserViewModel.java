@@ -51,4 +51,8 @@ public class UserViewModel extends ViewModel {
     public LiveData<String> getSuccessMessage() {
         return repository.getSuccessMessage();
     }
+
+    public void resetInfos() {
+        repository.resetInfos();
+    }
 }

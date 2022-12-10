@@ -10,12 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -25,14 +22,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.GreenHouse;
-import com.github.group2.android_sep4.model.GreenHouseWithLastMeasurementModel;
 import com.github.group2.android_sep4.view.GreenhouseSpecificViewModel;
 import com.github.group2.android_sep4.view.adapter.GreenHouseAdapter;
 import com.github.group2.android_sep4.viewmodel.HomeViewModel;
 import com.github.group2.android_sep4.viewmodel.PlantProfileViewModel;
 import com.github.group2.android_sep4.viewmodel.UserViewModel;
 import com.github.group2.android_sep4.viewmodel.MeasurementViewModel;
-import com.github.group2.android_sep4.viewmodel.UserViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
@@ -71,12 +66,14 @@ public class HomeFragment extends Fragment {
         homeViewModel.getErrorMessage().observe(getViewLifecycleOwner(), s -> {
             if (s != null) {
                 FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+                homeViewModel.resetInfos();
             }
         });
 
         homeViewModel.getSuccessMessage().observe(getViewLifecycleOwner(), s -> {
             if (s != null) {
                 FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
+                homeViewModel.resetInfos();
             }
         });
         initializeGreenHouses();
@@ -87,27 +84,27 @@ public class HomeFragment extends Fragment {
             NotificationManager manager = getActivity().getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);
         }
-        addBtn.setOnClickListener(this::notificationTest);
+//        addBtn.setOnClickListener(this::notificationTest);
         addBtn.setOnClickListener(this::addGreenhouse);
 
         return view;
 
     }
 
-    private void notificationTest(View view) {
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), "notificationTest");
-        builder.setContentTitle("Notification Test");
-        builder.setContentText("This is a test notification");
-        builder.setSmallIcon(R.drawable.green_guard);
-        builder.setAutoCancel(true);
-
-        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getContext());
-        managerCompat.notify(1, builder.build());
-
-        Toast.makeText(getContext(), "Notification", Toast.LENGTH_SHORT).show();
-
-    }
+//    private void notificationTest(View view) {
+//
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(getContext(), "notificationTest");
+//        builder.setContentTitle("Notification Test");
+//        builder.setContentText("This is a test notification");
+//        builder.setSmallIcon(R.drawable.green_guard);
+//        builder.setAutoCancel(true);
+//
+//        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getContext());
+//        managerCompat.notify(1, builder.build());
+//
+//        Toast.makeText(getContext(), "Notification", Toast.LENGTH_SHORT).show();
+//
+//    }
 
     private void initializeGreenHouses() {
 
@@ -145,15 +142,15 @@ public class HomeFragment extends Fragment {
         dialogBuilder.show();
     }
 
-    private void greenHouseClicked(GreenHouseWithLastMeasurementModel greenHouseWithLastMeasurementModel) {
+    private void greenHouseClicked(GreenHouse greenHouse) {
 
-        greenhouseSpecificViewModel.setSelectedGreenHouse(greenHouseWithLastMeasurementModel);
+        greenhouseSpecificViewModel.setSelectedGreenHouse(greenHouse);
 
 
         navController.navigate(R.id.greenhouseFragment);
     }
 
-    private void updateGreenHouseList(List<GreenHouseWithLastMeasurementModel> greenHouses) {
+    private void updateGreenHouseList(List<GreenHouse> greenHouses) {
 
         if (greenHouses == null) {
             return;
@@ -161,6 +158,9 @@ public class HomeFragment extends Fragment {
 
         if (greenHouses.size()>=2){
             addBtn.hide();
+        }
+        else{
+            addBtn.show();
         }
         adapter.setGreenHouses(greenHouses);
 

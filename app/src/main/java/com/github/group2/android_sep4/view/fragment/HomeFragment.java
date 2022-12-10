@@ -26,14 +26,14 @@ public class HomeFragment extends Fragment {
     FloatingActionButton addBtn;
     RecyclerView recyclerView;
     GreenHouseAdapter adapter;
-    HomeViewModel homeViewModel;
+    HomeViewModel viewModel;
     NavController navController;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         initializeAllFields(view);
 
@@ -48,19 +48,19 @@ public class HomeFragment extends Fragment {
     }
 
     private void setObservers() {
-        homeViewModel.getErrorMessage().observe(getViewLifecycleOwner(), s -> {
+        viewModel.getErrorMessage().observe(getViewLifecycleOwner(), s -> {
             if (s != null) {
                 FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
             }
         });
 
-        homeViewModel.getSuccessMessage().observe(getViewLifecycleOwner(), s -> {
+        viewModel.getSuccessMessage().observe(getViewLifecycleOwner(), s -> {
             if (s != null) {
                 FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
             }
         });
 
-        homeViewModel.getGreenHousesWWithLastMeasurement().observe(getViewLifecycleOwner(), greenHouseWithLastMeasurementModels -> {
+        viewModel.getGreenHousesWithLastMeasurement().observe(getViewLifecycleOwner(), greenHouseWithLastMeasurementModels -> {
             if (greenHouseWithLastMeasurementModels != null) {
                 adapter.setGreenHouses(greenHouseWithLastMeasurementModels);
             }
@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void greenHouseClicked(GreenhouseWithLastMeasurementModel greenHouseWithLastMeasurementModel) {
-        homeViewModel.setSelectedGreenhouse(greenHouseWithLastMeasurementModel);
+        viewModel.setSelectedGreenhouse(greenHouseWithLastMeasurementModel);
         navController.navigate(R.id.greenhouseFragment);
     }
 

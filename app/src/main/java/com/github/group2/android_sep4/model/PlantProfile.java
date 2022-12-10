@@ -80,10 +80,6 @@ public class PlantProfile {
         this.optimalCo2 = optimalCo2;
     }
 
-    public Threshold getThreshold() {
-        return threshold;
-    }
-
     public void setThreshold(Threshold threshold) {
         this.threshold = threshold;
     }

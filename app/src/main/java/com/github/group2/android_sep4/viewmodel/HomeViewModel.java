@@ -21,7 +21,7 @@ public class HomeViewModel extends ViewModel {
         return greenhouseRepository.getSuccessMessage();
     }
 
-    public LiveData<List<GreenhouseWithLastMeasurementModel>> getGreenHousesWWithLastMeasurement() {
+    public LiveData<List<GreenhouseWithLastMeasurementModel>> getGreenHousesWithLastMeasurement() {
         return greenhouseRepository.getGreenhouseWithLastMeasurement();
     }
 

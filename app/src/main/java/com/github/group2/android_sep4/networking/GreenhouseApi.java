@@ -40,7 +40,4 @@ public interface GreenhouseApi {
     @Headers({API_KEY})
     @GET(route + "/greenhousesWithLastMeasurements/{uId}")
     Call<List<GreenhouseWithLastMeasurementModel>> getGreenhouseByUserWithLastMeasurement(@Path("uId") long userId);
-
-
-
 }

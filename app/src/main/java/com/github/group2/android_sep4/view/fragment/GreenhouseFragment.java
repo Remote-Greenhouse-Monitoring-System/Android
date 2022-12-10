@@ -45,10 +45,11 @@ public class GreenhouseFragment extends Fragment
         View view = inflater.inflate(R.layout.greenhouse_specific_fragment, container, false);
         viewModel = new ViewModelProvider(this).get(GreenhouseViewModel.class);
 
-        setObservers();
+        viewModel.searchActivatedProfile();
 
+        setObservers();
         initializeAllFields(view);
-        checkActivePlantProfile();
+
         return view;
     }
 
@@ -128,7 +129,7 @@ public class GreenhouseFragment extends Fragment
 
     private void goBack(View view)
     {
-        navController.popBackStack();
+        navController.navigate(R.id.homeFragment);
     }
 
     private void setOnClickChartOpening(final MaterialCardView cardView, MeasurementType measurementType)
@@ -140,24 +141,7 @@ public class GreenhouseFragment extends Fragment
         });
     }
 
-    private void checkActivePlantProfile()
-    {
-        viewModel.getActivePlantProfile().observe(getViewLifecycleOwner(), plantProfile -> {
-            if (plantProfile == null || plantProfile.getId() == 0 ) {
-                activePlantProfileCard.setVisibility(View.GONE);
-                inactivePlantProfileCard.setVisibility(View.VISIBLE);
-            } else {
-                activePlantProfileCard.setVisibility(View.VISIBLE);
-                inactivePlantProfileCard.setVisibility(View.GONE);
-                activePlantProfileName.setText(plantProfile.getName());
-            }
-        });
-    }
-
     private void removePlantProfile(View view) {
         viewModel.deactivatePlantProfile();
-
-//        activePlantProfileCard.setVisibility(View.GONE);
-//        inactivePlantProfileCard.setVisibility(View.VISIBLE);
     }
 }

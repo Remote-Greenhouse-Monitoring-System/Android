@@ -27,7 +27,6 @@ public class ServiceGenerator {
     private static ThresholdApi thresholdApi;
     private static Lock lock = new ReentrantLock();
 
-
     private static String BASE_URL = "https://greenhouse-data.azurewebsites.net";
     public final static String API_KEY = "apiKey:JYP!$jFqqFxmy@TsF6zBNMaSd3Fd&";
 
@@ -36,18 +35,13 @@ public class ServiceGenerator {
         if (measurementApi == null) {
             synchronized (lock) {
                 if (measurementApi == null) {
-
                     measurementApi = new Retrofit.Builder().baseUrl(BASE_URL)
-
                             .addConverterFactory(GsonConverterFactory.create()).build().create(MeasurementApi.class);
-
                 }
-
             }
         }
+
         return measurementApi;
-
-
     }
 
 
@@ -56,18 +50,16 @@ public class ServiceGenerator {
                 .setLenient()
                 .create();
 
-
         if (userApi == null) {
             synchronized (lock) {
                 if (userApi == null) {
                     userApi = new Retrofit.Builder().baseUrl(BASE_URL)
                             .addConverterFactory(GsonConverterFactory.create(gson)).build().create(UserApi.class);
-
                 }
             }
         }
-        return userApi;
 
+        return userApi;
     }
 
     public static GreenhouseApi getGreenHouseApi() {
@@ -76,13 +68,11 @@ public class ServiceGenerator {
                 if (greenHouseApi == null) {
                     greenHouseApi = new Retrofit.Builder().baseUrl(BASE_URL)
                             .addConverterFactory(GsonConverterFactory.create()).build().create(GreenhouseApi.class);
-
                 }
-
             }
         }
-        return greenHouseApi;
 
+        return greenHouseApi;
     }
 
     public static PlantProfileApi getPlantProfileApi() {
@@ -91,13 +81,11 @@ public class ServiceGenerator {
                 if (plantProfileApi == null) {
                     plantProfileApi = new Retrofit.Builder().baseUrl(BASE_URL)
                             .addConverterFactory(GsonConverterFactory.create()).build().create(PlantProfileApi.class);
-
                 }
-
             }
         }
-        return plantProfileApi;
 
+        return plantProfileApi;
     }
 
     public static ThresholdApi getThresholdApi() {
@@ -106,13 +94,11 @@ public class ServiceGenerator {
                 if (thresholdApi == null) {
                     thresholdApi = new Retrofit.Builder().baseUrl(BASE_URL)
                             .addConverterFactory(GsonConverterFactory.create()).build().create(ThresholdApi.class);
-
                 }
-
             }
         }
-        return thresholdApi;
 
+        return thresholdApi;
     }
 
 }

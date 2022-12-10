@@ -2,13 +2,10 @@ package com.github.group2.android_sep4.view.fragment;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,11 +99,11 @@ public class EditPlantProfileFragment extends Fragment {
         editPlantProfileHumidity.setText(String.valueOf(plantProfileFound.getOptimalHumidity())) ;
         editPlantProfileCO2.setText(String.valueOf(plantProfileFound.getOptimalCo2())) ;
         editPlantProfileLight.setText(String.valueOf(plantProfileFound.getOptimalLight()));
-        editPlantProfileTempMin.setText(String.valueOf(thresholdFound.getMinTemperature())) ;
-        editPlantProfileTempMax.setText(String.valueOf(thresholdFound.getMaxTemperature())) ;
-        editPlantProfileCO2Min.setText(String.valueOf(thresholdFound.getMinCo2())) ;
-        editPlantProfileCO2Max.setText(String.valueOf(thresholdFound.getMaxCo2())) ;
-        editPlantProfileHumidityMin.setText(String.valueOf(thresholdFound.getMinHumidity())) ;
+        editPlantProfileTempMin.setText(String.valueOf(thresholdFound.getTemperatureMin())) ;
+        editPlantProfileTempMax.setText(String.valueOf(thresholdFound.getTemperatureMax())) ;
+        editPlantProfileCO2Min.setText(String.valueOf(thresholdFound.getCo2Min())) ;
+        editPlantProfileCO2Max.setText(String.valueOf(thresholdFound.getCo2Max())) ;
+        editPlantProfileHumidityMin.setText(String.valueOf(thresholdFound.getHumidityMin())) ;
         editPlantProfileHumidityMax.setText(String.valueOf(thresholdFound.getMaxHumidity())) ;
 
     }

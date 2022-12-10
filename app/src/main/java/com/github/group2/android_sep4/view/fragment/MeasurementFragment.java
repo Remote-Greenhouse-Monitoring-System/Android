@@ -170,8 +170,8 @@ public class MeasurementFragment extends Fragment {
             this.threshold = threshold;
 
             if (threshold != null) {
-                minThreshold = new Measurement(threshold.getMinTemperature(), threshold.getMinHumidity(), threshold.getMinCo2());
-                maxThreshold = new Measurement(threshold.getMaxTemperature(), threshold.getMaxHumidity(), threshold.getMaxCo2());
+                minThreshold = new Measurement(threshold.getTemperatureMin(), threshold.getHumidityMin(), threshold.getCo2Min());
+                maxThreshold = new Measurement(threshold.getTemperatureMax(), threshold.getMaxHumidity(), threshold.getCo2Max());
                 setLimitLines();
             }
         });

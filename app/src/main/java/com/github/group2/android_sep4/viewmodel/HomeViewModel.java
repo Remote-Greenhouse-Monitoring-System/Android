@@ -3,7 +3,7 @@ package com.github.group2.android_sep4.viewmodel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.github.group2.android_sep4.model.GreenhouseWithLastMeasurementModel;
+import com.github.group2.android_sep4.model.Greenhouse;
 import com.github.group2.android_sep4.repository.GreenhouseRepository;
 import com.github.group2.android_sep4.repository.implementaion.GreenhouseRepositoryImpl;
 
@@ -25,7 +25,15 @@ public class HomeViewModel extends ViewModel {
         return greenhouseRepository.getGreenhouseWithLastMeasurement();
     }
 
-    public void setSelectedGreenhouse(GreenhouseWithLastMeasurementModel greenhouseWithLastMeasurementModel) {
-        greenhouseRepository.setSelectedGreenhouse(greenhouseWithLastMeasurementModel);
+    public void setSelectedGreenhouse(Greenhouse greenhouse) {
+        greenhouseRepository.setSelectedGreenhouse(greenhouse);
+    }
+
+    public void addGreenhouse(long userId, Greenhouse greenhouse){
+        repository.addGreenhouse(userId, greenhouse);
+    }
+
+    public void resetInfos() {
+        repository.resetInfos();
     }
 }

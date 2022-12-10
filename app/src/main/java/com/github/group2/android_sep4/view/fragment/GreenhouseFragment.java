@@ -1,5 +1,6 @@
 package com.github.group2.android_sep4.view.fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,9 @@ import com.github.group2.android_sep4.view.uielements.DeletePopup;
 import com.github.group2.android_sep4.viewmodel.GreenhouseViewModel;
 import com.github.group2.android_sep4.view.MeasurementType;
 import com.google.android.material.card.MaterialCardView;
+import com.shashank.sony.fancydialoglib.Animation;
+import com.shashank.sony.fancydialoglib.FancyAlertDialog;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 public class GreenhouseFragment extends Fragment
 {
@@ -31,10 +35,10 @@ public class GreenhouseFragment extends Fragment
     MaterialCardView clickableCard, temperatureCard, co2Card, humidityCard, lightCard;
     ImageButton backButton, deleteButton;
     NavController navController;
-    DeletePopup deletePopup;
+    
     LinearLayout activePlantProfileCard, inactivePlantProfileCard;
     Button removePlantProfileButton;
-    long greenhouseId;
+    private long greenhouseId;
 
     public GreenhouseFragment() {
     }
@@ -53,28 +57,35 @@ public class GreenhouseFragment extends Fragment
         return view;
     }
 
-    private void setObservers() {
-        viewModel.getSelectedGreenhouse().observe(getViewLifecycleOwner(), greenHouseWithLastMeasurementModel -> {
-            greenhouseName.setText(greenHouseWithLastMeasurementModel.getName());
+        private void setObservers() {
+            viewModel.getSelectedGreenhouse().observe(getViewLifecycleOwner(), greenhouse -> {
+                greenhouseId = greenhouse.getId();
+                greenhouseName.setText(greenhouse.getName());
 
-            Measurement lastMeasurement = greenHouseWithLastMeasurementModel.getLastMeasurement();
+                Measurement lastMeasurement = greenhouse.getLastMeasurement();
+                if (greenhouse.getLastMeasurement() == null){
+                    greenhouseTemperature.setText("No data");
+                    greenhouseCO2.setText("No data");
+                    greenhouseHumidity.setText("No data");
+                    greenhouseLight.setText("No data");
+                } else {
+                    greenhouseTemperature.setText(getString(R.string.unit_temperature, lastMeasurement.getTemperature()));
+                    greenhouseCO2.setText(getString(R.string.unit_CO2, lastMeasurement.getCo2()));
+                    greenhouseHumidity.setText(getString(R.string.unit_humidity, lastMeasurement.getHumidity()));
+                    greenhouseLight.setText(getString( R.string.unit_light, lastMeasurement.getLight()));
+                }
+            });
 
-            greenhouseTemperature.setText(getString(R.string.unit_temperature, lastMeasurement.getTemperature()));
-            greenhouseCO2.setText(getString(R.string.unit_CO2, lastMeasurement.getCo2()));
-            greenhouseHumidity.setText(getString(R.string.unit_humidity, lastMeasurement.getHumidity()));
-            greenhouseLight.setText(getString( R.string.unit_light, lastMeasurement.getLight()));
-        });
-
-        viewModel.getActivePlantProfile().observe(getViewLifecycleOwner(), activePlantProfile -> {
-           if (activePlantProfile != null) {
-               activePlantProfileName.setText(activePlantProfile.getName());
-               activePlantProfileCard.setVisibility(View.VISIBLE);
-               inactivePlantProfileCard.setVisibility(View.GONE);
-           } else {
-               activePlantProfileCard.setVisibility(View.GONE);
-               inactivePlantProfileCard.setVisibility(View.VISIBLE);
-           }
-        });
+            viewModel.getActivePlantProfile().observe(getViewLifecycleOwner(), activePlantProfile -> {
+                if (activePlantProfile != null) {
+                    activePlantProfileName.setText(activePlantProfile.getName());
+                    activePlantProfileCard.setVisibility(View.VISIBLE);
+                    inactivePlantProfileCard.setVisibility(View.GONE);
+                } else {
+                    activePlantProfileCard.setVisibility(View.GONE);
+                    inactivePlantProfileCard.setVisibility(View.VISIBLE);
+                }
+            });
     }
 
     private void initializeAllFields(View view)
@@ -100,8 +111,6 @@ public class GreenhouseFragment extends Fragment
         navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
         activePlantProfileName = view.findViewById(R.id.activePlantProfileText);
 
-        greenhouseId = viewModel.getSelectedGreenhouse().getValue().getId();
-
         backButton.setOnClickListener(this::goBack);
         deleteButton.setOnClickListener(this::deleteGreenhouse);
 
@@ -121,10 +130,31 @@ public class GreenhouseFragment extends Fragment
         navController.navigate(R.id.selectPlantProfileFragment, bundle);
     }
 
-    private void deleteGreenhouse(View view)
-    {
-        deletePopup = new DeletePopup();
-        deletePopup.showPopupWindow(view);
+    private void deleteGreenhouse(View view) {
+        String message = getString(R.string.delete_greenhouse_message);
+        FancyAlertDialog.Builder.with(getContext())
+                .setTitle("Delete greenhouse")
+                .setBackgroundColorRes(R.color.palette_red)
+                .setMessage(message)
+                .setNegativeBtnText("Cancel")
+                .setPositiveBtnBackgroundRes(R.color.palette_red)
+                .setPositiveBtnText("Confirm")
+                .setNegativeBtnBackgroundRes(R.color.palette_grey)
+                .setAnimation(Animation.SLIDE)
+                .isCancellable(true)
+                .setIcon(R.drawable.ic_baseline_delete_outline_24, View.VISIBLE)
+                .onPositiveClicked(dialog -> {
+                    viewModel.deleteGreenhouse(greenhouseId);
+                    navController.navigate(R.id.homeFragment);
+                })
+                .onNegativeClicked(dialog -> {
+                    dialog.dismiss();
+                    FancyToast.makeText(getContext(), "Cancelled", FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
+                })
+                .build()
+                .show();
+
+
     }
 
     private void goBack(View view)

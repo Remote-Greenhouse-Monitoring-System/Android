@@ -1,9 +1,15 @@
 package com.github.group2.android_sep4.view.fragment;
 
+import android.app.AlertDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,11 +21,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.group2.android_sep4.R;
+import com.github.group2.android_sep4.model.Greenhouse;
+import com.github.group2.android_sep4.view.GreenhouseSpecificViewModel;
 import com.github.group2.android_sep4.view.adapter.GreenHouseAdapter;
-import com.github.group2.android_sep4.model.GreenhouseWithLastMeasurementModel;
 import com.github.group2.android_sep4.viewmodel.HomeViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.shashank.sony.fancytoastlib.FancyToast;
+
+import java.util.List;
 
 public class HomeFragment extends Fragment {
 
@@ -59,7 +68,6 @@ public class HomeFragment extends Fragment {
                 FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
             }
         });
-
         viewModel.getGreenHousesWithLastMeasurement().observe(getViewLifecycleOwner(), greenHouseWithLastMeasurementModels -> {
             if (greenHouseWithLastMeasurementModels != null) {
                 adapter.setGreenHouses(greenHouseWithLastMeasurementModels);
@@ -67,9 +75,52 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void greenHouseClicked(GreenhouseWithLastMeasurementModel greenHouseWithLastMeasurementModel) {
-        viewModel.setSelectedGreenhouse(greenHouseWithLastMeasurementModel);
+    private void addGreenhouse(View view) {
+        AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.popup_add_greenhouse, null);
+
+        EditText editText = dialogView.findViewById(R.id.add_greenhouse);
+        Button buttonSubmit =  dialogView.findViewById(R.id.buttonSubmit);
+        Button buttonCancel = dialogView.findViewById(R.id.buttonCancel);
+
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogBuilder.dismiss();
+            }
+        });
+        buttonSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // DO SOMETHINGS
+                homeViewModel.addGreenHouse(userViewModel.getCurrentUser().getValue().getId(), new GreenHouse(editText.getText().toString()));
+                dialogBuilder.dismiss();
+            }
+        });
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.show();
+    }
+
+    private void greenHouseClicked(Greenhouse greenhouse) {
+        viewModel.setSelectedGreenHouse(greenhouse);
         navController.navigate(R.id.greenhouseFragment);
+    }
+
+    private void updateGreenHouseList(List<GreenHouse> greenHouses) {
+
+        if (greenHouses == null) {
+            return;
+        }
+
+        if (greenHouses.size()>=2){
+            addBtn.hide();
+        }
+        else{
+            addBtn.show();
+        }
+        adapter.setGreenHouses(greenHouses);
+
     }
 
     private void initializeAllFields(View view) {

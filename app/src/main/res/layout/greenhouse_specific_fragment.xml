@@ -48,7 +48,8 @@
             android:scaleX="1.7"
             android:layout_gravity="center"
             android:background="@color/transparent"
-            app:srcCompat="@drawable/ic_baseline_delete_outline_24" />
+            app:srcCompat="@drawable/ic_baseline_delete_outline_24"
+            app:tint="@color/palette_dark_red" />
     </LinearLayout>
 
     <com.google.android.material.card.MaterialCardView
@@ -194,7 +195,7 @@
                         android:layout_height="0dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:fontFamily="@font/heletica_regular_family"
+                        android:fontFamily="@font/helvetica_regular_family"
                         android:gravity="center"
                         android:textColor="@color/white"
                         android:text="25.1°C"
@@ -234,7 +235,7 @@
                         android:layout_height="0dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:fontFamily="@font/heletica_regular_family"
+                        android:fontFamily="@font/helvetica_regular_family"
                         android:gravity="center"
                         android:text="320ppm"
                         android:textColor="@color/white"
@@ -284,7 +285,7 @@
                         android:layout_height="0dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:fontFamily="@font/heletica_regular_family"
+                        android:fontFamily="@font/helvetica_regular_family"
                         android:gravity="center"
                         android:text="50%"
                         android:textColor="@color/white"
@@ -324,7 +325,7 @@
                         android:layout_height="0dp"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:fontFamily="@font/heletica_regular_family"
+                        android:fontFamily="@font/helvetica_regular_family"
                         android:gravity="center"
                         android:text="1000 lux"
                         android:textColor="@color/white"

@@ -25,5 +25,5 @@ public interface UserRepository {
 
     LiveData<String> getSuccessMessage();
 
-
+    void resetInfos();
 }

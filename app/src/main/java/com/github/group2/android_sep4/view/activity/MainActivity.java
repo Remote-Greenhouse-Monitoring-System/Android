@@ -4,9 +4,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -25,11 +27,23 @@ public class MainActivity extends AppCompatActivity {
     NavController navController;
     SharedPreferences preferences;
 
+    MutableLiveData<String> token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        token = new MutableLiveData<>();
 
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.w("MainActivity", "Fetching FCM registration token failed", task.getException());
+                return;
+            }
+
+            token.setValue(task.getResult());
+            Log.d("MainActivity", token.getValue());
+        });
 
 
         preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
@@ -71,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
                 navController.navigate(R.id.homeFragment);
                 bottomNavigationView.setVisibility(View.VISIBLE);
 
+                registerNotificationToken(user);
+
                 // Save for later
 
                 preferences.edit().putString("username", user.getUsername()).apply();
@@ -84,5 +100,14 @@ public class MainActivity extends AppCompatActivity {
                 preferences.edit().putLong("uID", -1).apply();
             }
         });
+    }
+
+    private void registerNotificationToken(User user) {
+       token.observe(this, tokenForNotification -> {
+           if (tokenForNotification != null) {
+               viewModel.registerToken(user.getId(), tokenForNotification);
+               Toast.makeText(this, "Token registered", Toast.LENGTH_SHORT).show();
+           }
+       });
     }
 }

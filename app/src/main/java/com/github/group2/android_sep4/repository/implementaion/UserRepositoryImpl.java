@@ -68,7 +68,7 @@ public class UserRepositoryImpl implements UserRepository {
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     currentUser.setValue(response.body());
-                    registerNotificationService(response.body().getId());
+
                 } else {
                     setErrorMessage(response);
                 }
@@ -118,7 +118,6 @@ public class UserRepositoryImpl implements UserRepository {
                     currentUser.setValue(userFromServer);
                     successMessage.setValue("User updated successfully");
 
-                    registerNotificationService(userFromServer.getId());
 
                 } else {
                     setErrorMessage(response);
@@ -132,33 +131,6 @@ public class UserRepositoryImpl implements UserRepository {
         });
     }
 
-    private void registerNotificationService(long userId) {
-        resetInfos();//        token.observeForever(tokenValue -> {
-//
-//            if (tokenValue != null && !tokenValue.isEmpty()) {
-//
-//                Log.d("TOKEN", tokenValue);
-//                Call<Void> call = userApi.registerNotificationClient(userId, tokenValue);
-//                call.enqueue(new Callback<Void>() {
-//                    @Override
-//                    public void onResponse(Call<Void> call, Response<Void> response) {
-//                        if (response.isSuccessful()) {
-//                            successMessage.setValue("Notification service registered successfully");
-//                        } else {
-//                            setErrorMessage(response);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<Void> call, Throwable t) {
-//                        errorMessage.setValue("Cannot connect to server");
-//                    }
-//                });
-//
-//            }
-//        });
-
-    }
 
     @Override
     public void deleteUser(long id) {
@@ -199,7 +171,6 @@ public class UserRepositoryImpl implements UserRepository {
                     User userFromServerWithHashedPass = response.body();
                     if (User.checkPassword(password, userFromServerWithHashedPass.getPassword())) {
                         currentUser.setValue(userFromServerWithHashedPass);
-                        registerNotificationService(userFromServerWithHashedPass.getId());
                     } else {
                         errorMessage.setValue("Incorrect password, please try again");
                     }

@@ -2,6 +2,7 @@ package com.github.group2.android_sep4.repository;
 
 import com.github.group2.android_sep4.networking.GreenHouseApi;
 import com.github.group2.android_sep4.networking.MeasurementApi;
+import com.github.group2.android_sep4.networking.NotificationApi;
 import com.github.group2.android_sep4.networking.PlantProfileApi;
 import com.github.group2.android_sep4.networking.ThresholdApi;
 import com.github.group2.android_sep4.networking.UserApi;
@@ -23,6 +24,7 @@ public class ServiceGenerator {
     private static GreenHouseApi greenHouseApi;
     private static PlantProfileApi plantProfileApi;
     private static ThresholdApi thresholdApi;
+    private static NotificationApi notificationApi;
     private static Lock lock = new ReentrantLock();
 
 
@@ -101,6 +103,21 @@ public class ServiceGenerator {
             }
         }
         return thresholdApi;
+
+    }
+
+    public static NotificationApi getNotificationApi() {
+        if (notificationApi == null) {
+            synchronized (lock) {
+                if (notificationApi == null) {
+                    notificationApi = new Retrofit.Builder().baseUrl(BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create()).build().create(NotificationApi.class);
+
+                }
+
+            }
+        }
+        return notificationApi;
 
     }
 

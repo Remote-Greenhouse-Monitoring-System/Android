@@ -46,12 +46,20 @@ public class GreenhouseFragment extends Fragment {
             greenhouseName.setText(greenHouse.getName());
 
             Measurement lastMeasurement = greenHouse.getLastMeasurement();
+            if (greenHouse.getLastMeasurement() ==null){
+                greenhouseTemperature.setText("No data");
+                greenhouseCO2.setText("No data");
+                greenhouseHumidity.setText("No data");
+                greenhouseLight.setText("No data");
+            } else {
+                greenhouseTemperature.setText(getString(R.string.unit_temperature, lastMeasurement.getTemperature()));
+                greenhouseCO2.setText(getString(R.string.unit_CO2, lastMeasurement.getCo2()));
+                greenhouseHumidity.setText(getString(R.string.unit_humidity, lastMeasurement.getHumidity()));
+                //The formatting did not work for the light, so I had to do it manually
+                greenhouseLight.setText(lastMeasurement.getLight() + " lux");
+            }
 
-            greenhouseTemperature.setText(getString(R.string.unit_temperature, lastMeasurement.getTemperature()));
-            greenhouseCO2.setText(getString(R.string.unit_CO2, lastMeasurement.getCo2()));
-            greenhouseHumidity.setText(getString(R.string.unit_humidity, lastMeasurement.getHumidity()));
-            //The formatting did not work for the light, so I had to do it manually
-            greenhouseLight.setText(lastMeasurement.getLight() + " lux");
+
         });
 
         return view;

@@ -5,27 +5,20 @@ import androidx.lifecycle.ViewModel;
 
 import com.github.group2.android_sep4.model.PlantProfile;
 import com.github.group2.android_sep4.model.Threshold;
+import com.github.group2.android_sep4.model.User;
 import com.github.group2.android_sep4.repository.PlantProfileRepository;
 import com.github.group2.android_sep4.repository.ThresholdRepository;
+import com.github.group2.android_sep4.repository.UserRepository;
 import com.github.group2.android_sep4.repository.implementaion.PlantProfileRepositoryImpl;
 import com.github.group2.android_sep4.repository.implementaion.ThresholdRepositoryImpl;
+import com.github.group2.android_sep4.repository.implementaion.UserRepositoryImpl;
 
-import java.util.List;
+public class AddPlantProfileViewModel extends ViewModel {
 
-public class PlantProfileViewModel extends ViewModel {
-
-    private PlantProfileRepository plantProfileRepository;
-    private ThresholdRepository thresholdRepository;
-    private boolean editPressed ;
-
-    public PlantProfileViewModel()
-    {
-        plantProfileRepository = PlantProfileRepositoryImpl.getInstance();
-        thresholdRepository = ThresholdRepositoryImpl.getInstance();
-    }
-
-
-    /* PLANT PROFILE METHODS*/
+    private final PlantProfileRepository plantProfileRepository = PlantProfileRepositoryImpl.getInstance();
+    private final ThresholdRepository thresholdRepository = ThresholdRepositoryImpl.getInstance();
+    private final UserRepository userRepository = UserRepositoryImpl.getInstance();
+    private boolean editPressed ; // TODO
 
     public void addPlantProfile(long userId, PlantProfile plantProfile)
     {
@@ -42,26 +35,6 @@ public class PlantProfileViewModel extends ViewModel {
         plantProfileRepository.updatePlantProfile(plantProfile);
     }
 
-    public void searchPlantProfilesForUser(long userId)
-    {
-        plantProfileRepository.searchPlantProfilesForUser(userId);
-    }
-
-    public LiveData<List<PlantProfile>> getPlantProfilesForUser()
-    {
-        return plantProfileRepository.getPlantProfilesForUser();
-    }
-
-    public void searchAllPlantProfiles()
-    {
-        plantProfileRepository.searchAllPlantProfiles();
-    }
-
-    public LiveData<List<PlantProfile>> getAllPlantProfiles()
-    {
-        return plantProfileRepository.getAllPlantProfiles();
-    }
-
     public void searchPlantProfile(long plantProfileId)
     {
         plantProfileRepository.searchPlantProfile(plantProfileId);
@@ -71,34 +44,6 @@ public class PlantProfileViewModel extends ViewModel {
     {
         return plantProfileRepository.getPlantProfile();
     }
-
-//    public void activatePlantProfile(long plantProfileId, long greenHouseId)
-//    {
-//        plantProfileRepository.activatePlantProfile(plantProfileId,greenHouseId);
-//    }
-
-    public void searchActivatedPlantProfile(long greenHouseId)
-    {
-        plantProfileRepository.searchActivatedPlantProfile(greenHouseId);
-    }
-
-    public LiveData<PlantProfile> getActivePlantProfile(long greenHouseId) {
-        plantProfileRepository.searchActivatedPlantProfile(greenHouseId);
-        return plantProfileRepository.getActivatedPlantProfile();
-    }
-
-    public LiveData<String> getErrorMessagePlantProfile()
-    {
-        return plantProfileRepository.getErrorMessage();
-    }
-
-    public LiveData<String> getSuccessMessagePlantProfile()
-    {
-        return plantProfileRepository.getSuccessMessage();
-    }
-
-
-    /* THRESHOLD METHODS*/
 
     public void searchThreshold( long plantProfileId)
     {
@@ -115,26 +60,11 @@ public class PlantProfileViewModel extends ViewModel {
         thresholdRepository.updateThreshold(plantProfileId,threshold);
     }
 
-    public LiveData<String> getErrorMessageThreshold()
-    {
-        return thresholdRepository.getErrorMessage();
+    public LiveData<User> getCurrentUser() {
+        return userRepository.getCurrentUser();
     }
 
-    public LiveData<String> getSuccessMessageThreshold()
-    {
-        return thresholdRepository.getSuccessMessage();
-    }
-
-    public boolean isEditPressed() {
-        return editPressed;
-    }
-
-    public void setEditPressed(boolean editPressed) {
-        this.editPressed = editPressed;
-    }
-
-    public void deactivatePlantProfile(long greenHouseId)
-    {
-        plantProfileRepository.deactivatePlantProfile(greenHouseId);
+    public void searchPlantProfilesForUser(long userId) {
+        plantProfileRepository.searchPlantProfilesForUser(userId);
     }
 }

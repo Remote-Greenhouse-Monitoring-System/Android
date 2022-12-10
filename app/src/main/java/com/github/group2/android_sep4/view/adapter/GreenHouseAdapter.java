@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.ViewHolder> {
-    private List<Greenhouse> greenHouses = new ArrayList<>();
+    private List<Greenhouse> greenhouses = new ArrayList<>();
     private OnItemClickListener listener;
 
-    public void setGreenHouses(List<GreenHouse> greenHouses) {
-        this.greenHouses.clear();
-        this.greenHouses.addAll(greenHouses);
+    public void setGreenhouses(List<Greenhouse> greenhouses) {
+        this.greenhouses.clear();
+        this.greenhouses.addAll(greenhouses);
         notifyDataSetChanged();
     }
 
@@ -38,18 +38,19 @@ public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull GreenHouseAdapter.ViewHolder holder, int position) {
-        Greenhouse greenHouse = greenhouses.get(position);
+        Greenhouse greenhouse = greenhouses.get(position);
         holder.name.setText(greenhouse.getName());
-        if (greenHouse.getLastMeasurement() != null) {
-            holder.co2.setText(greenHouse.getLastMeasurement().getCo2() + " ppm");
-            holder.temperature.setText(greenHouse.getLastMeasurement().getTemperature() + " °C");
-            holder.humidity.setText(greenHouse.getLastMeasurement().getHumidity() + " %");
-            holder.light.setText(greenHouse.getLastMeasurement().getLight() + " lux");
+        if (greenhouse.getLastMeasurement() != null) {
+            holder.co2.setText(greenhouse.getLastMeasurement().getCo2() + " ppm");
+            holder.temperature.setText(greenhouse.getLastMeasurement().getTemperature() + " °C");
+            holder.humidity.setText(greenhouse.getLastMeasurement().getHumidity() + " %");
+            holder.light.setText(greenhouse.getLastMeasurement().getLight() + " lux");
         }
+    }
 
     @Override
     public int getItemCount() {
-        return greenHouses.size();
+        return greenhouses.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -66,7 +67,7 @@ public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.Vi
 
             itemView.setOnClickListener(v -> {
                 if (listener != null && getAdapterPosition() != RecyclerView.NO_POSITION) {
-                    listener.onItemClick(greenHouses.get(getAdapterPosition()));
+                    listener.onItemClick(greenhouses.get(getAdapterPosition()));
                 }
             });
         }

@@ -4,14 +4,18 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.github.group2.android_sep4.model.Greenhouse;
+import com.github.group2.android_sep4.model.User;
 import com.github.group2.android_sep4.repository.GreenhouseRepository;
+import com.github.group2.android_sep4.repository.UserRepository;
 import com.github.group2.android_sep4.repository.implementaion.GreenhouseRepositoryImpl;
+import com.github.group2.android_sep4.repository.implementaion.UserRepositoryImpl;
 
 import java.util.List;
 
 public class HomeViewModel extends ViewModel {
 
     private final GreenhouseRepository greenhouseRepository = GreenhouseRepositoryImpl.getInstance();
+    private final UserRepository userRepository = UserRepositoryImpl.getInstance();
 
     public LiveData<String> getErrorMessage() {
         return greenhouseRepository.getErrorMessage();
@@ -21,7 +25,7 @@ public class HomeViewModel extends ViewModel {
         return greenhouseRepository.getSuccessMessage();
     }
 
-    public LiveData<List<GreenhouseWithLastMeasurementModel>> getGreenHousesWithLastMeasurement() {
+    public LiveData<List<Greenhouse>> getGreenHousesWithLastMeasurement() {
         return greenhouseRepository.getGreenhouseWithLastMeasurement();
     }
 
@@ -30,10 +34,18 @@ public class HomeViewModel extends ViewModel {
     }
 
     public void addGreenhouse(long userId, Greenhouse greenhouse){
-        repository.addGreenhouse(userId, greenhouse);
+        greenhouseRepository.addGreenhouse(userId, greenhouse);
     }
 
-    public void resetInfos() {
-        repository.resetInfos();
+    public void resetInfo() {
+        greenhouseRepository.resetInfo();
+    }
+
+    public LiveData<User> getCurrentUser() {
+        return userRepository.getCurrentUser();
+    }
+
+    public void searchAllGreenhousesForAUser(long userId) {
+        greenhouseRepository.searchAllGreenhousesForAUser(userId);
     }
 }

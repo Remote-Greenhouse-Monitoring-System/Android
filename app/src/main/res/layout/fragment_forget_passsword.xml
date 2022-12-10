@@ -27,7 +27,7 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/helvetica_bold_family"
             android:gravity="center"
-            android:text="@string/forget_password"
+            android:text="@string/forgot_password"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/palette_black"

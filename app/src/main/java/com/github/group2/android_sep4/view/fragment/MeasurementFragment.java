@@ -66,7 +66,11 @@ public class MeasurementFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(MeasurementViewModel.class);
 
         viewModel.searchMeasurement(1, 100);
-        viewModel.searchThreshold(viewModel.getActivePlantProfile().getValue().getId());
+
+        PlantProfile plantProfile = viewModel.getActivePlantProfile().getValue();
+        if (plantProfile != null) {
+            viewModel.searchThreshold(viewModel.getActivePlantProfile().getValue().getId());
+        }
 
         handleBundle();
         initializeViews(view);

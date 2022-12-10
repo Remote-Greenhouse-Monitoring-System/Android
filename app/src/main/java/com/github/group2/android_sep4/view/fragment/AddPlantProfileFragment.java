@@ -16,8 +16,8 @@ import android.widget.ImageButton;
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.PlantProfile;
 import com.github.group2.android_sep4.model.Threshold;
-import com.github.group2.android_sep4.viewmodel.PlantProfileViewModel;
-import com.github.group2.android_sep4.viewmodel.UserViewModel;
+import com.github.group2.android_sep4.model.User;
+import com.github.group2.android_sep4.viewmodel.AddPlantProfileViewModel;
 
 public class AddPlantProfileFragment extends Fragment {
     private ImageButton backButton;
@@ -26,8 +26,7 @@ public class AddPlantProfileFragment extends Fragment {
             addPlantProfileCO2,addPlantProfileLight,addPlantProfileTempMin,addPlantProfileTempMax,addPlantProfileCO2Min,
             addPlantProfileCO2Max,addPlantProfileHumidityMin,addPlantProfileHumidityMax;
     private Button addPlantProfileButton;
-    private PlantProfileViewModel plantProfileViewModel;
-    private UserViewModel userViewModel;
+    private AddPlantProfileViewModel viewModel;
 
     public AddPlantProfileFragment() {
         // Required empty public constructor
@@ -46,34 +45,38 @@ public class AddPlantProfileFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_plant_profile, container, false);
         initializeViews(view);
         navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
         backButton.setOnClickListener(this::goBack);
-        addPlantProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = addPlantProfileName.getText().toString();
-                String description = addPlantProfileDescription.getText().toString();
-                float optimalTemp = Float.parseFloat(addPlantProfileTemp.getText().toString());
-                float optimalHumidity = Float.parseFloat(addPlantProfileHumidity.getText().toString());
-                float optimalCo2 = Float.parseFloat(addPlantProfileCO2.getText().toString());
-                int optimalLight = Integer.parseInt(addPlantProfileLight.getText().toString());
-                float minTemp = Float.parseFloat(addPlantProfileTempMin.getText().toString());
-                float maxTemp = Float.parseFloat(addPlantProfileTempMax.getText().toString());
-                float minHumidity = Float.parseFloat(addPlantProfileHumidityMin.getText().toString());
-                float maxHumidity = Float.parseFloat(addPlantProfileHumidityMax.getText().toString());
-                float minCo2 = Float.parseFloat(addPlantProfileCO2Min.getText().toString());
-                float maxCo2 = Float.parseFloat(addPlantProfileCO2Max.getText().toString());
-                Threshold threshold = new Threshold(maxTemp,minTemp,maxHumidity,minHumidity,maxCo2,minCo2,1,1,1,1);
-                PlantProfile plantProfile = new PlantProfile(0,name,description,optimalTemp,optimalHumidity,optimalCo2,optimalLight);
 
-                plantProfileViewModel.addPlantProfile(userViewModel.getCurrentUser().getValue().getId(),plantProfile);
-                plantProfileViewModel.updateThreshold(plantProfile.getId(),threshold);
+        addPlantProfileButton.setOnClickListener(v -> {
+            String name = addPlantProfileName.getText().toString();
+            String description = addPlantProfileDescription.getText().toString();
+            float optimalTemp = Float.parseFloat(addPlantProfileTemp.getText().toString());
+            float optimalHumidity = Float.parseFloat(addPlantProfileHumidity.getText().toString());
+            float optimalCo2 = Float.parseFloat(addPlantProfileCO2.getText().toString());
+            int optimalLight = Integer.parseInt(addPlantProfileLight.getText().toString());
+            float minTemp = Float.parseFloat(addPlantProfileTempMin.getText().toString());
+            float maxTemp = Float.parseFloat(addPlantProfileTempMax.getText().toString());
+            float minHumidity = Float.parseFloat(addPlantProfileHumidityMin.getText().toString());
+            float maxHumidity = Float.parseFloat(addPlantProfileHumidityMax.getText().toString());
+            float minCo2 = Float.parseFloat(addPlantProfileCO2Min.getText().toString());
+            float maxCo2 = Float.parseFloat(addPlantProfileCO2Max.getText().toString());
+            Threshold threshold = new Threshold(maxTemp, minTemp, maxHumidity, minHumidity, maxCo2, minCo2,1, 1, 1, 1);
+            PlantProfile plantProfile = new PlantProfile(0, name, description, optimalTemp, optimalHumidity, optimalCo2, optimalLight);
+
+            User user = viewModel.getCurrentUser().getValue();
+            if (user != null) {
+                viewModel.addPlantProfile(user.getId(), plantProfile);
+                viewModel.updateThreshold(plantProfile.getId(), threshold);
+                viewModel.searchPlantProfilesForUser(user.getId());
             }
+
+            goBack(view);
         });
+
         return view;
     }
 
@@ -83,8 +86,7 @@ public class AddPlantProfileFragment extends Fragment {
 
     private void initializeViews(View view)
     {
-        plantProfileViewModel = new PlantProfileViewModel();
-        userViewModel = new UserViewModel();
+        viewModel = new AddPlantProfileViewModel();
         addPlantProfileName = (EditText) view.findViewById(R.id.addPlantProfileName);
         addPlantProfileDescription = (EditText) view.findViewById(R.id.addPlantProfileDescription);
         addPlantProfileTemp = (EditText) view.findViewById(R.id.addPlantProfileTemp);

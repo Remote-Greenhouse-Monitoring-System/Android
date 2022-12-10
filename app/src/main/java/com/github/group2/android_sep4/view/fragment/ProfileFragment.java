@@ -75,7 +75,6 @@ public class ProfileFragment extends Fragment {
     }
 
     private void updateAccount(View view) {
-
         if (username.getText().equals("")) {
             username.setError("Username cannot be empty");
             return;
@@ -107,24 +106,17 @@ public class ProfileFragment extends Fragment {
             }
         }
 
-
         String username = this.username.getText().toString();
         String email = this.email.getText().toString();
         String password = this.password.getText().toString();
         viewModel.updateUser(username, email, password);
         Toast.makeText(getContext(), "Account updated", Toast.LENGTH_SHORT).show();
-
-
     }
 
 
     private void deleteAccount(View view) {
-
-
-
         deleteAccountPopup = new DeleteAccountPopup();
         deleteAccountPopup.showPopupWindow(view, viewModel);
-
 
       //  viewModel.deleteUser(viewModel.getCurrentUser().getValue().getId());
     }

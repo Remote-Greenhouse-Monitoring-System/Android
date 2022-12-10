@@ -4,10 +4,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.github.group2.android_sep4.model.User;
+import com.github.group2.android_sep4.repository.MeasurementRepository;
 import com.github.group2.android_sep4.repository.NotificationRepository;
 import com.github.group2.android_sep4.repository.GreenhouseRepository;
 import com.github.group2.android_sep4.repository.PlantProfileRepository;
 import com.github.group2.android_sep4.repository.UserRepository;
+import com.github.group2.android_sep4.repository.implementaion.MeasurementRepositoryImpl;
 import com.github.group2.android_sep4.repository.implementaion.NotificationRepositoryImpl;
 import com.github.group2.android_sep4.repository.implementaion.GreenhouseRepositoryImpl;
 import com.github.group2.android_sep4.repository.implementaion.PlantProfileRepositoryImpl;

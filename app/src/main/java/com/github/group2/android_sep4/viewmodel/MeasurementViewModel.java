@@ -3,7 +3,7 @@ package com.github.group2.android_sep4.viewmodel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.github.group2.android_sep4.model.GreenhouseWithLastMeasurementModel;
+import com.github.group2.android_sep4.model.Greenhouse;
 import com.github.group2.android_sep4.model.Measurement;
 import com.github.group2.android_sep4.model.PlantProfile;
 import com.github.group2.android_sep4.model.Threshold;
@@ -75,7 +75,7 @@ public class MeasurementViewModel extends ViewModel {
         return plantProfileRepository.getActivatedPlantProfile();
     }
 
-    public LiveData<GreenhouseWithLastMeasurementModel> getSelectedGreenhouse() {
+    public LiveData<Greenhouse> getSelectedGreenhouse() {
         return greenhouseRepository.getSelectedGreenhouse();
     }
 }

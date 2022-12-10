@@ -20,7 +20,6 @@ import androidx.navigation.Navigation;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.Measurement;
-import com.github.group2.android_sep4.view.uielements.DeletePopup;
 import com.github.group2.android_sep4.viewmodel.GreenhouseViewModel;
 import com.github.group2.android_sep4.view.MeasurementType;
 import com.google.android.material.card.MaterialCardView;
@@ -153,8 +152,6 @@ public class GreenhouseFragment extends Fragment
                 })
                 .build()
                 .show();
-
-
     }
 
     private void goBack(View view)

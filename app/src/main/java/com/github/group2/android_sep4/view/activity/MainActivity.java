@@ -2,10 +2,13 @@ package com.github.group2.android_sep4.view.activity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -16,6 +19,7 @@ import com.github.group2.android_sep4.viewmodel.MainActivityViewModel;
 import com.github.group2.android_sep4.model.User;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
     private MainActivityViewModel viewModel;
@@ -23,10 +27,25 @@ public class MainActivity extends AppCompatActivity {
     NavController navController;
     SharedPreferences preferences;
 
+    MutableLiveData<String> token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        token = new MutableLiveData<>();
+
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.w("MainActivity", "Fetching FCM registration token failed", task.getException());
+                return;
+            }
+
+            token.setValue(task.getResult());
+            Log.d("MainActivity", token.getValue());
+        });
+
+
         preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
         checkIfSignedIn();
@@ -66,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
                 navController.navigate(R.id.homeFragment);
                 bottomNavigationView.setVisibility(View.VISIBLE);
 
+                registerNotificationToken(user);
+
                 // Save for later
                 preferences.edit().putString("username", user.getUsername()).apply();
                 preferences.edit().putString("email", user.getEmail()).apply();
@@ -80,4 +101,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void registerNotificationToken(User user) {
+       token.observe(this, tokenForNotification -> {
+           if (tokenForNotification != null) {
+               viewModel.registerToken(user.getId(), tokenForNotification);
+               Toast.makeText(this, "Token registered", Toast.LENGTH_SHORT).show();
+           }
+       });
+    }
 }

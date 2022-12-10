@@ -75,14 +75,19 @@ public class User {
                 '}';
     }
 
-    private String hashPassword(String plainTextPassword) {
+    private   String hashPassword(String plainTextPassword) {
         String salt = BCrypt.gensalt(12);
         return BCrypt.hashpw(plainTextPassword, salt);
     }
 
 
     public static boolean checkPassword(String plainTextPassword, String hashedPassword) {
-        return BCrypt.checkpw(plainTextPassword, hashedPassword);
+        try {
+            return BCrypt.checkpw(plainTextPassword, hashedPassword);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 

@@ -10,13 +10,13 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.github.group2.android_sep4.R;
-import com.github.group2.android_sep4.viewmodel.PlantProfileViewModel;
+import com.github.group2.android_sep4.viewmodel.AddPlantProfileViewModel;
 
 public class DeletePlantProfilePopup {
 
 
     Button buttonConfirm, buttonCancel;
-    private PlantProfileViewModel plantProfileViewModel = new PlantProfileViewModel();
+    private AddPlantProfileViewModel addPlantProfileViewModel = new AddPlantProfileViewModel();
 
     //PopupWindow display method
     public void showPopupWindow(final View view,long id) {
@@ -40,7 +40,7 @@ public class DeletePlantProfilePopup {
 
         buttonConfirm.setOnClickListener(v -> {
             Toast.makeText(view.getContext(), "Deleted the plant profile", Toast.LENGTH_SHORT).show();
-            plantProfileViewModel.deletePlantProfile(id);
+            addPlantProfileViewModel.deletePlantProfile(id);
             popupWindow.dismiss();
         });
 

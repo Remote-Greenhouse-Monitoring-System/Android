@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.User;
-import com.github.group2.android_sep4.viewmodel.UserViewModel;
+import com.github.group2.android_sep4.viewmodel.SingUpViewModel;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class SignUpTabFragment extends Fragment {
@@ -22,8 +22,7 @@ public class SignUpTabFragment extends Fragment {
     TextInputLayout emailField, passwordField, usernameField, confirmPasswordField;
     AppCompatButton signUp;
     ProgressBar progressBar;
-    private UserViewModel viewModel;
-
+    private SingUpViewModel viewModel;
 
     @Nullable
     @Override
@@ -31,16 +30,13 @@ public class SignUpTabFragment extends Fragment {
         View view = inflater.inflate(R.layout.sign_up_tab_fragment, container, false);
         initializeAllFields(view);
 
-
-        viewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        viewModel = new ViewModelProvider(this).get(SingUpViewModel.class);
         viewModel.getCurrentUser().observe(getViewLifecycleOwner(), this::userObserver);
         viewModel.getError().observe(getViewLifecycleOwner(), this::errorObserver);
-
 
         signUp.setOnClickListener(this::signUpPressed);
 
         return view;
-
     }
 
     private void errorObserver(String s) {
@@ -53,9 +49,7 @@ public class SignUpTabFragment extends Fragment {
         if (user != null) {
             progressBar.setVisibility(View.INVISIBLE);
         }
-
     }
-
 
     private void signUpPressed(View view) {
         boolean isAppropriateEmail = validateEmail();
@@ -64,14 +58,12 @@ public class SignUpTabFragment extends Fragment {
 
         boolean isEverythingValid = isAppropriateEmail && isAppropriatePassword && isAppropriateUsername;
 
-//        if (!isEverythingValid) return;
+        if (!isEverythingValid) return;
 
-//        String email = emailField.getEditText().getText().toString().trim();
-//        String password = passwordField.getEditText().getText().toString().trim();
-//        String username = usernameField.getEditText().getText().toString().trim();
-        String email = "bob@mail.com";
-        String username = "bob12345";
-        String password = "12341234";
+        String email = emailField.getEditText().getText().toString().trim();
+        String password = passwordField.getEditText().getText().toString().trim();
+        String username = usernameField.getEditText().getText().toString().trim();
+
         progressBar.setVisibility(View.VISIBLE);
         viewModel.signUp(username, email, password);
     }
@@ -114,7 +106,6 @@ public class SignUpTabFragment extends Fragment {
             confirmPasswordField.setErrorEnabled(false);
             return true;
         }
-
     }
 
     private boolean validateEmail() {
@@ -136,8 +127,6 @@ public class SignUpTabFragment extends Fragment {
     }
 
     private void initializeAllFields(View view) {
-
-
         emailField = view.findViewById(R.id.emailSignUp);
         passwordField = view.findViewById(R.id.passwordSignUp);
         usernameField = view.findViewById(R.id.usernameSignUp);

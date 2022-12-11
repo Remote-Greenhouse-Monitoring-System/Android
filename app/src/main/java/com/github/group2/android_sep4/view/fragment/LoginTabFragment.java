@@ -17,7 +17,6 @@ import androidx.navigation.Navigation;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.User;
-import com.github.group2.android_sep4.view.activity.MainActivity;
 import com.github.group2.android_sep4.viewmodel.UserViewModel;
 import com.google.android.material.textfield.TextInputLayout;
 

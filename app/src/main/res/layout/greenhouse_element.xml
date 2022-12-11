@@ -86,7 +86,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/helvetica_regular_family"
                         android:gravity="center"
-                        android:text="22.3 C"
+                        android:text="@string/temperature_no_c"
                         android:textSize="16sp" />
 
                 </LinearLayout>
@@ -117,7 +117,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/helvetica_regular_family"
                         android:gravity="center"
-                        android:text="320ppm"
+                        android:text="@string/co2"
                         android:textSize="16sp" />
 
                 </LinearLayout>
@@ -148,7 +148,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/helvetica_regular_family"
                         android:gravity="center"
-                        android:text="On"
+                        android:text="@string/light"
                         android:textSize="16sp" />
 
                 </LinearLayout>
@@ -180,7 +180,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/helvetica_regular_family"
                         android:gravity="center"
-                        android:text="Sachin"
+                        android:text="@string/humidity"
                         android:textSize="16sp" />
 
                 </LinearLayout>

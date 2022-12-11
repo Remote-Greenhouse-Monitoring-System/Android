@@ -8,6 +8,7 @@
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -16,7 +17,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
             android:layout_weight="1"
             android:background="@color/transparent"
             android:orientation="vertical"
@@ -25,19 +25,16 @@
             android:scaleY="1.5"
             android:src="@drawable/ic_baseline_arrow_back_ios_24"
             app:layout_constraintBottom_toBottomOf="@+id/textView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView"
-            app:layout_constraintVertical_bias="0.0" />
+
+          />
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="3"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="10dp"
-
-            android:layout_marginEnd="36dp"
+            android:gravity="center"
             android:text="@string/add_plant_profile"
             android:textAlignment="center"
             android:textColor="@color/black"
@@ -57,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toTopOf="@id/linearLayout3"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="90dp">
 
 
 
@@ -83,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="Name"
+                android:text="@string/name"
                 app:layout_constraintEnd_toEndOf="@+id/imageView"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/imageView"
@@ -93,7 +90,7 @@
                 android:id="@+id/addPlantProfileName"
                 android:layout_width="143dp"
                 android:layout_height="wrap_content"
-                android:hint="Profile Name"
+                android:hint="@string/profile_name"
                 android:inputType="text"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="@+id/textView3"
@@ -108,7 +105,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="24dp"
                 android:inputType="text"
-                android:text="Description"
+                android:text="@string/description"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -122,7 +119,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="24dp"
-                android:hint="What is so cool about this plant..."
+                android:hint="@string/what_is_so_cool_about_this_plant"
                 app:layout_constraintEnd_toEndOf="@+id/textView5"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/textView5"
@@ -429,6 +426,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/add"
+                android:backgroundTint="@color/palette_dark_green"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

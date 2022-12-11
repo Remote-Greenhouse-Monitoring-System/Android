@@ -1,25 +1,21 @@
 package com.github.group2.android_sep4.view.fragment;
 
 import android.os.Bundle;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.github.group2.android_sep4.R;
-import com.github.group2.android_sep4.model.User;
-import com.github.group2.android_sep4.view.uielements.DeleteAccountPopup;
 import com.github.group2.android_sep4.viewmodel.UserViewModel;
 import com.shashank.sony.fancydialoglib.Animation;
 import com.shashank.sony.fancydialoglib.FancyAlertDialog;
@@ -29,11 +25,11 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 public class ProfileFragment extends Fragment {
 
 
-    ImageButton logoutButton;
-    UserViewModel viewModel;
-    private Button updateButton, deleteAccountButton;
-    private EditText username, email, password, confirmPassword;
-    DeleteAccountPopup deleteAccountPopup;
+    AppCompatButton logoutButton, deleteAccountButton;
+    LinearLayoutCompat editProfileButton;
+
+    TextView emailTextView, usernameTextView;
+    private UserViewModel viewModel;
     NavController navController;
 
 
@@ -44,12 +40,19 @@ public class ProfileFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(UserViewModel.class);
         initializeAllFields(view);
         logoutButton.setOnClickListener(this::logOut);
-        viewModel.getSuccesMessage().observe(getViewLifecycleOwner(), this::showToast);
+        deleteAccountButton.setOnClickListener(this::deleteAccount);
+        editProfileButton.setOnClickListener(this::editProfile);
+        viewModel.getSuccessMessage().observe(getViewLifecycleOwner(), this::showToast);
         return view;
     }
 
+    private void editProfile(View view) {
+        navController.navigate(R.id.editProfileFragment);
+    }
+
     private void showToast(String message) {
-       FancyToast.makeText(getContext(), message, FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
+        if (message == null) return;
+        FancyToast.makeText(getContext(), message, FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
     }
     private void logOut(View view) {
         viewModel.logout();
@@ -58,64 +61,62 @@ public class ProfileFragment extends Fragment {
     private void initializeAllFields(View view) {
 
         navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
-        logoutButton = view.findViewById(R.id.logOutButton);
-        updateButton = view.findViewById(R.id.updateAccountButton);
-        deleteAccountButton = view.findViewById(R.id.deleteAccountButton);
-        username = view.findViewById(R.id.updateNameEditText);
-        email = view.findViewById(R.id.updateEmailEditText);
-        password = view.findViewById(R.id.updatePasswordEditText);
-        confirmPassword = view.findViewById(R.id.updateRepeatPasswordEditText);
+        logoutButton = view.findViewById(R.id.log_out);
+        deleteAccountButton = view.findViewById(R.id.delete_account);
+        emailTextView = view.findViewById(R.id.profile_email);
+        usernameTextView = view.findViewById(R.id.profile_name);
+        editProfileButton = view.findViewById(R.id.edit_profile);
 
-        if (viewModel.getCurrentUser() != null) {
-            username.setText(viewModel.getCurrentUser().getValue().getUsername());
-            email.setText(viewModel.getCurrentUser().getValue().getEmail());
-            password.setText(viewModel.getCurrentUser().getValue().getPassword());
-        }
 
-        deleteAccountButton.setOnClickListener(this::deleteAccount);
-        updateButton.setOnClickListener(this::updateAccount);
+        viewModel.getCurrentUser().observe(getViewLifecycleOwner(), user -> {
+            if (user == null) return;
+            emailTextView.setText(user.getEmail());
+            usernameTextView.setText(user.getUsername());
+        });
+
+
     }
 
-    private void updateAccount(View view) {
-        if (username.getText().equals("")) {
-            username.setError("Username cannot be empty");
-            return;
-        }
-        if (email.getText().equals("")) {
-            email.setError("Email cannot be empty");
-            return;
-        }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email.getText()).matches()) {
-            email.setError("Please enter a valid email address");
-            return;
-        }
-        if (password.getText().equals("")) {
-            password.setError("Password cannot be empty");
-            return;
-        }
-        if (!viewModel.getCurrentUser().getValue().getPassword().equals(password.getText().toString())) {
-            if (password.getText().length() < 8) {
-                password.setError("Password must be at least 8 characters long");
-                return;
-            }
-            if (confirmPassword.getText() == null) {
-                confirmPassword.setError("Please confirm your password");
-                return;
-            }
-            if (!confirmPassword.getText().toString().equals(password.getText().toString())) {
-                confirmPassword.setError("Passwords do not match");
-                return;
-            }
-        }
-
-        String username = this.username.getText().toString();
-        String email = this.email.getText().toString();
-        String password = this.password.getText().toString();
-
-        User user = new User(email,username,  password);
-        viewModel.updateUser(user);
-        Toast.makeText(getContext(), "Account updated", Toast.LENGTH_SHORT).show();
-    }
+//    private void updateAccount(View view) {
+//        if (username.getText().equals("")) {
+//            username.setError("Username cannot be empty");
+//            return;
+//        }
+//        if (email.getText().equals("")) {
+//            email.setError("Email cannot be empty");
+//            return;
+//        }
+//        if (!Patterns.EMAIL_ADDRESS.matcher(email.getText()).matches()) {
+//            email.setError("Please enter a valid email address");
+//            return;
+//        }
+//        if (password.getText().equals("")) {
+//            password.setError("Password cannot be empty");
+//            return;
+//        }
+//        if (!viewModel.getCurrentUser().getValue().getPassword().equals(password.getText().toString())) {
+//            if (password.getText().length() < 8) {
+//                password.setError("Password must be at least 8 characters long");
+//                return;
+//            }
+//            if (confirmPassword.getText() == null) {
+//                confirmPassword.setError("Please confirm your password");
+//                return;
+//            }
+//            if (!confirmPassword.getText().toString().equals(password.getText().toString())) {
+//                confirmPassword.setError("Passwords do not match");
+//                return;
+//            }
+//        }
+//
+//        String username = this.username.getText().toString();
+//        String email = this.email.getText().toString();
+//        String password = this.password.getText().toString();
+//
+//        User user = new User(email,username,  password);
+//        viewModel.updateUser(user);
+//        Toast.makeText(getContext(), "Account updated", Toast.LENGTH_SHORT).show();
+//    }
 
 
 
@@ -134,7 +135,7 @@ public class ProfileFragment extends Fragment {
                 .setIcon(R.drawable.ic_baseline_delete_outline_24, View.VISIBLE)
                 .onPositiveClicked(dialog -> {
                     viewModel.deleteUser(viewModel.getCurrentUser().getValue().getId());
-                    FancyToast.makeText(getContext(), "Account D=deleted", FancyToast.LENGTH_LONG, FancyToast.INFO, false).show();
+//                    FancyToast.makeText(getContext(), "Account D=deleted", FancyToast.LENGTH_LONG, FancyToast.INFO, false).show();
                 })
                 .onNegativeClicked(dialog -> {
                     dialog.dismiss();

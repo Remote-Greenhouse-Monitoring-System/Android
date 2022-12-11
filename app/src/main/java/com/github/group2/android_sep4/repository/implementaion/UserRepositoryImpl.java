@@ -125,20 +125,20 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public void deleteUser(long id) {
         resetInfos();
-        Call<Void> call = userApi.deleteUser(id);
-        call.enqueue(new Callback<Void>() {
+        Call<User> call = userApi.deleteUser(id);
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful()) {
                     currentUser.setValue(null);
-                    successMessage.setValue("User deleted successfully");
+                    successMessage.setValue(response.body().getUsername() + " has been deleted");
                 } else {
                     setErrorMessage(response);
                 }
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 errorMessage.setValue("Cannot connect to server");
             }
         });

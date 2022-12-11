@@ -63,6 +63,10 @@
     <string name="max">Max</string>
     <string name="add">Add</string>
     <string name="temperature_no_c">Temperature</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="logout"> Log out</string>
+    <string name="update">Update</string>
+    <string name="update_profile_information">Update Profile Information</string>
     <string name="plant_profile">Plant Profile</string>
     <string name="profile_name">Profile Name</string>
     <string name="description">Description</string>

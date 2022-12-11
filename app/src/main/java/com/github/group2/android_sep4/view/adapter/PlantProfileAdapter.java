@@ -72,12 +72,10 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PlantProfileAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.plantProfileName.setText(plantProfiles.get(position).getName());
-        holder.plantProfileDescription.setText(plantProfiles.get(position).getDescription());
 
-        holder.plantProfileOptimalTemperature.setText(plantProfiles.get(position).getOptimalTemperature() + "\n°C");
-        holder.plantProfileOptimalHumidity.setText(plantProfiles.get(position).getOptimalHumidity() + "\n%");
-        holder.plantProfileOptimalCO2.setText(Math.round(plantProfiles.get(position).getOptimalCo2()) + "\nppm");
+
+        holder.setFields(plantProfiles.get(position));
+
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,7 +104,7 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
                             .show();
 
 
-//                navController.navigate(R.id.homeFragment);
+
             }
         });
         holder.editButton.setOnClickListener(new View.OnClickListener() {
@@ -134,9 +132,9 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView plantProfileName, plantProfileDescription;
-        private TextView plantProfileOptimalTemperature, plantProfileOptimalHumidity, plantProfileOptimalCO2, plantProfileOptimalLight;
-        private ImageButton deleteButton,editButton;
+        private final TextView plantProfileName, plantProfileDescription;
+        private final TextView plantProfileOptimalTemperature, plantProfileOptimalHumidity, plantProfileOptimalCO2, plantProfileOptimalLight;
+        private final ImageButton deleteButton,editButton;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -154,6 +152,15 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
                     listener.onItemClick(plantProfiles.get(getAdapterPosition()));
                 }
             });
+        }
+
+        public void setFields(PlantProfile plantProfile) {
+            plantProfileName.setText(plantProfile.getName());
+            plantProfileDescription.setText(plantProfile.getDescription());
+            plantProfileOptimalTemperature.setText(String.valueOf(plantProfile.getOptimalTemperature()));
+            plantProfileOptimalHumidity.setText(String.valueOf(plantProfile.getOptimalHumidity()));
+            plantProfileOptimalCO2.setText(String.valueOf(plantProfile.getOptimalCo2()));
+            plantProfileOptimalLight.setText(String.valueOf(plantProfile.getOptimalLight()));
         }
     }
     public interface OnItemClickListener {

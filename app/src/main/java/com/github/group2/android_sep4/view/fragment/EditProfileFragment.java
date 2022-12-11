@@ -5,6 +5,7 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
@@ -27,6 +28,7 @@ public class EditProfileFragment extends Fragment {
     TextInputLayout username, email, password, confirmPassword;
     AppCompatButton saveButton;
     NavController navController;
+    ImageButton backButton;
 
     ProgressBar progressBar;
     private UserViewModel viewModel;
@@ -152,10 +154,12 @@ public class EditProfileFragment extends Fragment {
         confirmPassword = view.findViewById(R.id.confirm_password);
         saveButton = view.findViewById(R.id.update_profile_button);
         progressBar = view.findViewById(R.id.progressBar);
-
+        backButton= view.findViewById(R.id.edit_profile_back_btn);
+        backButton.setOnClickListener(v -> navController.navigate(R.id.profileFragment));
         progressBar.setVisibility(View.INVISIBLE);
         username.getEditText().setText(user.getUsername());
         email.getEditText().setText(user.getEmail());
+
 
 
 

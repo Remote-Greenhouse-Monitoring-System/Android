@@ -25,8 +25,8 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 public class ProfileFragment extends Fragment {
 
 
-    AppCompatButton logoutButton, deleteAccountButton;
-    LinearLayoutCompat editProfileButton;
+    AppCompatButton logoutButton, deleteAccountButton, editProfileButton;
+
 
     TextView emailTextView, usernameTextView;
     private UserViewModel viewModel;
@@ -65,7 +65,7 @@ public class ProfileFragment extends Fragment {
         deleteAccountButton = view.findViewById(R.id.delete_account);
         emailTextView = view.findViewById(R.id.profile_email);
         usernameTextView = view.findViewById(R.id.profile_name);
-        editProfileButton = view.findViewById(R.id.edit_profile);
+        editProfileButton = view.findViewById(R.id.edit_profile_button);
 
 
         viewModel.getCurrentUser().observe(getViewLifecycleOwner(), user -> {

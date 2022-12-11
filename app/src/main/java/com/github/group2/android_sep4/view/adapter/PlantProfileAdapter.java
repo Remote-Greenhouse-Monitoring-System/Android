@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -167,4 +166,3 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
         void onItemClick(PlantProfile greenHouse);
     }
 }
-

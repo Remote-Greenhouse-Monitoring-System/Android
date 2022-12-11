@@ -52,4 +52,8 @@
         android:id="@+id/forgetPasswordFragment"
         android:name="com.github.group2.android_sep4.view.fragment.ForgetPasswordFragment"
         android:label="ForgetPasswordFragment" />
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.github.group2.android_sep4.view.fragment.EditProfileFragment"
+        android:label="EditProfileFragment" />
 </navigation>

@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -22,9 +20,6 @@ import com.github.group2.android_sep4.model.PlantProfile;
 import com.github.group2.android_sep4.view.adapter.PlantProfileAdapter;
 import com.github.group2.android_sep4.viewmodel.SelectPlantProfileViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class SelectPlantProfileFragment extends Fragment {
@@ -50,6 +45,9 @@ public class SelectPlantProfileFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(SelectPlantProfileViewModel.class);
 
         initializeViews(view);
+
+        viewModel.searchPlantProfilesForUser(viewModel.getCurrentUser().getValue().getId());
+
 
         setAdapter();
 

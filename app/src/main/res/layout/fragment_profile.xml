@@ -1,189 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
 
-    <LinearLayout
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/user_profile" />
+
+    <TextView
+        android:id="@+id/profile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/helvetica_bold_font"
+        android:text="Name"
+        android:textColor="@color/palette_black"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/profile_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_name"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/helvetica_regular"
+        android:text="Email"
+        android:textSize="16sp" />
+
+
+    <ImageView
+        android:id="@+id/profile_scarf"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp">
+        android:layout_height="100dp"
+        android:layout_below="@id/profile_email"
+        android:src="@drawable/profile_scarf" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/edit_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/profile_scarf"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
 
-            <FrameLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
+        <ImageView
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginLeft="70dp"
+            android:src="@drawable/profile_vector"
+            app:tint="@color/palette_black" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="7"
-                android:gravity="center"
-                android:text="@string/profile"
-                android:textColor="@color/black"
-                android:textSize="25sp" />
-
-            <ImageButton
-                android:id="@+id/logOutButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:background="@color/transparent"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
-                android:src="@drawable/ic_baseline_logout_24" />
-        </LinearLayout>
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/user_icon"
-                        android:layout_weight="1"/>
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/name" />
-
-                    <EditText
-                        android:id="@+id/updateNameEditText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
-                        android:layout_weight="3"
-                        android:background="@drawable/edittext_bg"
-                        android:hint="@string/username" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/email_adress" />
-
-                    <EditText
-                        android:id="@+id/updateEmailEditText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
-                        android:layout_weight="3"
-                        android:background="@drawable/edittext_bg"
-                        android:hint="@string/email" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="@string/passwordEdit" />
-
-                    <EditText
-                        android:id="@+id/updatePasswordEditText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
-                        android:layout_weight="3"
-                        android:background="@drawable/edittext_bg"
-                        android:hint="@string/password"
-                        android:inputType="textPassword"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:text="@string/repeat_password"
-                        android:textSize="14sp" />
-
-                    <EditText
-                        android:id="@+id/updateRepeatPasswordEditText"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
-                        android:layout_weight="3"
-                        android:background="@drawable/edittext_bg"
-                        android:inputType="textPassword"
-                        android:hint="@string/confirm_new_password" />
-                </LinearLayout>
-
-                <Button
-                    android:background="@drawable/edittext_bg"
-                    android:id="@+id/updateAccountButton"
-                    android:layout_marginTop="30dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/update_info"
-                    />
-                <Button
-                    android:id="@+id/deleteAccountButton"
-                    android:background="@drawable/edittext_bg"
-                    android:layout_marginTop="40dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/delete_account"
-                    android:textColor="@color/palette_red"
-                    />
-            </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:autoSizeMaxTextSize="5dp"
+            android:fontFamily="@font/helvetica_regular"
+            android:text="@string/edit_profile"
+            android:textColor="@color/palette_black"
+            android:textSize="18sp" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/log_out"
+
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/edit_profile"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="65dp"
+        android:backgroundTint="@color/palette_light_blue"
+        android:background="@drawable/btn_bg"
+        android:drawableStart="@drawable/ic_baseline_logout_24"
+        android:gravity="center"
+        android:text="@string/logout">
+
+    </androidx.appcompat.widget.AppCompatButton>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/delete_account"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/log_out"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="65dp"
+        android:backgroundTint="@color/palette_red"
+        android:background="@drawable/btn_bg"
+        android:drawableStart="@drawable/ic_baseline_delete_outline_24"
+        android:gravity="center"
+        android:text="@string/delete_account">
+
+    </androidx.appcompat.widget.AppCompatButton>
+
+
+</RelativeLayout>

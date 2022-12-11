@@ -36,8 +36,6 @@ public class MainActivityViewModel extends ViewModel {
 
     public void init(User userToSave) {
         userRepository.init(userToSave);
-        plantProfileRepository.searchPlantProfilesForUser(userToSave.getId());
-        greenHouseRepository.searchGreenhousesWithLastMeasurement(userToSave.getId());
     }
 
     public void registerToken(long id, String token) {

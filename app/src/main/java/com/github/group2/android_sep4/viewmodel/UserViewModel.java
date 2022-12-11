@@ -39,11 +39,9 @@ public class UserViewModel extends ViewModel {
         repository.deleteUser(userId);
     }
 
-    public void updateUser(String username, String email, String password) {
-        getCurrentUser().getValue().setUsername(username);
-        getCurrentUser().getValue().setEmail(email);
-        getCurrentUser().getValue().setPassword(password);
-        repository.updateUser(getCurrentUser().getValue());
+    public void updateUser(User user) {
+
+        repository.updateUser(user);
     }
 
     public LiveData<String> getErrorMessage() {

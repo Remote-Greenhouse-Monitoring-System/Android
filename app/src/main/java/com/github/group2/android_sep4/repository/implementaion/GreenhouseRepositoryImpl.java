@@ -52,7 +52,7 @@ public class GreenhouseRepositoryImpl implements GreenhouseRepository {
     public void searchAllGreenhousesForAUser(long userId) {
         resetInfo();
 
-        Call<List<Greenhouse>> call = greenhouseApi.getGreenhouses(userId);
+        Call<List<Greenhouse>> call = greenhouseApi.getGreenHouseByUserWithLastMeasurement(userId);
         call.enqueue(new Callback<List<Greenhouse>>() {
 
             @Override

@@ -35,10 +35,9 @@ public class SelectPlantProfileFragment extends Fragment {
     private RecyclerView plantProfileRecyclerView;
     private PlantProfileAdapter plantProfileAdapter;
     private FloatingActionButton addPlantProfileButton;
-    private ArrayList<PlantProfile> tempPlantProfiles = new ArrayList<>();
-    private ArrayList<PlantProfile> userPlantProfiles = new ArrayList<>();
-    private PlantProfileViewModel plantProfileViewModel;
-    private UserViewModel userViewModel;
+    private SelectPlantProfileViewModel viewModel;
+    private boolean isFromSpecificGreenhouse=false;
+
 
     public SelectPlantProfileFragment() {
         // Required empty public constructor
@@ -61,16 +60,7 @@ public class SelectPlantProfileFragment extends Fragment {
 
         checkIfGreenHouseIdIsSet();
 
-        final Observer<List<PlantProfile>> plantProfilesObserver = new Observer<List<PlantProfile>>() {
-            @Override
-            public void onChanged(List<PlantProfile> plantProfiles) {
-                userPlantProfiles.clear();
-                userPlantProfiles.addAll(plantProfiles);
-                plantProfileAdapter = new PlantProfileAdapter(userPlantProfiles);
-                plantProfileRecyclerView.setAdapter(plantProfileAdapter);
-            }
-        };
-        plantProfileViewModel.getPlantProfileForUser().observe(getViewLifecycleOwner(),plantProfilesObserver);
+
 
         return view;
     }
@@ -88,7 +78,6 @@ public class SelectPlantProfileFragment extends Fragment {
         addPlantProfileButton = view.findViewById(R.id.addPlantProfileButton);
         addPlantProfileButton.setOnClickListener(this::goAddPlantProfile);
         plantProfileRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        Button buttonConfirm = view.findViewById(R.id.confirmDeleteButtonPlantProfile);
         backButton = view.findViewById(R.id.backButton);
         backButton.setOnClickListener(this::goBack);
     }

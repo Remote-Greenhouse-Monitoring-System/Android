@@ -32,8 +32,6 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
     private OnItemClickListener listener;
 
 
-
-
     public PlantProfileAdapter() {
         this.plantProfiles = new ArrayList<>();
     }

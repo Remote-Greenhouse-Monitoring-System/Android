@@ -61,7 +61,11 @@ public class GreenhouseFragment extends Fragment
                 greenhouseName.setText(greenhouse.getName());
 
                 Measurement lastMeasurement = greenhouse.getLastMeasurement();
-                if (greenhouse.getLastMeasurement() == null){
+                if (lastMeasurement == null
+                        || (lastMeasurement.getCo2() == 0
+                            && lastMeasurement.getHumidity() == 0
+                            && lastMeasurement.getLight() == 0
+                            && lastMeasurement.getTemperature() == 0)) {
                     greenhouseTemperature.setText(R.string.no_data);
                     greenhouseCO2.setText(R.string.no_data);
                     greenhouseHumidity.setText(R.string.no_data);

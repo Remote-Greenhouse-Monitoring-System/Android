@@ -40,6 +40,7 @@ public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.Vi
     public void onBindViewHolder(@NonNull GreenHouseAdapter.ViewHolder holder, int position) {
         Greenhouse greenhouse = greenhouses.get(position);
         holder.name.setText(greenhouse.getName());
+
         if (greenhouse.getLastMeasurement() != null) {
             holder.co2.setText(greenhouse.getLastMeasurement().getCo2() + " ppm");
             holder.temperature.setText(greenhouse.getLastMeasurement().getTemperature() + " °C");

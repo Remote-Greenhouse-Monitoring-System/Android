@@ -1,6 +1,5 @@
 package com.github.group2.android_sep4.view.fragment;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +19,8 @@ import androidx.navigation.Navigation;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.Measurement;
-import com.github.group2.android_sep4.viewmodel.GreenhouseViewModel;
 import com.github.group2.android_sep4.view.MeasurementType;
+import com.github.group2.android_sep4.viewmodel.GreenhouseViewModel;
 import com.google.android.material.card.MaterialCardView;
 import com.shashank.sony.fancydialoglib.Animation;
 import com.shashank.sony.fancydialoglib.FancyAlertDialog;

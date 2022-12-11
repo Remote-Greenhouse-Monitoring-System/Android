@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
        token.observe(this, tokenForNotification -> {
            if (tokenForNotification != null) {
                viewModel.registerToken(user.getId(), tokenForNotification);
-               Toast.makeText(this, "Token registered", Toast.LENGTH_SHORT).show();
+               Toast.makeText(this, tokenForNotification, Toast.LENGTH_SHORT).show();
            }
        });
     }

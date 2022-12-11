@@ -73,10 +73,10 @@ public class ThresholdRepositoryImpl implements ThresholdRepository {
 
     @Override
     public void updateThreshold(long plantProfileId, Threshold threshold) {
-        Call<Threshold> call = thresholdApi.updateThreshold(plantProfileId, threshold);
-        call.enqueue(new Callback<Threshold>() {
+        Call<Void> call = thresholdApi.updateThreshold(plantProfileId, threshold);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Threshold> call, Response<Threshold> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     successMessage.setValue("Threshold updated successfully");
                 } else {
@@ -85,7 +85,7 @@ public class ThresholdRepositoryImpl implements ThresholdRepository {
             }
 
             @Override
-            public void onFailure(Call<Threshold> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 errorMessage.setValue("Cannot connect to server");
             }
         });

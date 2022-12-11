@@ -29,7 +29,6 @@ import java.util.List;
 
 public class SelectPlantProfileFragment extends Fragment {
 
-    View view;
     private ImageButton backButton;
     private NavController navController;
     private RecyclerView plantProfileRecyclerView;
@@ -51,6 +50,7 @@ public class SelectPlantProfileFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(SelectPlantProfileViewModel.class);
 
         initializeViews(view);
+
         setAdapter();
 
         Bundle bundle = getArguments();

@@ -21,5 +21,5 @@ public interface ThresholdApi
 
     @Headers({API_KEY})
     @PATCH(route + "/update/{pId}")
-    Call<Threshold> updateThreshold(@Path("pId") long plantProfileId, @Body Threshold threshold);
+    Call<Void> updateThreshold(@Path("pId") long plantProfileId, @Body Threshold threshold);
 }

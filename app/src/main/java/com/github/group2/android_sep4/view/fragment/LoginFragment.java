@@ -54,6 +54,7 @@ public class LoginFragment extends Fragment {
     private void errorObserver(String s) {
         if (s != null && !s.equalsIgnoreCase("")) {
             FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.ERROR, true).show();
+            viewModel.resetInfos();
 
         }
     }

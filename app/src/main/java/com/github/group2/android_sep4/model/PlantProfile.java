@@ -4,28 +4,26 @@ public class PlantProfile {
 
     private int id,optimalLight;
     private String name, description;
-    private float optimalTemp, optimalHumidity,optimalCo2;
-    private Threshold threshold;
+    private float optimalTemperature, optimalHumidity,optimalCo2;
 
     public PlantProfile() {
 
     }
 
-    public PlantProfile(int id, String name, String description, float optimalTemp, float optimalHumidity, float optimalCo2, Threshold threshold) {
+    public PlantProfile(int id, String name, String description, float optimalTemperature, float optimalHumidity, float optimalCo2) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.optimalTemp = optimalTemp;
+        this.optimalTemperature = optimalTemperature;
         this.optimalHumidity = optimalHumidity;
         this.optimalCo2 = optimalCo2;
-        this.threshold = threshold;
     }
 
-    public PlantProfile(int id, String name, String description, float optimalTemp, float optimalHumidity, float optimalCo2,int optimalLight) {
+    public PlantProfile(int id, String name, String description, float optimalTemperature, float optimalHumidity, float optimalCo2, int optimalLight) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.optimalTemp = optimalTemp;
+        this.optimalTemperature = optimalTemperature;
         this.optimalHumidity = optimalHumidity;
         this.optimalCo2 = optimalCo2;
         this.optimalLight = optimalLight;
@@ -55,12 +53,12 @@ public class PlantProfile {
         this.description = description;
     }
 
-    public float getOptimalTemp() {
-        return optimalTemp;
+    public float getOptimalTemperature() {
+        return optimalTemperature;
     }
 
-    public void setOptimalTemp(float optimalTemp) {
-        this.optimalTemp = optimalTemp;
+    public void setOptimalTemperature(float optimalTemperature) {
+        this.optimalTemperature = optimalTemperature;
     }
 
     public float getOptimalHumidity() {
@@ -71,6 +69,7 @@ public class PlantProfile {
         this.optimalHumidity = optimalHumidity;
     }
 
+
     public float getOptimalCo2() {
         return optimalCo2;
     }
@@ -79,13 +78,7 @@ public class PlantProfile {
         this.optimalCo2 = optimalCo2;
     }
 
-    public Threshold getThreshold() {
-        return threshold;
-    }
 
-    public void setThreshold(Threshold threshold) {
-        this.threshold = threshold;
-    }
 
     public int getOptimalLight() {
         return optimalLight;
@@ -101,7 +94,7 @@ public class PlantProfile {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", optimalTemp=" + optimalTemp +
+                ", optimalTemp=" + optimalTemperature +
                 ", optimalHumidity=" + optimalHumidity +
                 ", optimalCo2=" + optimalCo2 +
                 '}';

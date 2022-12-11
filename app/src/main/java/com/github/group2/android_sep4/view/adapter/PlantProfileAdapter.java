@@ -1,94 +1,128 @@
 package com.github.group2.android_sep4.view.adapter;
 
-import android.util.Log;
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.PlantProfile;
-import com.github.group2.android_sep4.view.activity.MainActivity;
-import com.github.group2.android_sep4.view.fragment.SelectPlantProfileFragment;
-import com.github.group2.android_sep4.view.uielements.DeletePlantProfilePopup;
-import com.github.group2.android_sep4.viewmodel.PlantProfileViewModel;
-
+import com.github.group2.android_sep4.viewmodel.AddPlantProfileViewModel;
+import com.shashank.sony.fancydialoglib.Animation;
+import com.shashank.sony.fancydialoglib.FancyAlertDialog;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapter.ViewHolder> {
 
-    private ArrayList<PlantProfile> plantProfiles;
-    private ImageButton editButton, deleteButton;
-    private DeletePlantProfilePopup deletePopup;
-    private long plantId;
-    private boolean isConfirmed;
+    private List<PlantProfile> plantProfiles;
     private NavController navController;
-    private AppCompatActivity activity;
-    private PlantProfileViewModel plantProfileViewModel;
+    private AddPlantProfileViewModel addPlantProfileViewModel;
+    private OnItemClickListener listener;
 
 
 
-    public PlantProfileAdapter(ArrayList<PlantProfile> plantProfiles) {
+
+    public PlantProfileAdapter() {
+        this.plantProfiles = new ArrayList<>();
+    }
+
+
+    public void setPlantProfiles(List<PlantProfile> plantProfiles) {
         this.plantProfiles = plantProfiles;
+        notifyDataSetChanged();
     }
 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        navController = Navigation.findNavController(parent);
+        addPlantProfileViewModel = new ViewModelProvider((AppCompatActivity) parent.getContext()).get(AddPlantProfileViewModel.class);
+
         View view = inflater.inflate(R.layout.plant_profile_list_item, parent, false);
-        initializeViews(view);
         return new ViewHolder(view);
     }
 
-    private void initializeViews(View view) {
-        activity = (AppCompatActivity) view.getContext();
-        navController = Navigation.findNavController(activity,R.id.fragment_container);
-        plantProfileViewModel = new PlantProfileViewModel();
+
+
+    private void deletePlantProfile( long id) {
+       addPlantProfileViewModel.deletePlantProfile(id);
+
+
     }
 
-    private void deletePlantProfile(View view, long id) {
-        deletePopup = new DeletePlantProfilePopup();
-        deletePopup.showPopupWindow(view,id);
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
+
+
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.plantProfileName.setText(plantProfiles.get(position).getName());
-        holder.plantProfileDescription.setText(plantProfiles.get(position).getDescription());
+    public void onBindViewHolder(@NonNull PlantProfileAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
-        holder.plantProfileOptimalTemperature.setText(plantProfiles.get(position).getOptimalTemp()+"\n°C");
-        holder.plantProfileOptimalHumidity.setText(plantProfiles.get(position).getOptimalHumidity()+"\n%");
-        holder.plantProfileOptimalCO2.setText(Math.round(plantProfiles.get(position).getOptimalCo2())+"\nppm");
+
+        holder.setFields(plantProfiles.get(position));
+
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("DELETE",plantProfiles.get(position).getName());
-                deletePlantProfile(v,plantProfiles.get(position).getId());
+                String message = "Are you sure you want to delete this plant profile?";
+                    FancyAlertDialog.Builder.with(holder.itemView.getContext())
+                            .setTitle("Delete Plant Profile")
+                            .setBackgroundColorRes(R.color.palette_red)
+                            .setMessage(message)
+                            .setNegativeBtnText("Cancel")
+                            .setPositiveBtnBackgroundRes(R.color.palette_red)
+                            .setPositiveBtnText("Confirm")
+                            .setNegativeBtnBackgroundRes(R.color.palette_grey)
+                            .setAnimation(Animation.SLIDE)
+                            .isCancellable(true)
+                            .setIcon(R.drawable.ic_baseline_delete_outline_24, View.VISIBLE)
+                            .onPositiveClicked(dialog -> {
+                                deletePlantProfile(plantProfiles.get(position).getId());
+                                FancyToast.makeText(holder.itemView.getContext(), "Plant profile deleted", FancyToast.LENGTH_LONG, FancyToast.INFO, false).show();
+                            })
+                            .onNegativeClicked(dialog -> {
+                                dialog.dismiss();
+                                FancyToast.makeText(holder.itemView.getContext(), "Cancelled", FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
+
+                            })
+                            .build()
+                            .show();
+
+
+
             }
         });
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("EDIT",plantProfiles.get(position).getName());
-                plantProfileViewModel.searchPlantProfile(plantProfiles.get(position).getId());
-                plantProfileViewModel.searchThreshold(plantProfiles.get(position).getId());
-                navController.navigate(R.id.editPlantProfileFragment);
+                editBtnPressed(position);
             }
         });
+
+    }
+
+
+    private void editBtnPressed(int position) {
+
+//        addPlantProfileViewModel.searchPlantProfile(plantProfiles.get(position).getId());
+
+        addPlantProfileViewModel.setPlantProfileToEdit(plantProfiles.get(position));
+        navController.navigate(R.id.editPlantProfileFragment);
     }
 
     @Override
@@ -98,10 +132,9 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView plantProfileName, plantProfileDescription;
-        private TextView plantProfileOptimalTemperature, plantProfileOptimalHumidity, plantProfileOptimalCO2, plantProfileOptimalLight;
-        private ImageButton deleteButton,editButton;
-
+        private final TextView plantProfileName, plantProfileDescription;
+        private final TextView plantProfileOptimalTemperature, plantProfileOptimalHumidity, plantProfileOptimalCO2, plantProfileOptimalLight;
+        private final ImageButton deleteButton,editButton;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -113,7 +146,25 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
             plantProfileOptimalLight = itemView.findViewById(R.id.plantProfileOptimalLight);
             deleteButton= itemView.findViewById(R.id.deletePlantProfileButton);
             editButton = itemView.findViewById(R.id.editPlantProfileButton);
+
+            itemView.setOnClickListener(v -> {
+                if (listener != null && getAdapterPosition() != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(plantProfiles.get(getAdapterPosition()));
+                }
+            });
         }
+
+        public void setFields(PlantProfile plantProfile) {
+            plantProfileName.setText(plantProfile.getName());
+            plantProfileDescription.setText(plantProfile.getDescription());
+            plantProfileOptimalTemperature.setText(String.valueOf(plantProfile.getOptimalTemperature()));
+            plantProfileOptimalHumidity.setText(String.valueOf(plantProfile.getOptimalHumidity()));
+            plantProfileOptimalCO2.setText(String.valueOf(plantProfile.getOptimalCo2()));
+            plantProfileOptimalLight.setText(String.valueOf(plantProfile.getOptimalLight()));
+        }
+    }
+    public interface OnItemClickListener {
+        void onItemClick(PlantProfile greenHouse);
     }
 }
 

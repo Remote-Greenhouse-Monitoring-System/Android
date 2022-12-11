@@ -1,6 +1,5 @@
 package com.github.group2.android_sep4.networking;
 
-import static com.github.group2.android_sep4.networking.GreenHouseApi.apiKey;
 import static com.github.group2.android_sep4.repository.ServiceGenerator.API_KEY;
 
 import com.github.group2.android_sep4.model.User;
@@ -40,14 +39,16 @@ public interface UserApi {
     Call<User> updateUser(@Body User user);
 
     @Headers({API_KEY})
-    @DELETE(route + "delete/{id}")
-    Call<User> deleteUser(@Path("id") long id);
+    @DELETE(route + "remove/{id}")
+    Call<Void> deleteUser(@Path("id") long id);
 
     @Headers({API_KEY})
     @GET(route + "login")
     Call<User> login(@Query("email") String email, @Query("password") String password);
 
 
-
-
+    // I don't have the endpoint for this yet..
+    // TODO add the correct endpoint
+    @Headers({API_KEY})
+    Call<Void> registerNotificationClient(long userId, String tokenValue);
 }

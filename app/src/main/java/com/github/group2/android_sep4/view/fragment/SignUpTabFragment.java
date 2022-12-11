@@ -14,7 +14,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.User;
-import com.github.group2.android_sep4.viewmodel.UserViewModel;
+import com.github.group2.android_sep4.viewmodel.SingUpViewModel;
 import com.google.android.material.textfield.TextInputLayout;
 
 public class SignUpTabFragment extends Fragment {
@@ -22,8 +22,7 @@ public class SignUpTabFragment extends Fragment {
     TextInputLayout emailField, passwordField, usernameField, confirmPasswordField;
     AppCompatButton signUp;
     ProgressBar progressBar;
-    private UserViewModel viewModel;
-
+    private SingUpViewModel viewModel;
 
     @Nullable
     @Override
@@ -31,32 +30,26 @@ public class SignUpTabFragment extends Fragment {
         View view = inflater.inflate(R.layout.sign_up_tab_fragment, container, false);
         initializeAllFields(view);
 
-
-        viewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        viewModel = new ViewModelProvider(this).get(SingUpViewModel.class);
         viewModel.getCurrentUser().observe(getViewLifecycleOwner(), this::userObserver);
         viewModel.getError().observe(getViewLifecycleOwner(), this::errorObserver);
-
 
         signUp.setOnClickListener(this::signUpPressed);
 
         return view;
-
     }
 
     private void errorObserver(String s) {
-        if (s != null){
+        if (s != null) {
             progressBar.setVisibility(View.INVISIBLE);
         }
     }
 
     private void userObserver(User user) {
-        if (user !=null){
+        if (user != null) {
             progressBar.setVisibility(View.INVISIBLE);
         }
-
     }
-
-
 
     private void signUpPressed(View view) {
         boolean isAppropriateEmail = validateEmail();
@@ -98,19 +91,14 @@ public class SignUpTabFragment extends Fragment {
         if (password.isEmpty()) {
             passwordField.setError(getString(R.string.empty_password));
             return false;
-        }
-        else if (password.length() < 8) {
+        } else if (password.length() < 8) {
             passwordField.setError("Password must contain more than 8 chars");
             return false;
 
-        } else if (!confirmPassword.equals(password)){
+        } else if (!confirmPassword.equals(password)) {
             confirmPasswordField.setError("Passwords don't match");
             return false;
-        }
-
-
-
-        else {
+        } else {
             passwordField.setError(null);
             passwordField.setErrorEnabled(false);
 
@@ -118,7 +106,6 @@ public class SignUpTabFragment extends Fragment {
             confirmPasswordField.setErrorEnabled(false);
             return true;
         }
-
     }
 
     private boolean validateEmail() {
@@ -140,8 +127,6 @@ public class SignUpTabFragment extends Fragment {
     }
 
     private void initializeAllFields(View view) {
-
-
         emailField = view.findViewById(R.id.emailSignUp);
         passwordField = view.findViewById(R.id.passwordSignUp);
         usernameField = view.findViewById(R.id.usernameSignUp);

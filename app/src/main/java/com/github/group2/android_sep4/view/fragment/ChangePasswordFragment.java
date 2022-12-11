@@ -11,11 +11,13 @@ import androidx.fragment.app.Fragment;
 
 import com.github.group2.android_sep4.R;
 
-public class SelectGreenhouseFragment extends Fragment
-{
+public class ChangePasswordFragment extends Fragment {
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.select_profile_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_change_password, container, false);
+        return view;
     }
 }

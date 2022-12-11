@@ -4,55 +4,86 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.Measurement;
-import com.github.group2.android_sep4.view.uielements.DeletePopup;
-import com.github.group2.android_sep4.view.GreenhouseSpecificViewModel;
 import com.github.group2.android_sep4.view.MeasurementType;
+import com.github.group2.android_sep4.viewmodel.GreenhouseViewModel;
 import com.google.android.material.card.MaterialCardView;
+import com.shashank.sony.fancydialoglib.Animation;
+import com.shashank.sony.fancydialoglib.FancyAlertDialog;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 public class GreenhouseFragment extends Fragment
 {
-    GreenhouseSpecificViewModel viewModel;
-    TextView greenhouseName, greenhouseTemperature, greenhouseCO2, greenhouseHumidity, greenhouseLight;
+    GreenhouseViewModel viewModel;
+    TextView greenhouseName, greenhouseTemperature, greenhouseCO2, greenhouseHumidity, greenhouseLight, activePlantProfileName;
     MaterialCardView clickableCard, temperatureCard, co2Card, humidityCard, lightCard;
     ImageButton backButton, deleteButton;
     NavController navController;
-    DeletePopup deletePopup;
+    
+    LinearLayout activePlantProfileCard, inactivePlantProfileCard;
+    Button removePlantProfileButton;
+    private long greenhouseId;
+
+    public GreenhouseFragment() {
+    }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
-    {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.greenhouse_specific_fragment, container, false);
+        viewModel = new ViewModelProvider(this).get(GreenhouseViewModel.class);
+
+        viewModel.searchActivatedProfile();
+
+        setObservers();
         initializeAllFields(view);
-        viewModel = new ViewModelProvider(this).get(GreenhouseSpecificViewModel.class);
-
-
-        viewModel.getSelectedGreenhouse().observe(getViewLifecycleOwner(), greenHouseWithLastMeasurementModel -> {
-            greenhouseName.setText(greenHouseWithLastMeasurementModel.getName());
-
-            Measurement lastMeasurement = greenHouseWithLastMeasurementModel.getLastMeasurement();
-
-            greenhouseTemperature.setText(getString(R.string.unit_temperature, lastMeasurement.getTemperature()));
-            greenhouseCO2.setText(getString(R.string.unit_CO2, lastMeasurement.getCo2()));
-            greenhouseHumidity.setText(getString(R.string.unit_humidity, lastMeasurement.getHumidity()));
-            //The formatting did not work for the light, so I had to do it manually
-            greenhouseLight.setText( lastMeasurement.getLight() + " lux");
-        });
 
         return view;
+    }
+
+        private void setObservers() {
+            viewModel.getSelectedGreenhouse().observe(getViewLifecycleOwner(), greenhouse -> {
+                greenhouseId = greenhouse.getId();
+                greenhouseName.setText(greenhouse.getName());
+
+                Measurement lastMeasurement = greenhouse.getLastMeasurement();
+                if (greenhouse.getLastMeasurement() == null){
+                    greenhouseTemperature.setText("No data");
+                    greenhouseCO2.setText("No data");
+                    greenhouseHumidity.setText("No data");
+                    greenhouseLight.setText("No data");
+                } else {
+                    greenhouseTemperature.setText(getString(R.string.unit_temperature, lastMeasurement.getTemperature()));
+                    greenhouseCO2.setText(getString(R.string.unit_CO2, lastMeasurement.getCo2()));
+                    greenhouseHumidity.setText(getString(R.string.unit_humidity, lastMeasurement.getHumidity()));
+                    greenhouseLight.setText(getString( R.string.unit_light, lastMeasurement.getLight()));
+                }
+            });
+
+            viewModel.getActivePlantProfile().observe(getViewLifecycleOwner(), activePlantProfile -> {
+                if (activePlantProfile != null) {
+                    activePlantProfileName.setText(activePlantProfile.getName());
+                    activePlantProfileCard.setVisibility(View.VISIBLE);
+                    inactivePlantProfileCard.setVisibility(View.GONE);
+                } else {
+                    activePlantProfileCard.setVisibility(View.GONE);
+                    inactivePlantProfileCard.setVisibility(View.VISIBLE);
+                }
+            });
     }
 
     private void initializeAllFields(View view)
@@ -65,13 +96,18 @@ public class GreenhouseFragment extends Fragment
         clickableCard = view.findViewById(R.id.clickableCard);
         backButton = view.findViewById(R.id.backButton);
         deleteButton = view.findViewById(R.id.deleteGreenhouse);
+        activePlantProfileCard = view.findViewById(R.id.activePlantProfile);
+        activePlantProfileCard.setVisibility(View.GONE);
+
+        inactivePlantProfileCard = view.findViewById(R.id.inactivePlantProfile);
 
         temperatureCard = view.findViewById(R.id.latestMeasurementTemperature);
         co2Card = view.findViewById(R.id.latestMeasurementCO2);
         humidityCard = view.findViewById(R.id.latestMeasurementHumidity);
         lightCard = view.findViewById(R.id.latestMeasurementLight);
-
+        removePlantProfileButton = view.findViewById(R.id.removePlantProfileButton);
         navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
+        activePlantProfileName = view.findViewById(R.id.activePlantProfileText);
 
         backButton.setOnClickListener(this::goBack);
         deleteButton.setOnClickListener(this::deleteGreenhouse);
@@ -80,22 +116,46 @@ public class GreenhouseFragment extends Fragment
         setOnClickChartOpening(co2Card, MeasurementType.CO2);
         setOnClickChartOpening(humidityCard, MeasurementType.HUMIDITY);
         setOnClickChartOpening(lightCard, MeasurementType.LIGHT);
-        clickableCard.setOnClickListener(this::goToPlantProfileList);
+
+        inactivePlantProfileCard.setOnClickListener(this::goToPlantProfileList);
+        removePlantProfileButton.setOnClickListener(this::removePlantProfile);
     }
 
     private void goToPlantProfileList(View view) {
-        navController.navigate(R.id.selectPlantProfileFragment);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("isFromSpecificGreenhouse", true);
+        Toast.makeText(getContext(), "Greenhouse id: " + viewModel.getSelectedGreenhouse().getValue().getId(), Toast.LENGTH_SHORT).show();
+        navController.navigate(R.id.selectPlantProfileFragment, bundle);
     }
 
-    private void deleteGreenhouse(View view)
-    {
-        deletePopup = new DeletePopup();
-        deletePopup.showPopupWindow(view);
+    private void deleteGreenhouse(View view) {
+        String message = getString(R.string.delete_greenhouse_message);
+        FancyAlertDialog.Builder.with(getContext())
+                .setTitle("Delete greenhouse")
+                .setBackgroundColorRes(R.color.palette_red)
+                .setMessage(message)
+                .setNegativeBtnText("Cancel")
+                .setPositiveBtnBackgroundRes(R.color.palette_red)
+                .setPositiveBtnText("Confirm")
+                .setNegativeBtnBackgroundRes(R.color.palette_grey)
+                .setAnimation(Animation.SLIDE)
+                .isCancellable(true)
+                .setIcon(R.drawable.ic_baseline_delete_outline_24, View.VISIBLE)
+                .onPositiveClicked(dialog -> {
+                    viewModel.deleteGreenhouse(greenhouseId);
+                    navController.navigate(R.id.homeFragment);
+                })
+                .onNegativeClicked(dialog -> {
+                    dialog.dismiss();
+                    FancyToast.makeText(getContext(), "Cancelled", FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
+                })
+                .build()
+                .show();
     }
 
     private void goBack(View view)
     {
-        navController.popBackStack();
+        navController.navigate(R.id.homeFragment);
     }
 
     private void setOnClickChartOpening(final MaterialCardView cardView, MeasurementType measurementType)
@@ -105,5 +165,9 @@ public class GreenhouseFragment extends Fragment
             bundle.putString("measurementType", measurementType.toString());
             navController.navigate(R.id.measurementFragment, bundle);
         });
+    }
+
+    private void removePlantProfile(View view) {
+        viewModel.deactivatePlantProfile();
     }
 }

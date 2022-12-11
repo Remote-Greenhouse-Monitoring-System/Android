@@ -2,8 +2,7 @@ package com.github.group2.android_sep4.networking;
 
 import static com.github.group2.android_sep4.repository.ServiceGenerator.API_KEY;
 
-import com.github.group2.android_sep4.model.GreenHouse;
-import com.github.group2.android_sep4.model.GreenHouseWithLastMeasurementModel;
+import com.github.group2.android_sep4.model.Greenhouse;
 
 import java.util.List;
 
@@ -16,29 +15,29 @@ import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
-public interface GreenHouseApi {
+public interface GreenhouseApi {
 
     String route = "GreenHouses";
     String apiKey = "JYP!$jFqqFxmy@TsF6zBNMaSd3Fd&";
 
     @Headers({API_KEY})
     @GET(route + "/{uId}")
-    Call<List<GreenHouse>> getGreenHouses(@Path("uId") long userId);
+    Call<List<Greenhouse>> getGreenhouses(@Path("uId") long userId);
 
     @Headers({API_KEY})
     @POST(route + "/{uId}")
-    Call<GreenHouse> addGreenHouse(@Path("uId") long userId, @Body GreenHouse greenHouse);
+    Call<Greenhouse> addGreenhouse(@Path("uId") long userId, @Body Greenhouse greenhouse);
 
     @Headers({API_KEY})
     @PATCH(route)
-    Call<GreenHouse> updateGreenHouse(@Body GreenHouse greenHouse);
+    Call<Greenhouse> updateGreenhouse(@Body Greenhouse greenhouse);
 
     @Headers({API_KEY})
     @DELETE(route + "/{gId}")
-    Call<GreenHouse> deleteGreenHouse(@Path("gId") long greenHouseId);
+    Call<Greenhouse> deleteGreenhouse(@Path("gId") long greenhouseId);
 
     @Headers({API_KEY})
     @GET(route + "/greenhousesWithLastMeasurements/{uId}")
-    Call<List<GreenHouseWithLastMeasurementModel>> getGreenHouseByUserWithLastMeasurement(@Path("uId") long userId);
+    Call<List<Greenhouse>> getGreenHouseByUserWithLastMeasurement(@Path("uId") long userId);
 
 }

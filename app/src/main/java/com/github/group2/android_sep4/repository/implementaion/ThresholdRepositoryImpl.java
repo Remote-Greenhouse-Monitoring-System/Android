@@ -25,15 +25,12 @@ public class ThresholdRepositoryImpl implements ThresholdRepository {
     private MutableLiveData<String> errorMessage, successMessage;
     private MutableLiveData<Threshold> searchedThreshold;
 
-
-
     private ThresholdApi thresholdApi;
     private ThresholdRepositoryImpl() {
         thresholdApi = ServiceGenerator.getThresholdApi();
         errorMessage = new MutableLiveData<>();
         successMessage = new MutableLiveData<>();
         searchedThreshold = new MutableLiveData<>();
-
     }
 
     public static ThresholdRepository getInstance() {
@@ -44,20 +41,19 @@ public class ThresholdRepositoryImpl implements ThresholdRepository {
                 }
             }
         }
+
         return instance;
     }
 
 
     @Override
     public void searchThreshold(long plantProfileId) {
-
         Call<Threshold> call = thresholdApi.getThreshold(plantProfileId);
         call.enqueue(new Callback<Threshold>() {
             @Override
             public void onResponse(Call<Threshold> call, Response<Threshold> response) {
                 if (response.isSuccessful()) {
                     searchedThreshold.setValue(response.body());
-                    Log.e("THRESHOLD",searchedThreshold.getValue().toString());
                 } else {
                     setError(response);
                 }
@@ -65,7 +61,6 @@ public class ThresholdRepositoryImpl implements ThresholdRepository {
 
             @Override
             public void onFailure(Call<Threshold> call, Throwable t) {
-
                 errorMessage.setValue("Cannot connect to server");
             }
         });
@@ -78,10 +73,10 @@ public class ThresholdRepositoryImpl implements ThresholdRepository {
 
     @Override
     public void updateThreshold(long plantProfileId, Threshold threshold) {
-        Call<Threshold> call = thresholdApi.updateThreshold(plantProfileId, threshold);
-        call.enqueue(new Callback<Threshold>() {
+        Call<Void> call = thresholdApi.updateThreshold(plantProfileId, threshold);
+        call.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<Threshold> call, Response<Threshold> response) {
+            public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
                     successMessage.setValue("Threshold updated successfully");
                 } else {
@@ -90,11 +85,10 @@ public class ThresholdRepositoryImpl implements ThresholdRepository {
             }
 
             @Override
-            public void onFailure(Call<Threshold> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 errorMessage.setValue("Cannot connect to server");
             }
         });
-
     }
 
     @Override
@@ -107,7 +101,6 @@ public class ThresholdRepositoryImpl implements ThresholdRepository {
         return successMessage;
     }
 
-
     private void setError(Response response) {
         String errorMessage = null;
         try {
@@ -117,7 +110,5 @@ public class ThresholdRepositoryImpl implements ThresholdRepository {
             this.errorMessage.setValue("Cannot connect to server");
         }
         this.errorMessage.setValue(errorMessage);
-
-
     }
 }

@@ -3,24 +3,24 @@ package com.github.group2.android_sep4.view.fragment;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.Observer;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.PlantProfile;
 import com.github.group2.android_sep4.view.adapter.PlantProfileAdapter;
-import com.github.group2.android_sep4.viewmodel.PlantProfileViewModel;
-import com.github.group2.android_sep4.viewmodel.UserViewModel;
+import com.github.group2.android_sep4.viewmodel.SelectPlantProfileViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -34,35 +34,46 @@ public class SelectPlantProfileFragment extends Fragment {
     private RecyclerView plantProfileRecyclerView;
     private PlantProfileAdapter plantProfileAdapter;
     private FloatingActionButton addPlantProfileButton;
-    private ArrayList<PlantProfile> userPlantProfiles = new ArrayList<>();
-    private PlantProfileViewModel plantProfileViewModel;
+    private SelectPlantProfileViewModel viewModel;
+    private boolean isFromSpecificGreenhouse=false;
+
 
     public SelectPlantProfileFragment() {
+        // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_select_plant_profile, container, false);
-        plantProfileViewModel = new PlantProfileViewModel();
-        plantProfileViewModel.searchPlantProfilesForUser(plantProfileViewModel.getCurrentUser().getValue().getId());
+        viewModel = new ViewModelProvider(this).get(SelectPlantProfileViewModel.class);
+
         initializeViews(view);
-        final Observer<List<PlantProfile>> plantProfilesObserver = new Observer<List<PlantProfile>>() {
-            @Override
-            public void onChanged(List<PlantProfile> plantProfiles) {
-                userPlantProfiles.clear();
-                userPlantProfiles.addAll(plantProfiles);
-                plantProfileAdapter = new PlantProfileAdapter(userPlantProfiles);
-                plantProfileRecyclerView.setAdapter(plantProfileAdapter);
-            }
-        };
-        plantProfileViewModel.getPlantProfileForUser().observe(getViewLifecycleOwner(),plantProfilesObserver);
+
+        setAdapter();
+
+        Bundle bundle = getArguments();
+        if (bundle!=null) {
+            isFromSpecificGreenhouse = bundle.getBoolean("isFromSpecificGreenhouse");
+        }
+
+        checkIfGreenHouseIdIsSet();
+
+
 
         return view;
     }
 
+    private void checkIfGreenHouseIdIsSet() {
+        if(isFromSpecificGreenhouse) {
+            plantProfileAdapter.setOnItemClickListener(this::plantProfileClicked);
+        }
+    }
+
     private void initializeViews(View view) {
         navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
+
         plantProfileRecyclerView= view.findViewById(R.id.plantProfileRecyclerView);
         addPlantProfileButton = view.findViewById(R.id.addPlantProfileButton);
         addPlantProfileButton.setOnClickListener(this::goAddPlantProfile);
@@ -75,10 +86,24 @@ public class SelectPlantProfileFragment extends Fragment {
         navController.navigate(R.id.addPlantProfileFragment);
     }
 
+    private void setAdapter() {
+        plantProfileAdapter = new PlantProfileAdapter();
+        plantProfileRecyclerView.setAdapter(plantProfileAdapter);
 
+        viewModel.getPlantProfilesForUser().observe(getViewLifecycleOwner(), plantProfiles -> {
+            if (plantProfiles != null) {
+                plantProfileAdapter.setPlantProfiles(plantProfiles);
+            }
+        });
+    }
 
     private void goBack(View view) {
         navController.navigate(R.id.homeFragment);
     }
 
+    private void plantProfileClicked(PlantProfile plantProfile) {
+        viewModel.activatePlantProfile(plantProfile.getId());
+        Toast.makeText(getContext(), "Plant profile set " + plantProfile.getId() + " to greenhouse " + viewModel.getSelectedGreenhouse().getValue().getId(), Toast.LENGTH_SHORT).show();
+        navController.popBackStack();
+    }
 }

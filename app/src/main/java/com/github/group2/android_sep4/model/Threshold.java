@@ -36,11 +36,11 @@ public class Threshold {
         this.temperatureMin = temperatureMin;
     }
 
-    public float getMaxHumidity() {
+    public float getHumidityMax() {
         return humidityMax;
     }
 
-    public void setMaxHumidity(float maxHumidity) {
+    public void setHumidityMax(float maxHumidity) {
         this.humidityMax = maxHumidity;
     }
 

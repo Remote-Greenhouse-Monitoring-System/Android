@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Android-SEP4</string>
+    <string name="app_name">Green Guard</string>
     <string name="login">LOGIN</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
@@ -54,4 +54,13 @@
     <string name="new_credentials">New Credentials</string>
     <string name="new_credentials_details">New credentials details</string>
     <string name="delete_greenhouse_message"> Deleting this greenhouse will delete all the measurements associated with this greenhouse .Are you sure you want to delete this greenhouse?</string>
+    <string name="delete_profile_message"></string>
+    <string name="add_plant_profile">Add Plant Profile</string>
+    <string name="optimal_environment">Optimal environment</string>
+    <string name="carbon_dioxide">Carbon dioxide</string>
+    <string name="threshold_values">Threshold values</string>
+    <string name="min">Min</string>
+    <string name="max">Max</string>
+    <string name="add">Add</string>
+    <string name="temperature_no_c">Temperature</string>
 </resources>

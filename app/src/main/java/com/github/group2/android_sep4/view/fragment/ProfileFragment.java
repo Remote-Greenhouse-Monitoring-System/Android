@@ -21,6 +21,8 @@ import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.User;
 import com.github.group2.android_sep4.view.uielements.DeleteAccountPopup;
 import com.github.group2.android_sep4.viewmodel.UserViewModel;
+import com.shashank.sony.fancydialoglib.Animation;
+import com.shashank.sony.fancydialoglib.FancyAlertDialog;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 
@@ -114,11 +116,31 @@ public class ProfileFragment extends Fragment {
     }
 
 
-    private void deleteAccount(View view) {
-        deleteAccountPopup = new DeleteAccountPopup();
-        deleteAccountPopup.showPopupWindow(view, viewModel);
 
-      //  viewModel.deleteUser(viewModel.getCurrentUser().getValue().getId());
+    private void deleteAccount(View view) {
+        String message = getString(R.string.deleteAccountMessage);
+        FancyAlertDialog.Builder.with(getContext())
+                .setTitle("Delete Profile")
+                .setBackgroundColorRes(R.color.palette_red)
+                .setMessage(message)
+                .setNegativeBtnText("Cancel")
+                .setPositiveBtnBackgroundRes(R.color.palette_red)
+                .setPositiveBtnText("Confirm")
+                .setNegativeBtnBackgroundRes(R.color.palette_grey)
+                .setAnimation(Animation.SLIDE)
+                .isCancellable(true)
+                .setIcon(R.drawable.ic_baseline_delete_outline_24, View.VISIBLE)
+                .onPositiveClicked(dialog -> {
+                    viewModel.deleteUser(viewModel.getCurrentUser().getValue().getId());
+                    FancyToast.makeText(getContext(), "Account D=deleted", FancyToast.LENGTH_LONG, FancyToast.INFO, false).show();
+                })
+                .onNegativeClicked(dialog -> {
+                    dialog.dismiss();
+                    FancyToast.makeText(getContext(), "Cancelled", FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
+
+                })
+                .build()
+                .show();
     }
 
 

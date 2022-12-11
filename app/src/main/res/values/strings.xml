@@ -71,4 +71,8 @@
     <string name="edit">edit</string>
     <string name="greenhouses">Greenhouses</string>
     <string name="plan_profiles">Plant Profiles</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="logout"> Log out</string>
+    <string name="update">Update</string>
+    <string name="update_profile_information">Update Profile Information</string>
 </resources>

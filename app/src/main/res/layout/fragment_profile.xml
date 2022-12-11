@@ -6,6 +6,34 @@
     android:layout_height="match_parent"
     >
 
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/profile"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.842"
+            app:layout_constraintStart_toEndOf="@+id/addPlantProfileBackButton"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </LinearLayout>
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
@@ -13,7 +41,7 @@
         android:layout_height="120dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
-        android:src="@drawable/user_profile" />
+        android:src="@drawable/farmer_icon" />
 
     <TextView
         android:id="@+id/profile_name"
@@ -46,49 +74,60 @@
         android:layout_below="@id/profile_email"
         android:src="@drawable/profile_scarf" />
 
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/edit_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/profile_scarf"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="29dp"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginLeft="70dp"
-            android:src="@drawable/profile_vector"
-            app:tint="@color/palette_black" />
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="5dp"
-            android:autoSizeMaxTextSize="5dp"
-            android:fontFamily="@font/helvetica_regular"
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/edit_profile_button"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/edit_profile"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="2"
+            android:background="@drawable/btn_bg"
+            android:backgroundTint="@color/palette_grey"
+            android:drawableStart="@drawable/profile_vector"
+            android:drawableTint="@color/black"
+            android:gravity="center"
+            android:paddingStart="20dp"
+            android:paddingEnd="30dp"
             android:text="@string/edit_profile"
-            android:textColor="@color/palette_black"
-            android:textSize="18sp" />
+            android:textAlignment="center" />
 
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/log_out"
 
+        android:id="@+id/log_out"
         android:layout_width="200dp"
         android:layout_height="40dp"
         android:layout_below="@+id/edit_profile"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
-        android:backgroundTint="@color/palette_light_blue"
+        android:layout_marginTop="30dp"
         android:background="@drawable/btn_bg"
+        android:backgroundTint="@color/palette_grey"
         android:drawableStart="@drawable/ic_baseline_logout_24"
         android:gravity="center"
-        android:text="@string/logout">
+        android:paddingStart="20dp"
+        android:paddingEnd="30dp"
+        android:text="@string/logout"
+        android:textAlignment="center">
 
     </androidx.appcompat.widget.AppCompatButton>
 
@@ -99,11 +138,15 @@
         android:layout_height="40dp"
         android:layout_below="@+id/log_out"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
-        android:backgroundTint="@color/palette_red"
+        android:layout_marginTop="30dp"
         android:background="@drawable/btn_bg"
+        android:textColor="@color/palette_red"
+        android:drawableTint="@color/palette_red"
+        android:backgroundTint="@color/palette_grey"
         android:drawableStart="@drawable/ic_baseline_delete_outline_24"
         android:gravity="center"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:text="@string/delete_account">
 
     </androidx.appcompat.widget.AppCompatButton>

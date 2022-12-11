@@ -156,7 +156,7 @@ public class MeasurementFragment extends Fragment {
             this.plantProfile = plantProfile;
 
             if (plantProfile != null) {
-                optimalMeasurement = new Measurement(plantProfile.getOptimalTemp(), plantProfile.getOptimalHumidity(), plantProfile.getOptimalCo2());
+                optimalMeasurement = new Measurement(plantProfile.getOptimalTemperature(), plantProfile.getOptimalHumidity(), plantProfile.getOptimalCo2());
                 setOptimalLine();
             }
         });

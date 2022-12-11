@@ -102,6 +102,10 @@ public class GreenhouseRepositoryImpl implements GreenhouseRepository {
             @Override
             public void onResponse(Call<Greenhouse> call, Response<Greenhouse> response) {
                 if (response.isSuccessful()) {
+
+                    Greenhouse body = response.body();
+                    allGreenhouses.getValue().add(body);
+                    allGreenhouses.setValue(allGreenhouses.getValue());
                     successMessage.setValue("Greenhouse added successfully");
                 } else {
                    setError(response);
@@ -123,6 +127,11 @@ public class GreenhouseRepositoryImpl implements GreenhouseRepository {
             @Override
             public void onResponse(Call<Greenhouse> call, Response<Greenhouse> response) {
                 if (response.isSuccessful()) {
+
+
+                    Greenhouse body = response.body();
+                    allGreenhouses.getValue().removeIf(greenhouse -> greenhouse.getId() == body.getId());
+                    allGreenhouses.setValue(allGreenhouses.getValue());
                     successMessage.setValue("Greenhouse deleted successfully");
                 } else {
                     setError(response);

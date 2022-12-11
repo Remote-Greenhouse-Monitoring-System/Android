@@ -1,6 +1,6 @@
 package com.github.group2.android_sep4.model;
 
-import static org.junit.Assert.assertTrue;
+
 
 import junit.framework.TestCase;
 

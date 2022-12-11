@@ -93,19 +93,24 @@ public class HomeFragment extends Fragment {
         Button buttonSubmit =  dialogView.findViewById(R.id.buttonSubmit);
         Button buttonCancel = dialogView.findViewById(R.id.buttonCancel);
 
-        buttonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogBuilder.dismiss();
-            }
-        });
+        buttonCancel.setOnClickListener(view1 -> dialogBuilder.dismiss());
 
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // DO SOMETHINGS
-                viewModel.addGreenhouse(viewModel.getCurrentUser().getValue().getId(), new Greenhouse(editText.getText().toString()));
-                dialogBuilder.dismiss();
+                String name = editText.getText().toString();
+
+                if (name.isEmpty()) {
+                    FancyToast.makeText(getContext(), "Please enter a name", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+                }
+                else if (name.length() > 25) {
+                    FancyToast.makeText(getContext(), "Name is too long", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+                }
+                else {
+                    viewModel.addGreenhouse(viewModel.getCurrentUser().getValue().getId(), new Greenhouse(name));
+                    dialogBuilder.dismiss();
+                }
             }
         });
         dialogBuilder.setView(dialogView);

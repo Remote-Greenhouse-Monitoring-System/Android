@@ -184,7 +184,9 @@
                     android:inputType="numberDecimal"
                     app:layout_constraintBottom_toBottomOf="@+id/textView11"
                     app:layout_constraintStart_toEndOf="@+id/textView11"
-                    app:layout_constraintTop_toTopOf="@+id/textView11" />
+                    app:layout_constraintTop_toTopOf="@+id/textView11"
+                    android:maxLength="4"
+                    />
 
                 <EditText
                     android:id="@+id/editPlantProfileHumidity"
@@ -196,7 +198,9 @@
                     app:layout_constraintEnd_toEndOf="@+id/editPlantProfileCO2"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="@+id/editPlantProfileCO2"
-                    app:layout_constraintTop_toTopOf="@+id/textView13" />
+                    app:layout_constraintTop_toTopOf="@+id/textView13"
+                    android:maxLength="4"
+                    />
 
                 <EditText
                     android:id="@+id/editPlantProfileCO2"
@@ -207,7 +211,9 @@
                     app:layout_constraintBottom_toBottomOf="@+id/textView14"
                     app:layout_constraintEnd_toEndOf="@+id/editPlantProfileTemp"
                     app:layout_constraintStart_toStartOf="@+id/editPlantProfileTemp"
-                    app:layout_constraintTop_toTopOf="@+id/textView14" />
+                    app:layout_constraintTop_toTopOf="@+id/textView14"
+                    android:maxLength="4"
+                    />
 
                 <TextView
                     android:id="@+id/textView145"
@@ -232,7 +238,9 @@
                     app:layout_constraintHorizontal_bias="0.967"
                     app:layout_constraintStart_toEndOf="@+id/textView145"
                     app:layout_constraintTop_toBottomOf="@+id/editPlantProfileHumidity"
-                    app:layout_constraintVertical_bias="1.0" />
+                    app:layout_constraintVertical_bias="1.0"
+                    android:maxLength="4"
+                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -332,14 +340,18 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:inputType="numberDecimal"/>
+                        android:inputType="numberDecimal"
+                        android:maxLength="4"
+                        />
 
                     <EditText
                         android:id="@+id/editPlantProfileTempMax"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:inputType="numberDecimal"/>
+                        android:inputType="numberDecimal"
+                        android:maxLength="4"
+                        />
                 </LinearLayout>
 
                 <LinearLayout
@@ -359,14 +371,18 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:inputType="numberDecimal"/>
+                        android:inputType="numberDecimal"
+                        android:maxLength="4"
+                        />
 
                     <EditText
                         android:id="@+id/editPlantProfileCO2Max"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:inputType="numberDecimal"/>
+                        android:inputType="numberDecimal"
+                        android:maxLength="4"
+                        />
                 </LinearLayout>
 
                 <LinearLayout
@@ -386,14 +402,18 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:inputType="numberDecimal"/>
+                        android:inputType="numberDecimal"
+                        android:maxLength="4"
+                        />
 
                     <EditText
                         android:id="@+id/editPlantProfileHumidityMax"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:inputType="numberDecimal"/>
+                        android:inputType="numberDecimal"
+                        android:maxLength="4"
+                        />
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -44,4 +44,32 @@ public class EditPlantProfileViewModel extends ViewModel {
     public void searchPlantProfilesForUser(long id) {
         plantProfileRepository.searchPlantProfilesForUser(id);
     }
+
+    public LiveData<String> getPlantProfileError() {
+        return plantProfileRepository.getErrorMessage();
+    }
+
+    public LiveData<String> getPlantProfileSuccess() {
+        return plantProfileRepository.getSuccessMessage();
+    }
+
+    public void resetMessages() {
+        plantProfileRepository.resetMessages();
+    }
+
+    public LiveData<PlantProfile> getPlantProfileToEdit() {
+        return plantProfileRepository.getPlantProfileToEdit();
+    }
+
+    public void searchForThresholds(long plantProfileId) {
+        thresholdRepository.searchThreshold(plantProfileId);
+    }
+
+    public LiveData<String> getThresholdError() {
+        return thresholdRepository.getErrorMessage();
+    }
+
+    public LiveData<String> getThresholdSuccess() {
+        return thresholdRepository.getSuccessMessage();
+    }
 }

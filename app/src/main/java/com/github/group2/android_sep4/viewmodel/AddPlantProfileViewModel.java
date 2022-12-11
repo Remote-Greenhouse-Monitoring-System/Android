@@ -67,4 +67,8 @@ public class AddPlantProfileViewModel extends ViewModel {
     public void searchPlantProfilesForUser(long userId) {
         plantProfileRepository.searchPlantProfilesForUser(userId);
     }
+
+    public void setPlantProfileToEdit(PlantProfile plantProfile) {
+        plantProfileRepository.setPlantProfileToEdit(plantProfile);
+    }
 }

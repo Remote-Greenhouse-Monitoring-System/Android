@@ -12,12 +12,12 @@ public interface PlantProfileRepository {
     void addPlantProfile(long userId, PlantProfile plantProfile);
     void deletePlantProfile(long plantProfileId);
     void updatePlantProfile(PlantProfile plantProfile);
-    void searchPlantProfilesForUser(long userId);
 
+
+
+    void searchPlantProfilesForUser(long userId);
     LiveData<List<PlantProfile>> getPlantProfilesForUser();
 
-    void searchAllPlantProfiles();
-    LiveData<List<PlantProfile>> getAllPlantProfiles();
 
 
     void searchPlantProfile(long plantProfileId);
@@ -32,4 +32,10 @@ public interface PlantProfileRepository {
     LiveData<String> getSuccessMessage();
 
     void deactivatePlantProfile(long greenHouseId);
+
+    void resetMessages();
+
+    void setPlantProfileToEdit(PlantProfile plantProfile);
+
+    LiveData<PlantProfile> getPlantProfileToEdit();
 }

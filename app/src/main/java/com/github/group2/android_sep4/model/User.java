@@ -9,6 +9,7 @@ public class User {
 
 
     public User() {
+
     }
 
 
@@ -52,6 +53,8 @@ public class User {
         return password;
     }
 
+
+    // When used the setPassword its not hashed
     public void setPassword(String password) {
         this.password = password;
     }

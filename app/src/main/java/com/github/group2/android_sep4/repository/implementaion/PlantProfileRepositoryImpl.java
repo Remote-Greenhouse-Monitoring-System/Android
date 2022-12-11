@@ -2,6 +2,7 @@ package com.github.group2.android_sep4.repository.implementaion;
 
 import android.util.Log;
 
+import androidx.arch.core.internal.SafeIterableMap;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -31,18 +32,18 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
 
     private PlantProfileApi plantProfileApi;
     private MutableLiveData<List<PlantProfile>> plantProfilesForUser;
-    private MutableLiveData<List<PlantProfile>> allPlantProfiles;
     private MutableLiveData<PlantProfile> searchedPlantProfile;
     private MutableLiveData<PlantProfile> activatedPlantProfile;
+    private MutableLiveData<PlantProfile> plantProfileToEdit;
 
     private PlantProfileRepositoryImpl() {
         plantProfileApi = ServiceGenerator.getPlantProfileApi();
         errorMessage = new MutableLiveData<>();
         successMessage = new MutableLiveData<>();
         plantProfilesForUser = new MutableLiveData<>();
-        allPlantProfiles = new MutableLiveData<>();
         searchedPlantProfile = new MutableLiveData<>();
         activatedPlantProfile = new MutableLiveData<>();
+        plantProfileToEdit = new MutableLiveData<>();
     }
 
     public static PlantProfileRepository getInstance() {
@@ -64,6 +65,9 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
             @Override
             public void onResponse(Call<PlantProfile> call, Response<PlantProfile> response) {
                 if (response.isSuccessful()) {
+                    PlantProfile body = response.body();
+                    plantProfilesForUser.getValue().add(body);
+                    plantProfilesForUser.setValue(plantProfilesForUser.getValue());
                     successMessage.setValue("Plant profile added successfully");
                 } else {
                     setError(response);
@@ -87,6 +91,11 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
             @Override
             public void onResponse(Call<PlantProfile> call, Response<PlantProfile> response) {
                 if (response.isSuccessful()) {
+
+
+                    PlantProfile body = response.body();
+                    plantProfilesForUser.getValue().removeIf(plantProfile -> plantProfile.getId() == body.getId());
+                    plantProfilesForUser.setValue(plantProfilesForUser.getValue());
                     successMessage.setValue("Plant profile added successfully");
                 } else {
                     setError(response);
@@ -103,13 +112,21 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
 
     @Override
     public void updatePlantProfile(PlantProfile plantProfile) {
+
         Call<PlantProfile> call = plantProfileApi.updatePlantProfile(plantProfile);
         call.enqueue(new Callback<PlantProfile>() {
 
             @Override
             public void onResponse(Call<PlantProfile> call, Response<PlantProfile> response) {
                 if (response.isSuccessful()) {
-                    successMessage.setValue("Plant profile updated successfully");
+
+
+                    PlantProfile plantProfileUpdated = response.body();
+
+                    plantProfilesForUser.getValue().removeIf(plantProfile -> plantProfile.getId() == plantProfileUpdated.getId());
+                    plantProfilesForUser.getValue().add(plantProfileUpdated);
+                    plantProfilesForUser.setValue(plantProfilesForUser.getValue());
+//                    successMessage.setValue("Plant profile updated successfully");
                 } else {
                     setError(response);
                 }
@@ -117,7 +134,6 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
 
             @Override
             public void onFailure(Call<PlantProfile> call, Throwable t) {
-
                 errorMessage.setValue("Cannot connect to server");
             }
         });
@@ -151,32 +167,6 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
         return plantProfilesForUser;
     }
 
-    @Override
-    public void searchAllPlantProfiles() {
-        Call<List<PlantProfile>> call = plantProfileApi.getPlantProfiles();
-        call.enqueue(new Callback<List<PlantProfile>>() {
-
-            @Override
-            public void onResponse(Call<List<PlantProfile>> call, Response<List<PlantProfile>> response) {
-                if (response.isSuccessful()) {
-                    List<PlantProfile> plantProfiles = response.body();
-                    allPlantProfiles.setValue(plantProfiles);
-                } else {
-                    setError(response);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<PlantProfile>> call, Throwable t) {
-                errorMessage.setValue("Cannot connect to server");
-            }
-        });
-    }
-
-    @Override
-    public LiveData<List<PlantProfile>> getAllPlantProfiles() {
-        return allPlantProfiles;
-    }
 
     @Override
     public void searchPlantProfile(long plantProfileId) {
@@ -187,10 +177,9 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
             public void onResponse(Call<PlantProfile> call, Response<PlantProfile> response) {
                 if (response.isSuccessful()) {
                     PlantProfile plantProfile = response.body();
-                    List<PlantProfile> plantProfiles = allPlantProfiles.getValue();
+
                     searchedPlantProfile.setValue(plantProfile);
                     Log.e("PLANT PROFILE",searchedPlantProfile.getValue().toString());
-                    allPlantProfiles.setValue(plantProfiles);
                 } else {
                     setError(response);
                 }
@@ -287,6 +276,22 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
                 errorMessage.setValue("Cannot connect to server");
             }
         });
+    }
+
+    @Override
+    public void resetMessages() {
+        errorMessage.setValue(null);
+        successMessage.setValue(null);
+    }
+
+    @Override
+    public void setPlantProfileToEdit(PlantProfile plantProfile) {
+        plantProfileToEdit.setValue(plantProfile);
+    }
+
+    @Override
+    public LiveData<PlantProfile> getPlantProfileToEdit() {
+        return plantProfileToEdit;
     }
 
     private void setError(Response response) {

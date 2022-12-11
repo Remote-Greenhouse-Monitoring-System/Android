@@ -111,7 +111,9 @@ public class ProfileFragment extends Fragment {
         String username = this.username.getText().toString();
         String email = this.email.getText().toString();
         String password = this.password.getText().toString();
-        viewModel.updateUser(username, email, password);
+
+        User user = new User(email,username,  password);
+        viewModel.updateUser(user);
         Toast.makeText(getContext(), "Account updated", Toast.LENGTH_SHORT).show();
     }
 

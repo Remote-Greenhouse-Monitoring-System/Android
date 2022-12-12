@@ -5,7 +5,7 @@ public class PlantProfile {
     private int id,optimalLight;
     private String name, description;
     private float optimalTemperature, optimalHumidity,optimalCo2;
-    private boolean isPremade;
+    private boolean isPreMade;
 
     public PlantProfile() {
 
@@ -88,12 +88,12 @@ public class PlantProfile {
         this.optimalLight = optimalLight;
     }
 
-    public boolean isPremade() {
-        return isPremade;
+    public boolean isPreMade() {
+        return isPreMade;
     }
 
-    public void setPremade(boolean premade) {
-        isPremade = premade;
+    public void setPreMade(boolean preMade) {
+        isPreMade = preMade;
     }
 
     @Override

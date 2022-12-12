@@ -83,7 +83,7 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
 
     private void deleteBtnPressed(@NonNull ViewHolder holder, int position) {
         PlantProfile plantProfile = plantProfiles.get(position);
-        if (plantProfile.isPremade())
+        if (plantProfile.isPreMade())
         {
             FancyToast.makeText(navController.getContext(), "You can't delete a pre-made plant profile", FancyToast.LENGTH_LONG, FancyToast.INFO, false).show();
             return;
@@ -117,7 +117,7 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
 
     private void editBtnPressed(int position) {
         PlantProfile plantProfile = plantProfiles.get(position);
-        if (plantProfile.isPremade())
+        if (plantProfile.isPreMade())
         {
             FancyToast.makeText(navController.getContext(), "You can't edit a pre-made plant profile", FancyToast.LENGTH_LONG, FancyToast.INFO, false).show();
             return;

@@ -30,37 +30,35 @@ public class SelectPlantProfileFragment extends Fragment {
     private PlantProfileAdapter plantProfileAdapter;
     private FloatingActionButton addPlantProfileButton;
     private SelectPlantProfileViewModel viewModel;
-    private boolean isFromSpecificGreenhouse=false;
+    private boolean isFromSpecificGreenhouse;
 
 
     public SelectPlantProfileFragment() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_select_plant_profile, container, false);
         viewModel = new ViewModelProvider(this).get(SelectPlantProfileViewModel.class);
-
+        handleBundle();
         initializeViews(view);
 
         viewModel.searchPlantProfilesForUser(viewModel.getCurrentUser().getValue().getId());
 
-
         setAdapter();
 
+        checkIfGreenHouseIdIsSet();
+
+        return view;
+    }
+
+    private void handleBundle() {
         Bundle bundle = getArguments();
         if (bundle!=null) {
             isFromSpecificGreenhouse = bundle.getBoolean("isFromSpecificGreenhouse");
         }
-
-        checkIfGreenHouseIdIsSet();
-
-
-
-        return view;
     }
 
     private void checkIfGreenHouseIdIsSet() {
@@ -77,7 +75,12 @@ public class SelectPlantProfileFragment extends Fragment {
         addPlantProfileButton.setOnClickListener(this::goAddPlantProfile);
         plantProfileRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         backButton = view.findViewById(R.id.backButton);
+
+        if (isFromSpecificGreenhouse) {
         backButton.setOnClickListener(this::goBack);
+        } else {
+            backButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void goAddPlantProfile(View view) {
@@ -96,7 +99,7 @@ public class SelectPlantProfileFragment extends Fragment {
     }
 
     private void goBack(View view) {
-        navController.navigate(R.id.homeFragment);
+        navController.navigate(R.id.greenhouseFragment);
     }
 
     private void plantProfileClicked(PlantProfile plantProfile) {

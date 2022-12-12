@@ -87,4 +87,6 @@ public class Threshold {
                 ", minCo2=" + co2Min +
                 '}';
     }
+
+
 }

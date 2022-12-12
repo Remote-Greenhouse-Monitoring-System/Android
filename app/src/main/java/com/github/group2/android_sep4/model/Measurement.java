@@ -19,8 +19,7 @@ public class Measurement {
         // The framework needs this for conversion from JSON.
     }
 
-    public Measurement(long id, long greenHouseId, float temperature, float humidity, float co2, long light, String timestamp)
-    {
+    public Measurement(long id, long greenHouseId, float temperature, float humidity, float co2, long light, String timestamp) {
         this.id = id;
         this.greenHouseId = greenHouseId;
         this.temperature = temperature;
@@ -29,6 +28,7 @@ public class Measurement {
         this.light = light;
         this.timestamp = timestamp;
     }
+
     public Measurement( float temperature, float humidity, float co2)
     {
         this.temperature = temperature;
@@ -104,6 +104,13 @@ public class Measurement {
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public boolean isAllZeros() {
+        return temperature == 0
+                && humidity == 0
+                && co2 == 0
+                && light == 0;
     }
 
     @Override

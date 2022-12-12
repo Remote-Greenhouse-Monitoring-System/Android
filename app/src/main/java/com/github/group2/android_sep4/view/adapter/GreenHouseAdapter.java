@@ -1,5 +1,6 @@
 package com.github.group2.android_sep4.view.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.Greenhouse;
+import com.github.group2.android_sep4.model.Measurement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.List;
 public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.ViewHolder> {
     private List<Greenhouse> greenhouses = new ArrayList<>();
     private OnItemClickListener listener;
+    private Context context;
 
     public void setGreenhouses(List<Greenhouse> greenhouses) {
         this.greenhouses.clear();
@@ -33,6 +36,9 @@ public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.Vi
     public GreenHouseAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.greenhouse_element, parent, false);
+
+        context = parent.getContext();
+
         return new ViewHolder(view);
     }
 
@@ -41,11 +47,18 @@ public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.Vi
         Greenhouse greenhouse = greenhouses.get(position);
         holder.name.setText(greenhouse.getName());
 
-        if (greenhouse.getLastMeasurement() != null) {
-            holder.co2.setText(greenhouse.getLastMeasurement().getCo2() + " ppm");
-            holder.temperature.setText(greenhouse.getLastMeasurement().getTemperature() + " °C");
-            holder.humidity.setText(greenhouse.getLastMeasurement().getHumidity() + " %");
-            holder.light.setText(greenhouse.getLastMeasurement().getLight() + " lux");
+        Measurement lastMeasurement = greenhouse.getLastMeasurement();
+        if (lastMeasurement == null
+                || lastMeasurement.isAllZeros()) {
+            holder.co2.setText(R.string.no_data);
+            holder.temperature.setText(R.string.no_data);
+            holder.humidity.setText(R.string.no_data);
+            holder.light.setText(R.string.no_data);
+        } else {
+            holder.co2.setText(context.getString(R.string.unit_CO2, lastMeasurement.getTemperature()));
+            holder.temperature.setText(context.getString(R.string.unit_temperature, lastMeasurement.getTemperature()));
+            holder.humidity.setText(context.getString(R.string.unit_humidity, lastMeasurement.getTemperature()));
+            holder.light.setText(context.getString(R.string.unit_light, lastMeasurement.getTemperature()));
         }
     }
 

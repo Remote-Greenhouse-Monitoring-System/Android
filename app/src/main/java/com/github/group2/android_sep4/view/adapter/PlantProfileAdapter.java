@@ -32,8 +32,6 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
     private OnItemClickListener listener;
 
 
-
-
     public PlantProfileAdapter() {
         this.plantProfiles = new ArrayList<>();
     }
@@ -55,19 +53,13 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
         return new ViewHolder(view);
     }
 
-
-
     private void deletePlantProfile( long id) {
        addPlantProfileViewModel.deletePlantProfile(id);
-
-
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.listener = listener;
     }
-
-
 
     @Override
     public void onBindViewHolder(@NonNull PlantProfileAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
@@ -78,32 +70,7 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = "Are you sure you want to delete this plant profile?";
-                    FancyAlertDialog.Builder.with(holder.itemView.getContext())
-                            .setTitle("Delete Plant Profile")
-                            .setBackgroundColorRes(R.color.palette_red)
-                            .setMessage(message)
-                            .setNegativeBtnText("Cancel")
-                            .setPositiveBtnBackgroundRes(R.color.palette_red)
-                            .setPositiveBtnText("Confirm")
-                            .setNegativeBtnBackgroundRes(R.color.palette_grey)
-                            .setAnimation(Animation.SLIDE)
-                            .isCancellable(true)
-                            .setIcon(R.drawable.ic_baseline_delete_outline_24, View.VISIBLE)
-                            .onPositiveClicked(dialog -> {
-                                deletePlantProfile(plantProfiles.get(position).getId());
-                                FancyToast.makeText(holder.itemView.getContext(), "Plant profile deleted", FancyToast.LENGTH_LONG, FancyToast.INFO, false).show();
-                            })
-                            .onNegativeClicked(dialog -> {
-                                dialog.dismiss();
-                                FancyToast.makeText(holder.itemView.getContext(), "Cancelled", FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
-
-                            })
-                            .build()
-                            .show();
-
-
-
+                deleteBtnPressed(holder, position);
             }
         });
         holder.editButton.setOnClickListener(new View.OnClickListener() {
@@ -112,15 +79,51 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
                 editBtnPressed(position);
             }
         });
+    }
 
+    private void deleteBtnPressed(@NonNull ViewHolder holder, int position) {
+        PlantProfile plantProfile = plantProfiles.get(position);
+        if (plantProfile.isPreMade())
+        {
+            FancyToast.makeText(navController.getContext(), "You can't delete a pre-made plant profile", FancyToast.LENGTH_LONG, FancyToast.INFO, false).show();
+            return;
+        }
+
+        String message = "Are you sure you want to delete this plant profile?";
+        FancyAlertDialog.Builder.with(holder.itemView.getContext())
+                .setTitle("Delete Plant Profile")
+                .setBackgroundColorRes(R.color.palette_red)
+                .setMessage(message)
+                .setNegativeBtnText("Cancel")
+                .setPositiveBtnBackgroundRes(R.color.palette_red)
+                .setPositiveBtnText("Confirm")
+                .setNegativeBtnBackgroundRes(R.color.palette_grey)
+                .setAnimation(Animation.SLIDE)
+                .isCancellable(true)
+                .setIcon(R.drawable.ic_baseline_delete_outline_24, View.VISIBLE)
+                .onPositiveClicked(dialog -> {
+                    deletePlantProfile(plantProfile.getId());
+                    FancyToast.makeText(holder.itemView.getContext(), "Plant profile deleted", FancyToast.LENGTH_LONG, FancyToast.INFO, false).show();
+                })
+                .onNegativeClicked(dialog -> {
+                    dialog.dismiss();
+                    FancyToast.makeText(holder.itemView.getContext(), "Cancelled", FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
+
+                })
+                .build()
+                .show();
     }
 
 
     private void editBtnPressed(int position) {
+        PlantProfile plantProfile = plantProfiles.get(position);
+        if (plantProfile.isPreMade())
+        {
+            FancyToast.makeText(navController.getContext(), "You can't edit a pre-made plant profile", FancyToast.LENGTH_LONG, FancyToast.INFO, false).show();
+            return;
+        }
 
-//        addPlantProfileViewModel.searchPlantProfile(plantProfiles.get(position).getId());
-
-        addPlantProfileViewModel.setPlantProfileToEdit(plantProfiles.get(position));
+        addPlantProfileViewModel.setPlantProfileToEdit(plantProfile);
         navController.navigate(R.id.editPlantProfileFragment);
     }
 

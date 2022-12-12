@@ -20,9 +20,15 @@ public class AddPlantProfileViewModel extends ViewModel {
     private final UserRepository userRepository = UserRepositoryImpl.getInstance();
     private boolean editPressed ; // TODO
 
-    public void addPlantProfile(long userId, PlantProfile plantProfile)
+    public void addPlantProfile(long userId, PlantProfile plantProfile, Threshold threshold)
     {
-        plantProfileRepository.addPlantProfile(userId,plantProfile);
+        plantProfileRepository.addPlantProfile(userId,plantProfile, (plantP)->{
+            if(plantP instanceof PlantProfile)
+            {
+                thresholdRepository.updateThreshold(((PlantProfile) plantP).getId(), threshold);
+            }
+
+        });
     }
 
     public void deletePlantProfile(long plantProfileId)
@@ -30,35 +36,15 @@ public class AddPlantProfileViewModel extends ViewModel {
         plantProfileRepository.deletePlantProfile(plantProfileId);
     }
 
-    public void updatePlantProfile(PlantProfile plantProfile)
-    {
-        plantProfileRepository.updatePlantProfile(plantProfile);
-    }
 
-    public void searchPlantProfile(long plantProfileId)
-    {
-        plantProfileRepository.searchPlantProfile(plantProfileId);
-    }
+
 
     public LiveData<PlantProfile> getPlantProfile()
     {
         return plantProfileRepository.getPlantProfile();
     }
 
-    public void searchThreshold( long plantProfileId)
-    {
-        thresholdRepository.searchThreshold(plantProfileId);
-    }
 
-    public LiveData<Threshold> getSearchedThreshold()
-    {
-        return thresholdRepository.getSearchedThreshold();
-    }
-
-    public void updateThreshold( long plantProfileId, Threshold threshold)
-    {
-        thresholdRepository.updateThreshold(plantProfileId,threshold);
-    }
 
     public LiveData<User> getCurrentUser() {
         return userRepository.getCurrentUser();

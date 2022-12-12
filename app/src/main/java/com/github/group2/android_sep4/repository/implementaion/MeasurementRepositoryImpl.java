@@ -125,7 +125,7 @@ public class MeasurementRepositoryImpl implements MeasurementRepository {
 
     @Override
     public void searchAllMeasurementPerDays(long greenHouseId, int days) {
-        Call<List<Measurement>> call = api.getAllMeasurementPerDays(greenHouseId, days);
+        Call<List<Measurement>> call = api.getAllMeasurementsPerDay(greenHouseId, days);
 
         call.enqueue(new Callback<List<Measurement>>() {
             @Override
@@ -151,7 +151,7 @@ public class MeasurementRepositoryImpl implements MeasurementRepository {
 
     @Override
     public void searchAllMeasurementPerMonth(long greenHouseId, int month, int year) {
-        Call<List<Measurement>> call = api.getAllMeasurementPerMonth(greenHouseId, month, year);
+        Call<List<Measurement>> call = api.getAllMeasurementsPerMonth(greenHouseId, month, year);
         call.enqueue(new Callback<List<Measurement>>() {
             @Override
             public void onResponse(Call<List<Measurement>> call, Response<List<Measurement>> response) {
@@ -175,7 +175,7 @@ public class MeasurementRepositoryImpl implements MeasurementRepository {
 
     @Override
     public void searchAllMeasurementPerYear(long greenHouseId, int year) {
-        Call<List<Measurement>> call = api.getAllMeasurementPerYear(greenHouseId, year);
+        Call<List<Measurement>> call = api.getAllMeasurementsPerYear(greenHouseId, year);
 
         call.enqueue(new Callback<List<Measurement>>() {
             @Override

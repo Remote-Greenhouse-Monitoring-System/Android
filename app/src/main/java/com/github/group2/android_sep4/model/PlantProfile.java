@@ -2,16 +2,18 @@ package com.github.group2.android_sep4.model;
 
 public class PlantProfile {
 
-    private int id,optimalLight;
+    private long id;
+    private int optimalLight;
     private String name, description;
-    private float optimalTemperature, optimalHumidity,optimalCo2;
+    private float optimalTemperature, optimalHumidity, optimalCo2;
     private boolean isPreMade;
 
     public PlantProfile() {
-
+        // Do not delete the no-arg constructor.
+        // The framework needs this for conversion from JSON.
     }
 
-    public PlantProfile(int id, String name, String description, float optimalTemperature, float optimalHumidity, float optimalCo2) {
+    public PlantProfile(long id, String name, String description, float optimalTemperature, float optimalHumidity, float optimalCo2) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -20,7 +22,7 @@ public class PlantProfile {
         this.optimalCo2 = optimalCo2;
     }
 
-    public PlantProfile(int id, String name, String description, float optimalTemperature, float optimalHumidity, float optimalCo2, int optimalLight) {
+    public PlantProfile(long id, String name, String description, float optimalTemperature, float optimalHumidity, float optimalCo2, int optimalLight) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -30,11 +32,11 @@ public class PlantProfile {
         this.optimalLight = optimalLight;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -70,7 +72,6 @@ public class PlantProfile {
         this.optimalHumidity = optimalHumidity;
     }
 
-
     public float getOptimalCo2() {
         return optimalCo2;
     }
@@ -78,7 +79,6 @@ public class PlantProfile {
     public void setOptimalCo2(float optimalCo2) {
         this.optimalCo2 = optimalCo2;
     }
-
 
     public int getOptimalLight() {
         return optimalLight;

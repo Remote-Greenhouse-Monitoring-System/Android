@@ -1,9 +1,14 @@
 package com.github.group2.android_sep4.model;
 
 public class Threshold {
+
     private long id;
     private float temperatureMax, temperatureMin, humidityMax, humidityMin, co2Max, co2Min;
 
+    public Threshold() {
+        // Do not delete the no-arg constructor.
+        // The framework needs this for conversion from JSON.
+    }
 
     public Threshold(float temperatureMax, float temperatureMin, float humidityMax, float humidityMin, float co2Max, float co2Min) {
         this.temperatureMax = temperatureMax;
@@ -12,18 +17,14 @@ public class Threshold {
         this.humidityMin = humidityMin;
         this.co2Max = co2Max;
         this.co2Min = co2Min;
-
-    }
-
-    public Threshold() {
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public float getTemperatureMax() {
@@ -74,8 +75,6 @@ public class Threshold {
         this.co2Min = co2Min;
     }
 
-
-
     @Override
     public String toString() {
         return "Threshold{" +
@@ -87,6 +86,4 @@ public class Threshold {
                 ", minCo2=" + co2Min +
                 '}';
     }
-
-
 }

@@ -1,12 +1,14 @@
 package com.github.group2.android_sep4.model;
 
 public class Greenhouse {
+
     private long id;
     private String name;
     private Measurement lastMeasurement;
 
     public Greenhouse() {
-      // Required for the framework to work
+        // Do not delete the no-arg constructor.
+        // The framework needs this for conversion from JSON.
     }
 
     public Greenhouse(long id, String name, Measurement lastMeasurement) {

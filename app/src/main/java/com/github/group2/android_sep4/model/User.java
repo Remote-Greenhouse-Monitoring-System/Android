@@ -7,17 +7,15 @@ public class User {
     private long id;
     private String email, username, password;
 
-
     public User() {
-
+        // Do not delete the no-arg constructor.
+        // The framework needs this for conversion from JSON.
     }
-
 
     public User(String email, String password) {
         this.email = email;
         this.password = hashPassword(password);
     }
-
 
     public User(String email, String username, String password) {
         this.email = email;
@@ -53,19 +51,19 @@ public class User {
         return password;
     }
 
-
     // When used the setPassword its not hashed
     public void setPassword(String password) {
         this.password = password;
     }
 
     public boolean equals(Object obj){
-
-        if (! (obj instanceof User)) return false;
+        if (! (obj instanceof User))
+            return false;
 
         User user = (User) obj;
 
-        return user.getEmail().equalsIgnoreCase(email) && password.equals(password);
+        return user.getEmail().equalsIgnoreCase(email)
+                && user.getPassword().equals(password);
     }
 
     @Override
@@ -78,22 +76,20 @@ public class User {
                 '}';
     }
 
-    private   String hashPassword(String plainTextPassword) {
+    private String hashPassword(String plainTextPassword) {
         String salt = BCrypt.gensalt(12);
+
         return BCrypt.hashpw(plainTextPassword, salt);
     }
-
 
     public static boolean checkPassword(String plainTextPassword, String hashedPassword) {
         try {
             return BCrypt.checkpw(plainTextPassword, hashedPassword);
         } catch (Exception e) {
             e.printStackTrace();
+            
             return false;
         }
     }
-
-
-
 }
 

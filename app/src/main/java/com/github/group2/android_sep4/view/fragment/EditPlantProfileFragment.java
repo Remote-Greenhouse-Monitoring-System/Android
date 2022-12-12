@@ -30,7 +30,7 @@ public class EditPlantProfileFragment extends Fragment {
     private Button editPlantProfileButton;
     private EditPlantProfileViewModel viewModel;
     private PlantProfile plantProfileToEdit;
-    private Threshold thresHoldToEdit;
+    private Threshold thresholdToEdit;
 
 
     public EditPlantProfileFragment() {
@@ -77,7 +77,7 @@ public class EditPlantProfileFragment extends Fragment {
 
     private void updateThresholdFields(Threshold threshold) {
         if (threshold != null) {
-            this.thresHoldToEdit = threshold;
+            this.thresholdToEdit = threshold;
             editPlantProfileTempMin.setText(String.valueOf(threshold.getTemperatureMin()));
             editPlantProfileTempMax.setText(String.valueOf(threshold.getTemperatureMax()));
             editPlantProfileCO2Min.setText(String.valueOf(threshold.getCo2Min()));
@@ -148,9 +148,7 @@ public class EditPlantProfileFragment extends Fragment {
                 this::errorObserver);
         viewModel.getPlantProfileSuccess().observe(getViewLifecycleOwner(),
                 this::successObserver);
-
     }
-
 
     private boolean validateThresholdCo2() {
         String minCo2 = editPlantProfileCO2Min.getText().toString();
@@ -162,9 +160,9 @@ public class EditPlantProfileFragment extends Fragment {
             return false;
         }
 
-        Float minCo2Float = Float.parseFloat(minCo2);
-        Float maxCo2Float = Float.parseFloat(maxCo2);
-        Float optimalCo2Float = Float.parseFloat(optimalCo2);
+        float minCo2Float = Float.parseFloat(minCo2);
+        float maxCo2Float = Float.parseFloat(maxCo2);
+        float optimalCo2Float = Float.parseFloat(optimalCo2);
 
         if (minCo2Float > optimalCo2Float) {
             FancyToast.makeText(getContext(), "Min CO2 cannot be higher than optimal CO2", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
@@ -199,9 +197,9 @@ public class EditPlantProfileFragment extends Fragment {
             editPlantProfileTempOptimal.setError(null);
         }
 
-        Float minTempFloat = Float.parseFloat(minTemp);
-        Float maxTempFloat = Float.parseFloat(maxTemp);
-        Float optimalTempFloat = Float.parseFloat(optimalTemp);
+        float minTempFloat = Float.parseFloat(minTemp);
+        float maxTempFloat = Float.parseFloat(maxTemp);
+        float optimalTempFloat = Float.parseFloat(optimalTemp);
 
         if (minTempFloat > optimalTempFloat) {
             editPlantProfileTempMin.setError("Min temp can't be higher than optimal temp");
@@ -228,9 +226,9 @@ public class EditPlantProfileFragment extends Fragment {
             return false;
         }
 
-        Float minHumidityFloat = Float.parseFloat(minHumidity);
-        Float maxHumidityFloat = Float.parseFloat(maxHumidity);
-        Float optimalHumidityFloat = Float.parseFloat(optimalHumidity);
+        float minHumidityFloat = Float.parseFloat(minHumidity);
+        float maxHumidityFloat = Float.parseFloat(maxHumidity);
+        float optimalHumidityFloat = Float.parseFloat(optimalHumidity);
 
         if (minHumidityFloat > optimalHumidityFloat) {
             FancyToast.makeText(getContext(), "Min Humidity cannot be higher than optimal Humidity", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();

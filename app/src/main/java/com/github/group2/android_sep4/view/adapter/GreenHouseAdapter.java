@@ -49,10 +49,7 @@ public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.Vi
 
         Measurement lastMeasurement = greenhouse.getLastMeasurement();
         if (lastMeasurement == null
-                || (lastMeasurement.getCo2() == 0
-                    && lastMeasurement.getHumidity() == 0
-                    && lastMeasurement.getLight() == 0
-                    && lastMeasurement.getTemperature() == 0)) {
+                || lastMeasurement.isAllZeros()) {
             holder.co2.setText(R.string.no_data);
             holder.temperature.setText(R.string.no_data);
             holder.humidity.setText(R.string.no_data);

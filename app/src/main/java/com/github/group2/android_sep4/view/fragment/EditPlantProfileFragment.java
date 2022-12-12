@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -30,7 +31,6 @@ public class EditPlantProfileFragment extends Fragment {
     private Button editPlantProfileButton;
     private EditPlantProfileViewModel viewModel;
     private PlantProfile plantProfileToEdit;
-    private Threshold thresHoldToEdit;
 
 
     public EditPlantProfileFragment() {
@@ -77,7 +77,6 @@ public class EditPlantProfileFragment extends Fragment {
 
     private void updateThresholdFields(Threshold threshold) {
         if (threshold != null) {
-            this.thresHoldToEdit = threshold;
             editPlantProfileTempMin.setText(String.valueOf(threshold.getTemperatureMin()));
             editPlantProfileTempMax.setText(String.valueOf(threshold.getTemperatureMax()));
             editPlantProfileCO2Min.setText(String.valueOf(threshold.getCo2Min()));
@@ -105,6 +104,8 @@ public class EditPlantProfileFragment extends Fragment {
     }
 
     private void editPressed(View view) {
+
+
         boolean validName = validateName();
         boolean validDescription = validateDescription();
 
@@ -121,6 +122,7 @@ public class EditPlantProfileFragment extends Fragment {
 
         boolean isEverythingValid = validName && validDescription && validCo2 && validateThresholdCo2 && validHumidity && validateThresholdHumidity && validTemp && validateThresholdTemp && validLight;
 
+
         if (!isEverythingValid) {
             return;
         }
@@ -128,16 +130,16 @@ public class EditPlantProfileFragment extends Fragment {
 
         String name = editPlantProfileName.getText().toString();
         String description = editPlantProfileDescription.getText().toString();
-        float optimalTemp = Float.parseFloat(editPlantProfileTempOptimal.getText().toString());
-        float optimalHumidity = Float.parseFloat(editPlantProfileHumidityOptimal.getText().toString());
-        float optimalCo2 = Float.parseFloat(editPlantProfileCO2Optimal.getText().toString());
-        int optimalLight = Integer.parseInt(editPlantProfileLightOptimal.getText().toString());
-        float minTemp = Float.parseFloat(editPlantProfileTempMin.getText().toString());
-        float maxTemp = Float.parseFloat(editPlantProfileTempMax.getText().toString());
-        float minHumidity = Float.parseFloat(editPlantProfileHumidityMin.getText().toString());
-        float maxHumidity = Float.parseFloat(editPlantProfileHumidityMax.getText().toString());
-        float minCo2 = Float.parseFloat(editPlantProfileCO2Min.getText().toString());
-        float maxCo2 = Float.parseFloat(editPlantProfileCO2Max.getText().toString());
+        float optimalTemp = Float.parseFloat(editPlantProfileTempOptimal.getText().toString().trim());
+        float optimalHumidity = Float.parseFloat(editPlantProfileHumidityOptimal.getText().toString().trim());
+        float optimalCo2 = Float.parseFloat(editPlantProfileCO2Optimal.getText().toString().trim());
+        int optimalLight = Integer.parseInt(editPlantProfileLightOptimal.getText().toString().trim());
+        float minTemp = Float.parseFloat(editPlantProfileTempMin.getText().toString().trim());
+        float maxTemp = Float.parseFloat(editPlantProfileTempMax.getText().toString().trim());
+        float minHumidity = Float.parseFloat(editPlantProfileHumidityMin.getText().toString().trim());
+        float maxHumidity = Float.parseFloat(editPlantProfileHumidityMax.getText().toString().trim());
+        float minCo2 = Float.parseFloat(editPlantProfileCO2Min.getText().toString().trim());
+        float maxCo2 = Float.parseFloat(editPlantProfileCO2Max.getText().toString().trim());
 
         Threshold threshold = new Threshold(maxTemp, minTemp, maxHumidity, minHumidity, maxCo2, minCo2);
         threshold.setId(0);
@@ -272,7 +274,7 @@ public class EditPlantProfileFragment extends Fragment {
             editPlantProfileHumidityOptimal.setError("Field can't be empty");
             return false;
         } else if (Float.parseFloat(humidity) < 0 || Float.parseFloat(humidity) > 100) {
-            editPlantProfileHumidityOptimal.setError("Humidity must be between 0 and 100");
+            FancyToast.makeText(getContext(), "Humidity must be between 0 and 100", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
             return false;
         } else {
             editPlantProfileHumidityOptimal.setError(null);
@@ -281,12 +283,12 @@ public class EditPlantProfileFragment extends Fragment {
     }
 
     private boolean validateTemp() {
-        String temp = editPlantProfileTempOptimal.getText().toString();
+        String temp = editPlantProfileTempOptimal.getText().toString().trim();
         if (temp.isEmpty()) {
             editPlantProfileTempOptimal.setError("Field can't be empty");
             return false;
         } else if (Float.parseFloat(temp) < 0 || Float.parseFloat(temp) > 50) {
-            editPlantProfileTempOptimal.setError("Temperature must be between 0 and 50");
+            FancyToast.makeText(getContext(), "Temperature must be between 0 and 50", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
             return false;
         } else {
             editPlantProfileTempOptimal.setError(null);
@@ -295,7 +297,7 @@ public class EditPlantProfileFragment extends Fragment {
     }
 
     private boolean validateName() {
-        String name = editPlantProfileName.getText().toString();
+        String name = editPlantProfileName.getText().toString().trim();
         if (name.isEmpty()) {
             editPlantProfileName.setError("Field can't be empty");
             return false;
@@ -306,7 +308,7 @@ public class EditPlantProfileFragment extends Fragment {
     }
 
     private boolean validateDescription() {
-        String description = editPlantProfileDescription.getText().toString();
+        String description = editPlantProfileDescription.getText().toString().trim();
         if (description.isEmpty()) {
             editPlantProfileDescription.setError("Field can't be empty");
             return false;

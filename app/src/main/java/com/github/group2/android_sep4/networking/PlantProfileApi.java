@@ -1,6 +1,5 @@
 package com.github.group2.android_sep4.networking;
 
-
 import static com.github.group2.android_sep4.repository.ServiceGenerator.API_KEY;
 
 import com.github.group2.android_sep4.model.PlantProfile;
@@ -36,25 +35,19 @@ public interface PlantProfileApi
     Call<List<PlantProfile>> getPlantProfilesForUser(@Path("uId") long userId);
 
     @Headers({API_KEY})
-    @GET(route)
-    Call<List<PlantProfile>> getPlantProfiles();
-
-    @Headers({API_KEY})
     @GET(route + "/plantP/{pId}")
     Call<PlantProfile> getPlantProfile(@Path("pId") long plantProfileId);
 
     @Headers({API_KEY})
     @PATCH(route + "/activate/{pId}/{gId}")
-    Call<Void> activatePlantProfile(@Path("pId") long plantProfileId, @Path("gId") long greenHouseId);
+    Call<Void> activatePlantProfile(@Path("pId") long plantProfileId, @Path("gId") long greenhouseId);
 
     @Headers({API_KEY})
     @GET(route + "/activated/{gId}")
-    Call<PlantProfile> getActivatedPlantProfile(@Path("gId") long greenHouseId);
+    Call<PlantProfile> getActivatedPlantProfile(@Path("gId") long greenhouseId);
 
     @Headers({API_KEY})
     @PATCH(route + "/deactivate/{gId}")
-    Call<Void> deactivatePlantProfile(@Path("gId") long greenHouseId);
-
-
+    Call<Void> deactivatePlantProfile(@Path("gId") long greenhouseId);
 }
 

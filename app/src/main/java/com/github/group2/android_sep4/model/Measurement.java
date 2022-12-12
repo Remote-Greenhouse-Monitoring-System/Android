@@ -6,22 +6,21 @@ import java.time.format.DateTimeFormatter;
 public class Measurement {
 
     private long id;
-    private long greenHouseId;
+    private long greenhouseId;
     private float temperature;
     private float humidity;
     private float co2;
     private long light;
     private String timestamp;
 
-
     public Measurement() {
         // Do not delete the no-arg constructor.
         // The framework needs this for conversion from JSON.
     }
 
-    public Measurement(long id, long greenHouseId, float temperature, float humidity, float co2, long light, String timestamp) {
+    public Measurement(long id, long greenhouseId, float temperature, float humidity, float co2, long light, String timestamp) {
         this.id = id;
-        this.greenHouseId = greenHouseId;
+        this.greenhouseId = greenhouseId;
         this.temperature = temperature;
         this.humidity = humidity;
         this.co2 = co2;
@@ -29,8 +28,7 @@ public class Measurement {
         this.timestamp = timestamp;
     }
 
-    public Measurement( float temperature, float humidity, float co2)
-    {
+    public Measurement(float temperature, float humidity, float co2) {
         this.temperature = temperature;
         this.humidity = humidity;
         this.co2 = co2;
@@ -44,12 +42,12 @@ public class Measurement {
         this.id = id;
     }
 
-    public long getGreenHouseId() {
-        return greenHouseId;
+    public long getGreenhouseId() {
+        return greenhouseId;
     }
 
-    public void setGreenHouseId(long greenHouseId) {
-        this.greenHouseId = greenHouseId;
+    public void setGreenhouseId(long greenhouseId) {
+        this.greenhouseId = greenhouseId;
     }
 
     public float getTemperature() {
@@ -88,8 +86,6 @@ public class Measurement {
         return timestamp;
     }
 
-
-
     /**
      * It takes a string in the format of "yyyy-MM-dd HH:mm:ss" and returns a LocalDateTime object
      *
@@ -100,7 +96,6 @@ public class Measurement {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         return LocalDateTime.parse(timestamp, dateTimeFormatter);
     }
-
 
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
@@ -117,7 +112,7 @@ public class Measurement {
     public String toString() {
         return "Measurement{" +
                 "id=" + id +
-                ", greenHouseId=" + greenHouseId +
+                ", greenHouseId=" + greenhouseId +
                 ", temperature=" + temperature +
                 ", humidity=" + humidity +
                 ", co2=" + co2 +

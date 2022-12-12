@@ -11,8 +11,8 @@ import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.Path;
 
-public interface ThresholdApi
-{
+public interface ThresholdApi {
+
     String route = "Thresholds";
 
     @Headers({API_KEY})

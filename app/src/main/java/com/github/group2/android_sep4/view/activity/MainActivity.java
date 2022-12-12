@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
             if (user != null) {
                 navController.navigate(R.id.homeFragment);
                 bottomNavigationView.setVisibility(View.VISIBLE);
-
                 registerNotificationToken(user);
 
                 // Save for later
@@ -102,8 +101,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void registerNotificationToken(User user) {
+
+
+
        token.observe(this, tokenForNotification -> {
            if (tokenForNotification != null) {
+
+               Log.i("token", "Token: " + tokenForNotification);
                viewModel.registerToken(user.getId(), tokenForNotification);
                Toast.makeText(this, tokenForNotification, Toast.LENGTH_SHORT).show();
            }

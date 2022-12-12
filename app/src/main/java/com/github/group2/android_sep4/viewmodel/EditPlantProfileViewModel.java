@@ -21,8 +21,13 @@ public class EditPlantProfileViewModel extends ViewModel {
     private final ThresholdRepository thresholdRepository= ThresholdRepositoryImpl.getInstance();
 
 
-    public void updatePlantProfile(PlantProfile plantProfile) {
-        plantProfileRepository.updatePlantProfile(plantProfile);
+    public void updatePlantProfile(PlantProfile plantProfile, Threshold threshold) {
+        plantProfileRepository.updatePlantProfile(plantProfile, (plantP)->{
+            if(plantP instanceof PlantProfile)
+            {
+                thresholdRepository.updateThreshold(((PlantProfile) plantP).getId(), threshold);
+            }
+        });
     }
 
     public void updateThreshold(int id, Threshold threshold) {

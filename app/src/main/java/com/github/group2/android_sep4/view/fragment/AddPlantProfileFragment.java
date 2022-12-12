@@ -96,8 +96,7 @@ public class AddPlantProfileFragment extends Fragment {
         PlantProfile plantProfile = new PlantProfile(0, name, description, optimalTemp, optimalHumidity, optimalCo2, optimalLight);
         User user = viewModel.getCurrentUser().getValue();
         if (user != null) {
-            viewModel.addPlantProfile(user.getId(), plantProfile);
-            viewModel.updateThreshold(plantProfile.getId(), threshold);
+            viewModel.addPlantProfile(user.getId(), plantProfile, threshold);
             viewModel.searchPlantProfilesForUser(user.getId());
         }
         FancyToast.makeText(getContext(), name + " added successfully", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
@@ -293,19 +292,4 @@ public class AddPlantProfileFragment extends Fragment {
     }
 
 
-    private void displayFieldErrors() {
-        addPlantProfileName.setError("This field cannot be blank");
-        addPlantProfileDescription.setError("This field cannot be blank");
-        addPlantProfileTempOptimal.setError("This field cannot be blank");
-        addPlantProfileHumidityOptimal.setError("This field cannot be blank");
-        addPlantProfileCO2.setError("This field cannot be blank");
-        addPlantProfileLightOptimal.setError("This field cannot be blank");
-        addPlantProfileTempMin.setError("This field cannot be blank");
-        addPlantProfileTempMax.setError("This field cannot be blank");
-        addPlantProfileCO2Min.setError("This field cannot be blank");
-        addPlantProfileCO2Max.setError("This field cannot be blank");
-        addPlantProfileHumidityMin.setError("This field cannot be blank");
-        addPlantProfileHumidityMax.setError("This field cannot be blank");
-
-    }
 }

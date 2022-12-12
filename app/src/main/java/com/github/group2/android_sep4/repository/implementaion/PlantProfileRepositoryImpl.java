@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.github.group2.android_sep4.model.PlantProfile;
+import com.github.group2.android_sep4.model.Threshold;
 import com.github.group2.android_sep4.networking.PlantProfileApi;
 import com.github.group2.android_sep4.repository.ServiceGenerator;
 import com.github.group2.android_sep4.repository.PlantProfileRepository;
@@ -58,7 +59,7 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
     }
 
     @Override
-    public void addPlantProfile(long userId, PlantProfile plantProfile) {
+    public void addPlantProfile(long userId, PlantProfile plantProfile, ApiCallback callback) {
         Call<PlantProfile> call = plantProfileApi.addPlantProfile(userId, plantProfile);
         call.enqueue(new Callback<PlantProfile>() {
 
@@ -68,6 +69,9 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
                     PlantProfile body = response.body();
                     plantProfilesForUser.getValue().add(body);
                     plantProfilesForUser.setValue(plantProfilesForUser.getValue());
+
+                    callback.onResponse(body);
+
                     successMessage.setValue("Plant profile added successfully");
                 } else {
                     setError(response);
@@ -111,7 +115,7 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
     }
 
     @Override
-    public void updatePlantProfile(PlantProfile plantProfile) {
+    public void updatePlantProfile(PlantProfile plantProfile, ApiCallback callback) {
 
         Call<PlantProfile> call = plantProfileApi.updatePlantProfile(plantProfile);
         call.enqueue(new Callback<PlantProfile>() {
@@ -122,11 +126,12 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
 
 
                     PlantProfile plantProfileUpdated = response.body();
+                    callback.onResponse(plantProfileUpdated);
 
                     plantProfilesForUser.getValue().removeIf(plantProfile -> plantProfile.getId() == plantProfileUpdated.getId());
                     plantProfilesForUser.getValue().add(plantProfileUpdated);
                     plantProfilesForUser.setValue(plantProfilesForUser.getValue());
-//                    successMessage.setValue("Plant profile updated successfully");
+                    successMessage.setValue("Plant profile updated successfully");
                 } else {
                     setError(response);
                 }

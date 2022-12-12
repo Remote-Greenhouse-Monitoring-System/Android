@@ -4,14 +4,15 @@ import androidx.lifecycle.LiveData;
 
 
 import com.github.group2.android_sep4.model.PlantProfile;
+import com.github.group2.android_sep4.model.Threshold;
 import com.github.group2.android_sep4.repository.callback.ApiCallback;
 
 import java.util.List;
 
 public interface PlantProfileRepository {
-    void addPlantProfile(long userId, PlantProfile plantProfile);
+    void addPlantProfile(long userId, PlantProfile plantProfile, ApiCallback callback);
     void deletePlantProfile(long plantProfileId);
-    void updatePlantProfile(PlantProfile plantProfile);
+    void updatePlantProfile(PlantProfile plantProfile, ApiCallback callback);
 
 
 

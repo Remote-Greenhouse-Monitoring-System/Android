@@ -143,20 +143,11 @@ public class EditPlantProfileFragment extends Fragment {
         threshold.setId(0);
         PlantProfile plantProfile = new PlantProfile(plantProfileToEdit.getId(), name, description, optimalTemp, optimalHumidity, optimalCo2, optimalLight);
 
-        viewModel.updatePlantProfile(plantProfile);
-
+        viewModel.updatePlantProfile(plantProfile, threshold);
         viewModel.getPlantProfileError().observe(getViewLifecycleOwner(),
                 this::errorObserver);
         viewModel.getPlantProfileSuccess().observe(getViewLifecycleOwner(),
                 this::successObserver);
-
-
-        viewModel.updateThreshold(plantProfileToEdit.getId(), threshold);
-        viewModel.getThresholdError().observe(getViewLifecycleOwner(),
-                this::errorObserver);
-        viewModel.getThresholdSuccess().observe(getViewLifecycleOwner(),
-                this::successObserver);
-
 
     }
 

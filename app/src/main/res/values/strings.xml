@@ -76,4 +76,6 @@
     <string name="update">Update</string>
     <string name="update_profile_information">Update Profile Information</string>
     <string name="no_data">No data</string>
+    <string name="update_profile">Update Profile</string>
+    <string name="save_changes">Save Changes</string>
 </resources>

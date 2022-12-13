@@ -95,24 +95,22 @@ public class HomeFragment extends Fragment {
 
         buttonCancel.setOnClickListener(view1 -> dialogBuilder.dismiss());
 
-        buttonSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // DO SOMETHINGS
-                String name = editText.getText().toString();
+        buttonSubmit.setOnClickListener(view12 -> {
+            // TODO
+            String name = editText.getText().toString();
 
-                if (name.isEmpty()) {
-                    FancyToast.makeText(getContext(), "Please enter a name", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
-                }
-                else if (name.length() > 25) {
-                    FancyToast.makeText(getContext(), "Name is too long", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
-                }
-                else {
-                    viewModel.addGreenhouse(viewModel.getCurrentUser().getValue().getId(), new Greenhouse(name));
-                    dialogBuilder.dismiss();
-                }
+            if (name.isEmpty()) {
+                FancyToast.makeText(getContext(), "Please enter a name", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+            }
+            else if (name.length() > 25) {
+                FancyToast.makeText(getContext(), "Name is too long", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+            }
+            else {
+                viewModel.addGreenhouse(viewModel.getCurrentUser().getValue().getId(), new Greenhouse(name));
+                dialogBuilder.dismiss();
             }
         });
+
         dialogBuilder.setView(dialogView);
         dialogBuilder.show();
     }
@@ -127,7 +125,7 @@ public class HomeFragment extends Fragment {
             return;
         }
 
-        if (greenhouses.size()>=2){
+        if (greenhouses.size() >= 2) {
             addBtn.hide();
         } else {
             addBtn.show();

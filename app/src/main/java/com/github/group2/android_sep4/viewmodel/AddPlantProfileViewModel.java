@@ -20,28 +20,21 @@ public class AddPlantProfileViewModel extends ViewModel {
     private final UserRepository userRepository = UserRepositoryImpl.getInstance();
     private boolean editPressed ; // TODO
 
-    public void addPlantProfile(long userId, PlantProfile plantProfile, Threshold threshold)
-    {
-        plantProfileRepository.addPlantProfile(userId,plantProfile, (plantP)->{
-            if(plantP instanceof PlantProfile)
-            {
+    public void addPlantProfile(long userId, PlantProfile plantProfile, Threshold threshold) {
+        plantProfileRepository.addPlantProfile(userId, plantProfile, (plantP) -> {
+            if(plantP instanceof PlantProfile) {
                 thresholdRepository.updateThreshold(((PlantProfile) plantP).getId(), threshold);
             }
         });
     }
 
-    public void deletePlantProfile(long plantProfileId)
-    {
+    public void deletePlantProfile(long plantProfileId) {
         plantProfileRepository.deletePlantProfile(plantProfileId);
     }
 
-
-    public LiveData<PlantProfile> getPlantProfile()
-    {
+    public LiveData<PlantProfile> getPlantProfile() {
         return plantProfileRepository.getPlantProfile();
     }
-
-
 
     public LiveData<User> getCurrentUser() {
         return userRepository.getCurrentUser();

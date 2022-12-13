@@ -19,7 +19,6 @@ import com.github.group2.android_sep4.model.Threshold;
 import com.github.group2.android_sep4.viewmodel.EditPlantProfileViewModel;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
-
 public class EditPlantProfileFragment extends Fragment {
 
     private ImageButton backButton;
@@ -31,11 +30,9 @@ public class EditPlantProfileFragment extends Fragment {
     private EditPlantProfileViewModel viewModel;
     private PlantProfile plantProfileToEdit;
 
-
     public EditPlantProfileFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,15 +44,12 @@ public class EditPlantProfileFragment extends Fragment {
         backButton.setOnClickListener(this::goBack);
         editPlantProfileButton.setOnClickListener(this::editPressed);
 
-
         viewModel.getPlantProfileToEdit().observe(getViewLifecycleOwner(), this::updatePlantFields);
 
         return view;
-
     }
 
     private void updatePlantFields(PlantProfile plantProfile) {
-
         if (plantProfile != null) {
             viewModel.searchForThresholds(plantProfile.getId());
 
@@ -69,8 +63,6 @@ public class EditPlantProfileFragment extends Fragment {
             editPlantProfileCO2Optimal.setText(String.valueOf(plantProfile.getOptimalCo2()));
             editPlantProfileLightOptimal.setText(String.valueOf(plantProfile.getOptimalLight()));
             viewModel.getSearchedThreshold().observe(getViewLifecycleOwner(), this::updateThresholdFields);
-
-
         }
     }
 
@@ -83,7 +75,6 @@ public class EditPlantProfileFragment extends Fragment {
             editPlantProfileHumidityMin.setText(String.valueOf(threshold.getHumidityMin()));
             editPlantProfileHumidityMax.setText(String.valueOf(threshold.getHumidityMax()));
         }
-
     }
 
     private void successObserver(String s) {
@@ -98,7 +89,6 @@ public class EditPlantProfileFragment extends Fragment {
         if (s != null) {
             FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
             viewModel.resetMessages();
-
         }
     }
 
@@ -122,7 +112,6 @@ public class EditPlantProfileFragment extends Fragment {
         if (!isEverythingValid) {
             return;
         }
-
 
         String name = editPlantProfileName.getText().toString();
         String description = editPlantProfileDescription.getText().toString();
@@ -215,7 +204,6 @@ public class EditPlantProfileFragment extends Fragment {
     }
 
     private boolean validateThresholdHumidity() {
-
         String minHumidity = editPlantProfileHumidityMin.getText().toString();
         String maxHumidity = editPlantProfileHumidityMax.getText().toString();
         String optimalHumidity = editPlantProfileHumidityOptimal.getText().toString();
@@ -235,9 +223,8 @@ public class EditPlantProfileFragment extends Fragment {
             FancyToast.makeText(getContext(), "Max Humidity cannot be lower than optimal Humidity", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
             return false;
         }
+
         return true;
-
-
     }
 
     private boolean validateLight() {
@@ -312,7 +299,6 @@ public class EditPlantProfileFragment extends Fragment {
         }
     }
 
-
     private void initializeViews(View view) {
         viewModel = new ViewModelProvider(this).get(EditPlantProfileViewModel.class);
         editPlantProfileName = (EditText) view.findViewById(R.id.editPlantProfileName);
@@ -331,11 +317,7 @@ public class EditPlantProfileFragment extends Fragment {
         editPlantProfileButton = (Button) view.findViewById(R.id.confirmEditPlantProfileButton);
     }
 
-
     private void goBack(View view) {
         navController.popBackStack();
     }
-
-
-
 }

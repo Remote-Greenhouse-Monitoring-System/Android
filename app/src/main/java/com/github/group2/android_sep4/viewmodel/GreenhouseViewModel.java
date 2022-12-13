@@ -11,6 +11,7 @@ import com.github.group2.android_sep4.repository.implementaion.GreenhouseReposit
 import com.github.group2.android_sep4.repository.implementaion.PlantProfileRepositoryImpl;
 
 public class GreenhouseViewModel extends ViewModel {
+
     private final GreenhouseRepository greenhouseRepository = GreenhouseRepositoryImpl.getInstance();
     private final PlantProfileRepository plantProfileRepository = PlantProfileRepositoryImpl.getInstance();
 

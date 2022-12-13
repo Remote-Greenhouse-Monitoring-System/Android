@@ -11,6 +11,7 @@ public interface GreenhouseRepository {
     void searchAllGreenhousesForAUser(long userId);
 
     void searchGreenhousesWithLastMeasurement(long userId);
+
     LiveData<List<Greenhouse>> getGreenhouseWithLastMeasurement();
 
     void addGreenhouse(long userId, Greenhouse greenhouse);

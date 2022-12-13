@@ -2,7 +2,6 @@ package com.github.group2.android_sep4.repository.implementaion;
 
 import android.util.Log;
 
-import com.github.group2.android_sep4.model.Greenhouse;
 import com.github.group2.android_sep4.networking.NotificationApi;
 import com.github.group2.android_sep4.repository.NotificationRepository;
 import com.github.group2.android_sep4.repository.ServiceGenerator;
@@ -31,6 +30,7 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                 }
             }
         }
+
         return instance;
     }
 
@@ -56,7 +56,6 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 
     @Override
     public void unregisterNotificationToken(long userId) {
-
         Call<Void> call = api.unregisterNotificationService(userId);
         call.enqueue(new retrofit2.Callback<Void>() {
             @Override
@@ -73,8 +72,5 @@ public class NotificationRepositoryImpl implements NotificationRepository {
                 System.out.println("Notification token not unregistered");
             }
         });
-
     }
-
 }
-

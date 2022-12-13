@@ -20,6 +20,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserRepositoryImpl implements UserRepository {
+
     private static UserRepository instance;
     private static Lock lock = new ReentrantLock();
 
@@ -42,7 +43,6 @@ public class UserRepositoryImpl implements UserRepository {
                 errorMessage.postValue("Fetching FCM registration token failed");
                 return;
             }
-
             token.setValue(task.getResult());
         });
     }
@@ -55,12 +55,13 @@ public class UserRepositoryImpl implements UserRepository {
                 }
             }
         }
+
         return instance;
     }
 
     @Override
     public void addUser(String username, String email, String password) {
-        resetInfos();
+        resetInfo();
         Call<User> call = userApi.addUser(new User(email, username, password));
         call.enqueue(new Callback<User>() {
             @Override
@@ -80,12 +81,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     private void setErrorMessage(Response response) {
-        String errorMessage = null;
+        String errorMessage;
         try {
             errorMessage = "Error :" + response.code() + " " +
                     response.errorBody().string();
             this.errorMessage.setValue(errorMessage);
-
         } catch (IOException e) {
             this.errorMessage.setValue("Cannot connect to server");
         }
@@ -103,7 +103,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void updateUser(User user) {
-        resetInfos();
+        resetInfo();
         Call<User> call = userApi.updateUser(user);
         call.enqueue(new Callback<User>() {
             @Override
@@ -126,7 +126,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void deleteUser(long id) {
-        resetInfos();
+        resetInfo();
         Call<User> call = userApi.deleteUser(id);
         call.enqueue(new Callback<User>() {
             @Override
@@ -148,10 +148,8 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void login(String email, String password) {
-        resetInfos();
+        resetInfo();
         Call<User> call = userApi.getUserByEmail(email);
-
-
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -162,7 +160,6 @@ public class UserRepositoryImpl implements UserRepository {
                     } else {
                         errorMessage.setValue("Incorrect password, please try again");
                     }
-
                 } else {
                     setErrorMessage(response);
                 }
@@ -182,7 +179,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void logout(ApiCallback callback) {
-        resetInfos();
+        resetInfo();
         long id = currentUser.getValue().getId();
         callback.onResponse(id);
         currentUser.setValue(null);
@@ -194,7 +191,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void resetInfos() {
+    public void resetInfo() {
         errorMessage.setValue(null);
         successMessage.setValue(null);
     }

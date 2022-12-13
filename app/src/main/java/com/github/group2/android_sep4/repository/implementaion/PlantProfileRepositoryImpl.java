@@ -2,12 +2,10 @@ package com.github.group2.android_sep4.repository.implementaion;
 
 import android.util.Log;
 
-import androidx.arch.core.internal.SafeIterableMap;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.github.group2.android_sep4.model.PlantProfile;
-import com.github.group2.android_sep4.model.Threshold;
 import com.github.group2.android_sep4.networking.PlantProfileApi;
 import com.github.group2.android_sep4.repository.ServiceGenerator;
 import com.github.group2.android_sep4.repository.PlantProfileRepository;
@@ -23,7 +21,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PlantProfileRepositoryImpl implements PlantProfileRepository {
-
 
     private static PlantProfileRepository instance;
     private static Lock lock = new ReentrantLock();
@@ -62,16 +59,13 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
     public void addPlantProfile(long userId, PlantProfile plantProfile, ApiCallback callback) {
         Call<PlantProfile> call = plantProfileApi.addPlantProfile(userId, plantProfile);
         call.enqueue(new Callback<PlantProfile>() {
-
             @Override
             public void onResponse(Call<PlantProfile> call, Response<PlantProfile> response) {
                 if (response.isSuccessful()) {
                     PlantProfile body = response.body();
                     plantProfilesForUser.getValue().add(body);
                     plantProfilesForUser.setValue(plantProfilesForUser.getValue());
-
                     callback.onResponse(body);
-
                     successMessage.setValue("Plant profile added successfully");
                 } else {
                     setError(response);
@@ -80,7 +74,6 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
 
             @Override
             public void onFailure(Call<PlantProfile> call, Throwable t) {
-
                 errorMessage.setValue("Cannot connect to server");
             }
         });
@@ -88,15 +81,11 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
 
     @Override
     public void deletePlantProfile(long plantProfileId) {
-
         Call<PlantProfile> call = plantProfileApi.deletePlantProfile(plantProfileId);
         call.enqueue(new Callback<PlantProfile>() {
-
             @Override
             public void onResponse(Call<PlantProfile> call, Response<PlantProfile> response) {
                 if (response.isSuccessful()) {
-
-
                     PlantProfile body = response.body();
                     plantProfilesForUser.getValue().removeIf(plantProfile -> plantProfile.getId() == body.getId());
                     plantProfilesForUser.setValue(plantProfilesForUser.getValue());
@@ -108,7 +97,6 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
 
             @Override
             public void onFailure(Call<PlantProfile> call, Throwable t) {
-
                 errorMessage.setValue("Cannot connect to server");
             }
         });
@@ -116,15 +104,11 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
 
     @Override
     public void updatePlantProfile(PlantProfile plantProfile, ApiCallback callback) {
-
         Call<PlantProfile> call = plantProfileApi.updatePlantProfile(plantProfile);
         call.enqueue(new Callback<PlantProfile>() {
-
             @Override
             public void onResponse(Call<PlantProfile> call, Response<PlantProfile> response) {
                 if (response.isSuccessful()) {
-
-
                     PlantProfile plantProfileUpdated = response.body();
                     callback.onResponse(plantProfileUpdated);
 
@@ -172,7 +156,6 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
         return plantProfilesForUser;
     }
 
-
     @Override
     public void searchPlantProfile(long plantProfileId) {
         Call<PlantProfile> call = plantProfileApi.getPlantProfile(plantProfileId);
@@ -184,7 +167,7 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
                     PlantProfile plantProfile = response.body();
 
                     searchedPlantProfile.setValue(plantProfile);
-                    Log.e("PLANT PROFILE",searchedPlantProfile.getValue().toString());
+                    Log.e("PLANT PROFILE", searchedPlantProfile.getValue().toString());
                 } else {
                     setError(response);
                 }
@@ -203,8 +186,8 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
     }
 
     @Override
-    public void activatePlantProfile(long plantProfileId, long greenHouseId, final ApiCallback callback) {
-        Call<Void> call = plantProfileApi.activatePlantProfile(plantProfileId, greenHouseId);
+    public void activatePlantProfile(long plantProfileId, long greenhouseId, final ApiCallback callback) {
+        Call<Void> call = plantProfileApi.activatePlantProfile(plantProfileId, greenhouseId);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
@@ -227,8 +210,8 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
     }
 
     @Override
-    public void searchActivatedPlantProfile(long greenHouseId) {
-        Call<PlantProfile> call = plantProfileApi.getActivatedPlantProfile(greenHouseId);
+    public void searchActivatedPlantProfile(long greenhouseId) {
+        Call<PlantProfile> call = plantProfileApi.getActivatedPlantProfile(greenhouseId);
         call.enqueue(new Callback<PlantProfile>() {
             @Override
             public void onResponse(Call<PlantProfile> call, Response<PlantProfile> response) {
@@ -263,8 +246,8 @@ public class PlantProfileRepositoryImpl implements PlantProfileRepository {
     }
 
     @Override
-    public void deactivatePlantProfile(long greenHouseId) {
-        Call<Void> call = plantProfileApi.deactivatePlantProfile(greenHouseId);
+    public void deactivatePlantProfile(long greenhouseId) {
+        Call<Void> call = plantProfileApi.deactivatePlantProfile(greenhouseId);
         call.enqueue(new Callback<Void>() {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {

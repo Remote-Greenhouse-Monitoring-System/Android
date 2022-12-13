@@ -15,8 +15,7 @@ import androidx.navigation.Navigation;
 import com.github.group2.android_sep4.R;
 import com.google.android.material.textfield.TextInputLayout;
 
-public class ForgetPasswordFragment extends Fragment {
-
+public class ForgotPasswordFragment extends Fragment {
 
     AppCompatButton nextButton;
     TextInputLayout emailField;
@@ -29,22 +28,18 @@ public class ForgetPasswordFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_forget_passsword, container, false);
         initializeAllFields(view);
 
-
-
         nextButton.setOnClickListener(this::nextButtonPressed);
+
         return view;
     }
 
     private void nextButtonPressed(View view) {
-
         navController.navigate(R.id.changePasswordFragment);
     }
 
     private void initializeAllFields(View view) {
-
         nextButton = view.findViewById(R.id.nextButton);
         emailField = view.findViewById(R.id.forget_email);
         navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
-
     }
 }

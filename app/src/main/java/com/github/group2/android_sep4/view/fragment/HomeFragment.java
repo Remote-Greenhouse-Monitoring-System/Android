@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.Greenhouse;
-import com.github.group2.android_sep4.view.adapter.GreenHouseAdapter;
+import com.github.group2.android_sep4.view.adapter.GreenhouseAdapter;
 import com.github.group2.android_sep4.viewmodel.HomeViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.shashank.sony.fancytoastlib.FancyToast;
@@ -30,7 +30,7 @@ public class HomeFragment extends Fragment {
 
     FloatingActionButton addBtn;
     RecyclerView recyclerView;
-    GreenHouseAdapter adapter;
+    GreenhouseAdapter adapter;
     HomeViewModel viewModel;
     NavController navController;
 
@@ -43,7 +43,7 @@ public class HomeFragment extends Fragment {
         initializeAllFields(view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new GreenHouseAdapter();
+        adapter = new GreenhouseAdapter();
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this::greenHouseClicked);
 

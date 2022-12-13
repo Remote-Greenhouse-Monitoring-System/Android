@@ -4,10 +4,8 @@ import androidx.lifecycle.LiveData;
 
 import com.github.group2.android_sep4.model.User;
 import com.github.group2.android_sep4.repository.callback.ApiCallback;
-import com.google.android.gms.common.api.Api;
 
 public interface UserRepository {
-
 
     void addUser(String username, String email, String password);
 
@@ -27,5 +25,5 @@ public interface UserRepository {
 
     LiveData<String> getSuccessMessage();
 
-    void resetInfos();
+    void resetInfo();
 }

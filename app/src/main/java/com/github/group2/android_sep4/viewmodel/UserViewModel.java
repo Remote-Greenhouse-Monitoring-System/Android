@@ -60,7 +60,7 @@ public class UserViewModel extends ViewModel {
     }
 
     public void resetInfos() {
-        repository.resetInfos();
+        repository.resetInfo();
     }
 
 

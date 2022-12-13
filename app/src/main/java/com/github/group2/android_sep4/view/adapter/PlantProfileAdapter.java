@@ -31,17 +31,14 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
     private AddPlantProfileViewModel addPlantProfileViewModel;
     private OnItemClickListener listener;
 
-
     public PlantProfileAdapter() {
         this.plantProfiles = new ArrayList<>();
     }
-
 
     public void setPlantProfiles(List<PlantProfile> plantProfiles) {
         this.plantProfiles = plantProfiles;
         notifyDataSetChanged();
     }
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -63,8 +60,6 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
 
     @Override
     public void onBindViewHolder(@NonNull PlantProfileAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-
-
         holder.setFields(plantProfiles.get(position));
 
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -108,12 +103,10 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
                 .onNegativeClicked(dialog -> {
                     dialog.dismiss();
                     FancyToast.makeText(holder.itemView.getContext(), "Cancelled", FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
-
                 })
                 .build()
                 .show();
     }
-
 
     private void editBtnPressed(int position) {
         PlantProfile plantProfile = plantProfiles.get(position);
@@ -165,6 +158,7 @@ public class PlantProfileAdapter extends RecyclerView.Adapter<PlantProfileAdapte
             plantProfileOptimalLight.setText(String.valueOf(plantProfile.getOptimalLight()));
         }
     }
+
     public interface OnItemClickListener {
         void onItemClick(PlantProfile greenHouse);
     }

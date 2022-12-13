@@ -8,19 +8,21 @@ import java.util.List;
 
 public interface MeasurementRepository {
 
-    void searchMeasurement( long greenHouseId, int amount);
+    void searchMeasurement( long greenhouseId, int amount);
 
-    void searchLastMeasurement( long greenHouseId);
+    void searchLastMeasurement( long greenhouseId);
 
-    void searchAllMeasurementsPerHour(long greenHouseId, int hours );
+    void searchAllMeasurementsPerHour(long greenhouseId, int hours );
 
-    void searchAllMeasurementPerDays( long greenHouseId, int days);
+    void searchAllMeasurementPerDays( long greenhouseId, int days);
 
-    void searchAllMeasurementPerMonth( long greenHouseId,int month,   int year);
+    void searchAllMeasurementPerMonth( long greenhouseId,int month,   int year);
 
-    void searchAllMeasurementPerYear( long greenHouseId, int year);
+    void searchAllMeasurementPerYear( long greenhouseId, int year);
 
     LiveData<String> getError();
+
     LiveData<List<Measurement>> getSearchedMeasurementList();
+
     LiveData<Measurement> getSearchedMeasurement();
 }

@@ -16,7 +16,8 @@ import com.github.group2.android_sep4.model.Measurement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.ViewHolder> {
+public class GreenhouseAdapter extends RecyclerView.Adapter<GreenhouseAdapter.ViewHolder> {
+
     private List<Greenhouse> greenhouses = new ArrayList<>();
     private OnItemClickListener listener;
     private Context context;
@@ -33,7 +34,7 @@ public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.Vi
 
     @NonNull
     @Override
-    public GreenHouseAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public GreenhouseAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.greenhouse_element, parent, false);
 
@@ -43,7 +44,7 @@ public class GreenHouseAdapter extends RecyclerView.Adapter<GreenHouseAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull GreenHouseAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull GreenhouseAdapter.ViewHolder holder, int position) {
         Greenhouse greenhouse = greenhouses.get(position);
         holder.name.setText(greenhouse.getName());
 

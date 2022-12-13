@@ -4,7 +4,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +21,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
+
     private MainActivityViewModel viewModel;
     private BottomNavigationView bottomNavigationView;
     NavController navController;
@@ -40,11 +40,9 @@ public class MainActivity extends AppCompatActivity {
                 Log.w("MainActivity", "Fetching FCM registration token failed", task.getException());
                 return;
             }
-
             token.setValue(task.getResult());
             Log.d("MainActivity", token.getValue());
         });
-
 
         preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
 
@@ -100,18 +98,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
     private void registerNotificationToken(User user) {
-
-
-
        token.observe(this, tokenForNotification -> {
            if (tokenForNotification != null) {
-
                Log.i("token", "Token: " + tokenForNotification);
                viewModel.registerToken(user.getId(), tokenForNotification);
-//               Toast.makeText(this, tokenForNotification, Toast.LENGTH_SHORT).show();
            }
        });
     }

@@ -1,7 +1,5 @@
 package com.github.group2.android_sep4.repository.implementaion;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -26,6 +24,7 @@ public class ThresholdRepositoryImpl implements ThresholdRepository {
     private MutableLiveData<Threshold> searchedThreshold;
 
     private ThresholdApi thresholdApi;
+
     private ThresholdRepositoryImpl() {
         thresholdApi = ServiceGenerator.getThresholdApi();
         errorMessage = new MutableLiveData<>();
@@ -44,7 +43,6 @@ public class ThresholdRepositoryImpl implements ThresholdRepository {
 
         return instance;
     }
-
 
     @Override
     public void searchThreshold(long plantProfileId) {

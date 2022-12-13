@@ -13,10 +13,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * It's a singleton class that creates a single instance of the Retrofit object and returns it when the
- * getMeasurementApi() method is called
- */
 public class ServiceGenerator {
 
     private static MeasurementApi measurementApi;
@@ -27,9 +23,8 @@ public class ServiceGenerator {
     private static NotificationApi notificationApi;
     private static Lock lock = new ReentrantLock();
 
-    private static String BASE_URL = "https://greenhouse-data.azurewebsites.net";
+    private static final String BASE_URL = "https://greenhouse-data.azurewebsites.net";
     public final static String API_KEY = "apiKey:JYP!$jFqqFxmy@TsF6zBNMaSd3Fd&";
-
 
     public static MeasurementApi getMeasurementApi() {
         if (measurementApi == null) {
@@ -38,13 +33,11 @@ public class ServiceGenerator {
                     measurementApi = new Retrofit.Builder().baseUrl(BASE_URL)
                             .addConverterFactory(GsonConverterFactory.create()).build().create(MeasurementApi.class);
                 }
-
             }
         }
 
         return measurementApi;
     }
-
 
     public static UserApi getUserApi() {
         if (userApi == null) {
@@ -52,7 +45,6 @@ public class ServiceGenerator {
                 if (userApi == null) {
                     userApi = new Retrofit.Builder().baseUrl(BASE_URL)
                             .addConverterFactory(GsonConverterFactory.create()).build().create(UserApi.class);
-
                 }
             }
         }

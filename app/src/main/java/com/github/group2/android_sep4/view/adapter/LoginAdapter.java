@@ -11,14 +11,12 @@ import java.util.List;
 
 public class LoginAdapter extends FragmentStateAdapter {
 
-
     private List<Fragment> allFragments;
 
     public LoginAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle) {
         super(fragmentManager, lifecycle);
         allFragments = new ArrayList<>();
     }
-
 
     @NonNull
     @Override

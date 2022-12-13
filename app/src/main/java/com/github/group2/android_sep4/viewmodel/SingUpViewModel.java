@@ -24,6 +24,6 @@ public class SingUpViewModel extends ViewModel {
 
     public void resetInfos() {
 
-        repository.resetInfos();
+        repository.resetInfo();
     }
 }

@@ -45,16 +45,15 @@ public class GreenhouseRepositoryImpl implements GreenhouseRepository {
                 }
             }
         }
+
         return instance;
     }
 
     @Override
     public void searchAllGreenhousesForAUser(long userId) {
         resetInfo();
-
         Call<List<Greenhouse>> call = greenhouseApi.getGreenhousesWithLastMeasurementsByUser(userId);
         call.enqueue(new Callback<List<Greenhouse>>() {
-
             @Override
             public void onResponse(Call<List<Greenhouse>> call, Response<List<Greenhouse>> response) {
                 List<Greenhouse> GreenhouseWithLastMeasurementModelList = response.body();
@@ -63,10 +62,9 @@ public class GreenhouseRepositoryImpl implements GreenhouseRepository {
 
             @Override
             public void onFailure(Call<List<Greenhouse>> call, Throwable t) {
-                errorMessage.setValue("Cannot connect to the server");
+                errorMessage.setValue("Cannot connect to the server"); // TODO: extract string
             }
         });
-
     }
 
     @Override
@@ -102,7 +100,6 @@ public class GreenhouseRepositoryImpl implements GreenhouseRepository {
             @Override
             public void onResponse(Call<Greenhouse> call, Response<Greenhouse> response) {
                 if (response.isSuccessful()) {
-
                     Greenhouse body = response.body();
                     allGreenhouses.getValue().add(body);
                     allGreenhouses.setValue(allGreenhouses.getValue());
@@ -127,8 +124,6 @@ public class GreenhouseRepositoryImpl implements GreenhouseRepository {
             @Override
             public void onResponse(Call<Greenhouse> call, Response<Greenhouse> response) {
                 if (response.isSuccessful()) {
-
-
                     Greenhouse body = response.body();
                     allGreenhouses.getValue().removeIf(greenhouse -> greenhouse.getId() == body.getId());
                     allGreenhouses.setValue(allGreenhouses.getValue());
@@ -140,7 +135,6 @@ public class GreenhouseRepositoryImpl implements GreenhouseRepository {
 
             @Override
             public void onFailure(Call<Greenhouse> call, Throwable t) {
-
                 errorMessage.setValue("Cannot connect to the server");
             }
         });
@@ -162,7 +156,6 @@ public class GreenhouseRepositoryImpl implements GreenhouseRepository {
 
             @Override
             public void onFailure(Call<Greenhouse> call, Throwable t) {
-
             }
         });
     }

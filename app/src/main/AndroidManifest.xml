@@ -25,7 +25,6 @@
             </intent-filter>
         </activity>
 
-
         <service android:name=".service.NotificationService"
             android:enabled="true"
             android:permission="com.google.android.c2dm.permission.SEND"

@@ -21,6 +21,7 @@ import com.github.group2.android_sep4.viewmodel.AddPlantProfileViewModel;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 public class AddPlantProfileFragment extends Fragment {
+
     private ImageButton backButton;
     private NavController navController;
     private EditText addPlantProfileName, addPlantProfileDescription, addPlantProfileTempOptimal, addPlantProfileHumidityOptimal,

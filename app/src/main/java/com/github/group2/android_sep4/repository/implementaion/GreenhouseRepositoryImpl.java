@@ -27,6 +27,9 @@ public class GreenhouseRepositoryImpl implements GreenhouseRepository {
 
     private List<String> allDevices;
 
+
+    private List<String> allDevices;
+
     private static GreenhouseRepository instance;
     private static Lock lock = new ReentrantLock();
 

@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,14 +25,13 @@ import com.shashank.sony.fancydialoglib.Animation;
 import com.shashank.sony.fancydialoglib.FancyAlertDialog;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
-public class GreenhouseFragment extends Fragment
-{
+public class GreenhouseFragment extends Fragment {
     GreenhouseViewModel viewModel;
-    TextView greenhouseName, greenhouseTemperature, greenhouseCO2, greenhouseHumidity, greenhouseLight, activePlantProfileName;
+    TextView greenhouseName, greenhouseTemperature, greenhouseCO2, greenhouseHumidity, greenhouseLight, activePlantProfileName, deviceEui;
     MaterialCardView clickableCard, temperatureCard, co2Card, humidityCard, lightCard;
     ImageButton backButton, deleteButton;
     NavController navController;
-    
+
     LinearLayout activePlantProfileCard, inactivePlantProfileCard;
     Button removePlantProfileButton;
     private long greenhouseId;
@@ -59,6 +57,7 @@ public class GreenhouseFragment extends Fragment
             viewModel.getSelectedGreenhouse().observe(getViewLifecycleOwner(), greenhouse -> {
                 greenhouseId = greenhouse.getId();
                 greenhouseName.setText(greenhouse.getName());
+                deviceEui.setText("Device EUI :" + greenhouse.getDeviceEui());
 
                 Measurement lastMeasurement = greenhouse.getLastMeasurement();
                 if (lastMeasurement == null
@@ -101,6 +100,7 @@ public class GreenhouseFragment extends Fragment
         activePlantProfileCard.setVisibility(View.GONE);
 
         inactivePlantProfileCard = view.findViewById(R.id.inactivePlantProfile);
+        deviceEui = view.findViewById(R.id.device_eui);
 
         temperatureCard = view.findViewById(R.id.latestMeasurementTemperature);
         co2Card = view.findViewById(R.id.latestMeasurementCO2);

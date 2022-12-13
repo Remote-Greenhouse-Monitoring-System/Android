@@ -36,10 +36,10 @@ public class NotificationRepositoryImpl implements NotificationRepository {
 
     @Override
     public void registerNotificationToken(String token, long userId) {
-        Call<Greenhouse> call = api.registerNotificationService(token, userId);
-        call.enqueue(new retrofit2.Callback<Greenhouse>() {
+        Call<Void> call = api.registerNotificationService(token, userId);
+        call.enqueue(new retrofit2.Callback<Void>() {
             @Override
-            public void onResponse(Call<Greenhouse> call, retrofit2.Response<Greenhouse> response) {
+            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
                 if (response.isSuccessful()) {
                     Log.d("token", "Notification token registered successfully");
                 } else {
@@ -48,10 +48,32 @@ public class NotificationRepositoryImpl implements NotificationRepository {
             }
 
             @Override
-            public void onFailure(Call<Greenhouse> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 System.out.println("Notification token not registered");
             }
         });
+    }
+
+    @Override
+    public void unregisterNotificationToken(long userId) {
+
+        Call<Void> call = api.unregisterNotificationService(userId);
+        call.enqueue(new retrofit2.Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, retrofit2.Response<Void> response) {
+                if (response.isSuccessful()) {
+                    Log.d("token", "Notification token unregistered successfully");
+                } else {
+                    Log.d("token", "Notification token unregistration failed");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                System.out.println("Notification token not unregistered");
+            }
+        });
+
     }
 
 }

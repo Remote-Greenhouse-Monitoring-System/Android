@@ -3,6 +3,8 @@ package com.github.group2.android_sep4.repository;
 import androidx.lifecycle.LiveData;
 
 import com.github.group2.android_sep4.model.User;
+import com.github.group2.android_sep4.repository.callback.ApiCallback;
+import com.google.android.gms.common.api.Api;
 
 public interface UserRepository {
 
@@ -21,7 +23,7 @@ public interface UserRepository {
 
     void init(User savedLoggedInUser);
 
-    void logout();
+    void logout(ApiCallback callback);
 
     LiveData<String> getSuccessMessage();
 

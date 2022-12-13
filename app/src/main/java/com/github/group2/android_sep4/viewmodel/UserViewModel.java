@@ -4,15 +4,19 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.github.group2.android_sep4.model.User;
+import com.github.group2.android_sep4.repository.NotificationRepository;
 import com.github.group2.android_sep4.repository.UserRepository;
+import com.github.group2.android_sep4.repository.implementaion.NotificationRepositoryImpl;
 import com.github.group2.android_sep4.repository.implementaion.UserRepositoryImpl;
 
 public class UserViewModel extends ViewModel {
 
     private UserRepository repository;
+    private NotificationRepository notificationRepository;
 
     public UserViewModel() {
         repository = UserRepositoryImpl.getInstance();
+        notificationRepository = NotificationRepositoryImpl.getInstance();
     }
 
     public void signUp(String username, String email, String password) {
@@ -32,7 +36,10 @@ public class UserViewModel extends ViewModel {
     }
 
     public void logout() {
-        repository.logout();
+        repository.logout((userId)->{
+            notificationRepository.unregisterNotificationToken((long) userId);
+        });
+
     }
 
     public void deleteUser(long userId) {

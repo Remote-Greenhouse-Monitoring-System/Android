@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,22 +33,25 @@ public class SignUpTabFragment extends Fragment {
 
         viewModel = new ViewModelProvider(this).get(SingUpViewModel.class);
         viewModel.getCurrentUser().observe(getViewLifecycleOwner(), this::userObserver);
-        viewModel.getError().observe(getViewLifecycleOwner(), this::errorObserver);
 
         signUp.setOnClickListener(this::signUpPressed);
+        viewModel.getError().observe(getViewLifecycleOwner(), this::errorObserver);
 
         return view;
     }
 
     private void errorObserver(String s) {
+
         if (s != null) {
             progressBar.setVisibility(View.INVISIBLE);
+            viewModel.resetInfos();
+
         }
     }
 
     private void userObserver(User user) {
         if (user != null) {
-            progressBar.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.GONE);
         }
     }
 
@@ -59,13 +63,14 @@ public class SignUpTabFragment extends Fragment {
         boolean isEverythingValid = isAppropriateEmail && isAppropriatePassword && isAppropriateUsername;
 
         if (!isEverythingValid) return;
-
+        progressBar.setVisibility(View.VISIBLE);
         String email = emailField.getEditText().getText().toString().trim();
         String password = passwordField.getEditText().getText().toString().trim();
         String username = usernameField.getEditText().getText().toString().trim();
 
-        progressBar.setVisibility(View.VISIBLE);
+
         viewModel.signUp(username, email, password);
+
     }
 
     private boolean validateUsername() {

@@ -41,4 +41,8 @@ public class MainActivityViewModel extends ViewModel {
     public void registerToken(long id, String token) {
         notificationRepository.registerNotificationToken(token, id);
     }
+
+    public void unregisterNotificationToken(User user) {
+        notificationRepository.unregisterNotificationToken(user.getId());
+    }
 }

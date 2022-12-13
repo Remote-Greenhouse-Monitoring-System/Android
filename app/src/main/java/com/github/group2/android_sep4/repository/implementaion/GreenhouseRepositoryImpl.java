@@ -9,6 +9,7 @@ import com.github.group2.android_sep4.repository.GreenhouseRepository;
 import com.github.group2.android_sep4.repository.ServiceGenerator;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -23,6 +24,8 @@ public class GreenhouseRepositoryImpl implements GreenhouseRepository {
     private MutableLiveData<String> successMessage;
     private MutableLiveData<List<Greenhouse>> allGreenhouses;
     private MutableLiveData<Greenhouse> selectedGreenhouse;
+
+    private List<String> allDevices;
     
     private static GreenhouseRepository instance;
     private static Lock lock = new ReentrantLock();
@@ -35,6 +38,9 @@ public class GreenhouseRepositoryImpl implements GreenhouseRepository {
         successMessage = new MutableLiveData<>();
         allGreenhouses = new MutableLiveData<>();
         selectedGreenhouse = new MutableLiveData<>();
+        allDevices = new ArrayList<>();
+        allDevices.add("0004A30B00251001");
+        allDevices.add("0004A30B00E8355E");
     }
 
     public static GreenhouseRepository getInstance() {
@@ -52,7 +58,7 @@ public class GreenhouseRepositoryImpl implements GreenhouseRepository {
     public void searchAllGreenhousesForAUser(long userId) {
         resetInfo();
 
-        Call<List<Greenhouse>> call = greenhouseApi.getGreenhousesWithLastMeasurementsByUser(userId);
+        Call<List<Greenhouse>> call = greenhouseApi.getGreenHouses(userId);
         call.enqueue(new Callback<List<Greenhouse>>() {
 
             @Override
@@ -71,7 +77,7 @@ public class GreenhouseRepositoryImpl implements GreenhouseRepository {
 
     @Override
     public void searchGreenhousesWithLastMeasurement(long userId) {
-        Call<List<Greenhouse>> call = greenhouseApi.getGreenhousesWithLastMeasurementsByUser(userId);
+        Call<List<Greenhouse>> call = greenhouseApi.getGreenHouses(userId);
         call.enqueue(new Callback<List<Greenhouse>>() {
             @Override
             public void onResponse(Call<List<Greenhouse>> call, Response<List<Greenhouse>> response) {
@@ -191,6 +197,11 @@ public class GreenhouseRepositoryImpl implements GreenhouseRepository {
     public void resetInfo() {
         errorMessage.setValue(null);
         successMessage.setValue(null);
+    }
+
+    @Override
+    public List<String> getDevices() {
+        return allDevices;
     }
 
     private void setError(Response response) {

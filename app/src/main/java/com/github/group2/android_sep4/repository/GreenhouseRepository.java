@@ -28,4 +28,7 @@ public interface GreenhouseRepository {
     LiveData<Greenhouse> getSelectedGreenhouse();
 
     void resetInfo();
+
+    List<String> getDevices();
+
 }

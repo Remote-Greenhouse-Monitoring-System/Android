@@ -48,4 +48,8 @@ public class HomeViewModel extends ViewModel {
     public void searchAllGreenhousesForAUser(long userId) {
         greenhouseRepository.searchAllGreenhousesForAUser(userId);
     }
+
+    public List<String> getDevices() {
+        return greenhouseRepository.getDevices();
+    }
 }

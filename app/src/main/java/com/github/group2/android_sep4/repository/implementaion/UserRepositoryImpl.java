@@ -8,6 +8,7 @@ import com.github.group2.android_sep4.networking.UserApi;
 import com.github.group2.android_sep4.repository.ServiceGenerator;
 import com.github.group2.android_sep4.repository.UserRepository;
 
+import com.github.group2.android_sep4.repository.callback.ApiCallback;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.io.IOException;
@@ -83,10 +84,11 @@ public class UserRepositoryImpl implements UserRepository {
         try {
             errorMessage = "Error :" + response.code() + " " +
                     response.errorBody().string();
+            this.errorMessage.setValue(errorMessage);
+
         } catch (IOException e) {
             this.errorMessage.setValue("Cannot connect to server");
         }
-        this.errorMessage.setValue(errorMessage);
     }
 
     @Override
@@ -179,8 +181,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void logout() {
+    public void logout(ApiCallback callback) {
         resetInfos();
+        long id = currentUser.getValue().getId();
+        callback.onResponse(id);
         currentUser.setValue(null);
     }
 

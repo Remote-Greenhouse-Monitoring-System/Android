@@ -21,4 +21,9 @@ public class SingUpViewModel extends ViewModel {
     public void signUp(String username, String email, String password) {
         repository.addUser(username, email, password);
     }
+
+    public void resetInfos() {
+
+        repository.resetInfos();
+    }
 }

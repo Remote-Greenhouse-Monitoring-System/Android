@@ -100,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+
     private void registerNotificationToken(User user) {
 
 
@@ -109,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
 
                Log.i("token", "Token: " + tokenForNotification);
                viewModel.registerToken(user.getId(), tokenForNotification);
-               Toast.makeText(this, tokenForNotification, Toast.LENGTH_SHORT).show();
+//               Toast.makeText(this, tokenForNotification, Toast.LENGTH_SHORT).show();
            }
        });
     }

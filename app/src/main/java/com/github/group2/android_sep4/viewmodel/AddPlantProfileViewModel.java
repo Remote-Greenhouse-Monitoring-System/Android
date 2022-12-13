@@ -27,7 +27,6 @@ public class AddPlantProfileViewModel extends ViewModel {
             {
                 thresholdRepository.updateThreshold(((PlantProfile) plantP).getId(), threshold);
             }
-
         });
     }
 
@@ -35,8 +34,6 @@ public class AddPlantProfileViewModel extends ViewModel {
     {
         plantProfileRepository.deletePlantProfile(plantProfileId);
     }
-
-
 
 
     public LiveData<PlantProfile> getPlantProfile()

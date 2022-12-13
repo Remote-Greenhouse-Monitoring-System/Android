@@ -57,7 +57,10 @@ public class LoginTabFragment extends Fragment {
     }
 
     private void errorObserver(String s) {
-        progressBar.setVisibility(View.INVISIBLE);
+        if (s != null) {
+            progressBar.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     private void loginPressed(View view) {

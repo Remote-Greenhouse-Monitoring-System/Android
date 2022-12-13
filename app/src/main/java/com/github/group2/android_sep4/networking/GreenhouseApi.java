@@ -18,7 +18,6 @@ import retrofit2.http.Path;
 public interface GreenhouseApi {
 
     String route = "GreenHouses";
-    String apiKey = "JYP!$jFqqFxmy@TsF6zBNMaSd3Fd&";
 
     @Headers({API_KEY})
     @GET(route + "/{uId}")

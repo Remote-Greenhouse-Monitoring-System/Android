@@ -19,9 +19,6 @@ public interface GreenhouseApi {
 
     String route = "GreenHouses";
 
-    @Headers({API_KEY})
-    @GET(route + "/{uId}")
-    Call<List<Greenhouse>> getGreenhouses(@Path("uId") long userId);
 
     @Headers({API_KEY})
     @POST(route + "/{uId}")
@@ -37,5 +34,5 @@ public interface GreenhouseApi {
 
     @Headers({API_KEY})
     @GET(route + "/greenhousesWithLastMeasurements/{uId}")
-    Call<List<Greenhouse>> getGreenhousesWithLastMeasurementsByUser(@Path("uId") long userId);
+    Call<List<Greenhouse>> getGreenHouses(@Path("uId") long userId);
 }

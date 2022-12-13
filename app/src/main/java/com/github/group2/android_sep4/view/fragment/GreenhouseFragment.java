@@ -27,7 +27,7 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 
 public class GreenhouseFragment extends Fragment {
     GreenhouseViewModel viewModel;
-    TextView greenhouseName, greenhouseTemperature, greenhouseCO2, greenhouseHumidity, greenhouseLight, activePlantProfileName;
+    TextView greenhouseName, greenhouseTemperature, greenhouseCO2, greenhouseHumidity, greenhouseLight, activePlantProfileName, deviceEui;
     MaterialCardView clickableCard, temperatureCard, co2Card, humidityCard, lightCard;
     ImageButton backButton, deleteButton;
     NavController navController;
@@ -53,10 +53,11 @@ public class GreenhouseFragment extends Fragment {
         return view;
     }
 
-    private void setObservers() {
-        viewModel.getSelectedGreenhouse().observe(getViewLifecycleOwner(), greenhouse -> {
-            greenhouseId = greenhouse.getId();
-            greenhouseName.setText(greenhouse.getName());
+        private void setObservers() {
+            viewModel.getSelectedGreenhouse().observe(getViewLifecycleOwner(), greenhouse -> {
+                greenhouseId = greenhouse.getId();
+                greenhouseName.setText(greenhouse.getName());
+                deviceEui.setText("Device EUI :" + greenhouse.getDeviceEui());
 
             Measurement lastMeasurement = greenhouse.getLastMeasurement();
             if (lastMeasurement == null
@@ -98,6 +99,7 @@ public class GreenhouseFragment extends Fragment {
         activePlantProfileCard.setVisibility(View.GONE);
 
         inactivePlantProfileCard = view.findViewById(R.id.inactivePlantProfile);
+        deviceEui = view.findViewById(R.id.device_eui);
 
         temperatureCard = view.findViewById(R.id.latestMeasurementTemperature);
         co2Card = view.findViewById(R.id.latestMeasurementCO2);

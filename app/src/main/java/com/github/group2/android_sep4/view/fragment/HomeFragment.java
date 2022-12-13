@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -22,6 +24,7 @@ import com.github.group2.android_sep4.model.Greenhouse;
 import com.github.group2.android_sep4.view.adapter.GreenhouseAdapter;
 import com.github.group2.android_sep4.viewmodel.HomeViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.util.List;
@@ -89,28 +92,53 @@ public class HomeFragment extends Fragment {
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.popup_add_greenhouse, null);
 
-        EditText editText = dialogView.findViewById(R.id.add_greenhouse);
+        TextInputLayout inputLayout = dialogView.findViewById(R.id.greenhouseName);
         Button buttonSubmit =  dialogView.findViewById(R.id.buttonSubmit);
         Button buttonCancel = dialogView.findViewById(R.id.buttonCancel);
+        AppCompatAutoCompleteTextView spinner = dialogView.findViewById(R.id.select_device);
+        spinner.setShowSoftInputOnFocus(false);
+        spinner.setCursorVisible(false);
+
+
+        List<String> devices = viewModel.getDevices();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, devices);
+        spinner.setAdapter(adapter);
 
         buttonCancel.setOnClickListener(view1 -> dialogBuilder.dismiss());
 
-        buttonSubmit.setOnClickListener(view12 -> {
-            // TODO
-            String name = editText.getText().toString();
+        buttonSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // DO SOMETHINGS
+                String name = inputLayout.getEditText().getText().toString().trim();
+                String deviceEui = spinner.getText().toString().trim();
 
-            if (name.isEmpty()) {
-                FancyToast.makeText(getContext(), "Please enter a name", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
-            }
-            else if (name.length() > 25) {
-                FancyToast.makeText(getContext(), "Name is too long", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
-            }
-            else {
-                viewModel.addGreenhouse(viewModel.getCurrentUser().getValue().getId(), new Greenhouse(name));
-                dialogBuilder.dismiss();
+                if(deviceEui.isEmpty()){
+                    FancyToast.makeText(getContext(), "Please select a device id", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+                    return;
+                }
+
+                if (name.isEmpty()) {
+                    inputLayout.setError("Name is required");
+                    inputLayout.requestFocus();
+                    return;
+                }
+                else if (name.length() > 25) {
+                    inputLayout.setError("Name is too long");
+                    inputLayout.requestFocus();
+                    return;
+                }
+                else {
+                    inputLayout.setError(null);
+                    inputLayout.setErrorEnabled(false);
+
+                    Greenhouse greenhouseToAdd = new Greenhouse(name, deviceEui);
+                    greenhouseToAdd.setDeviceEui(deviceEui);
+                    viewModel.addGreenhouse(viewModel.getCurrentUser().getValue().getId(), greenhouseToAdd);
+                    dialogBuilder.dismiss();
+                }
             }
         });
-
         dialogBuilder.setView(dialogView);
         dialogBuilder.show();
     }
@@ -125,7 +153,7 @@ public class HomeFragment extends Fragment {
             return;
         }
 
-        if (greenhouses.size() >= 2) {
+        if (greenhouses.size()>=2){
             addBtn.hide();
         } else {
             addBtn.show();

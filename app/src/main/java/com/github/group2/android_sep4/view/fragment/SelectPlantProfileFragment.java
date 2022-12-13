@@ -103,6 +103,9 @@ public class SelectPlantProfileFragment extends Fragment {
     }
 
     private void plantProfileClicked(PlantProfile plantProfile) {
+
+//        Toast.makeText(getContext(), plantProfile.isPreMade() + "", Toast.LENGTH_SHORT).show();
+
         viewModel.activatePlantProfile(plantProfile.getId());
         Toast.makeText(getContext(), "Plant profile set " + plantProfile.getId() + " to greenhouse " + viewModel.getSelectedGreenhouse().getValue().getId(), Toast.LENGTH_SHORT).show();
         navController.popBackStack();

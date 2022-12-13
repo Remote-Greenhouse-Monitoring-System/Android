@@ -125,7 +125,7 @@ public class GreenhouseFragment extends Fragment
     private void goToPlantProfileList(View view) {
         Bundle bundle = new Bundle();
         bundle.putBoolean("isFromSpecificGreenhouse", true);
-        Toast.makeText(getContext(), "Greenhouse id: " + viewModel.getSelectedGreenhouse().getValue().getId(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "Greenhouse id: " + viewModel.getSelectedGreenhouse().getValue().getId(), Toast.LENGTH_SHORT).show();
         navController.navigate(R.id.selectPlantProfileFragment, bundle);
     }
 

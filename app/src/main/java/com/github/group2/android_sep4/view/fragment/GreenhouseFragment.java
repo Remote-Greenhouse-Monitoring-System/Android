@@ -52,10 +52,19 @@ public class GreenhouseFragment extends Fragment {
 
         return view;
     }
-
         private void setObservers() {
             viewModel.getSelectedGreenhouse().observe(getViewLifecycleOwner(), greenhouse -> {
                 greenhouseId = greenhouse.getId();
+                viewModel.searchLastMeasurement(greenhouseId);
+                viewModel.getLastMeasurement().observe(getViewLifecycleOwner(), measurement -> {
+                    if (measurement != null) {
+                        greenhouse.setLastMeasurement(measurement);
+                        greenhouseTemperature.setText(String.valueOf(measurement.getTemperature()));
+                        greenhouseCO2.setText(String.valueOf(measurement.getCo2()));
+                        greenhouseHumidity.setText(String.valueOf(measurement.getHumidity()));
+                        greenhouseLight.setText(String.valueOf(measurement.getLight()));
+                    }
+                });
                 greenhouseName.setText(greenhouse.getName());
                 deviceEui.setText("Device EUI :" + greenhouse.getDeviceEui());
 

@@ -62,6 +62,7 @@ public class HomeFragment extends Fragment {
     private void setObservers() {
         viewModel.getErrorMessage().observe(getViewLifecycleOwner(), s -> {
             if (s != null) {
+                progressBar.setVisibility(View.GONE);
                 FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
                 viewModel.resetInfo();
             }
@@ -69,6 +70,7 @@ public class HomeFragment extends Fragment {
 
         viewModel.getSuccessMessage().observe(getViewLifecycleOwner(), s -> {
             if (s != null) {
+                progressBar.setVisibility(View.GONE);
                 FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
                 viewModel.resetInfo();
             }

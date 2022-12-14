@@ -132,7 +132,7 @@ public class HomeFragment extends Fragment {
                     inputLayout.setErrorEnabled(false);
 
                     Greenhouse greenhouseToAdd = new Greenhouse(name, deviceEui);
-                    greenhouseToAdd.setEui(deviceEui);
+                    greenhouseToAdd.setDeviceEui(deviceEui);
                     viewModel.addGreenhouse(viewModel.getCurrentUser().getValue().getId(), greenhouseToAdd);
                     dialogBuilder.dismiss();
                 }

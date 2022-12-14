@@ -47,7 +47,7 @@ public class HomeFragment extends Fragment {
         initializeAllFields(view);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new GreenhouseAdapter();
+        adapter = new GreenhouseAdapter(viewModel);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this::greenHouseClicked);
         initializeGreenHouses();

@@ -192,4 +192,28 @@ public class MeasurementRepositoryImpl implements MeasurementRepository {
     public MutableLiveData<Measurement> getSearchedMeasurement() {
         return searchedMeasurement;
     }
+
+    @Override
+    public LiveData<Measurement> getLastMeasurement(long id) {
+        MutableLiveData<Measurement> measurement = new MutableLiveData<>();
+        Call<Measurement> call = api.getLastMeasurement(id);
+        call.enqueue(new Callback<Measurement>() {
+            @Override
+            public void onResponse(Call<Measurement> call, Response<Measurement> response) {
+                if (response.isSuccessful()) {
+                    measurement.setValue(response.body());
+                } else {
+                    String errorMessage = "Error :" + response.code() + " " +
+                            response.errorBody().toString();
+                    error.setValue(errorMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Measurement> call, Throwable t) {
+                error.setValue(t.getMessage());
+            }
+        });
+        return measurement;
+    }
 }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.group2.android_sep4.R;
 import com.github.group2.android_sep4.model.Greenhouse;
 import com.github.group2.android_sep4.model.Measurement;
+import com.github.group2.android_sep4.viewmodel.HomeViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,13 @@ public class GreenhouseAdapter extends RecyclerView.Adapter<GreenhouseAdapter.Vi
     private List<Greenhouse> greenhouses = new ArrayList<>();
     private OnItemClickListener listener;
     private Context context;
+
+    private HomeViewModel viewModel;
+
+
+    public GreenhouseAdapter(HomeViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
 
     public void setGreenhouses(List<Greenhouse> greenhouses) {
         this.greenhouses.clear();
@@ -48,19 +56,27 @@ public class GreenhouseAdapter extends RecyclerView.Adapter<GreenhouseAdapter.Vi
         Greenhouse greenhouse = greenhouses.get(position);
         holder.name.setText(greenhouse.getName());
 
-        Measurement lastMeasurement = greenhouse.getLastMeasurement();
-        if (lastMeasurement == null
-                || lastMeasurement.isAllZeros()) {
-            holder.co2.setText(R.string.no_data);
-            holder.temperature.setText(R.string.no_data);
-            holder.humidity.setText(R.string.no_data);
-            holder.light.setText(R.string.no_data);
-        } else {
-            holder.co2.setText(context.getString(R.string.unit_CO2, lastMeasurement.getTemperature()));
-            holder.temperature.setText(context.getString(R.string.unit_temperature, lastMeasurement.getTemperature()));
-            holder.humidity.setText(context.getString(R.string.unit_humidity, lastMeasurement.getTemperature()));
-            holder.light.setText(lastMeasurement.getTemperature() + " lux");
-        }
+        viewModel.getLastMeasurement(greenhouse.getId()).observeForever( measurement -> {
+            if (measurement != null) {
+                holder.temperature.setText(String.valueOf(measurement.getTemperature()));
+                holder.humidity.setText(String.valueOf(measurement.getHumidity()));
+                holder.co2.setText(String.valueOf(measurement.getCo2()));
+            }
+        });
+
+//        Measurement lastMeasurement = greenhouse.getLastMeasurement();
+//        if (lastMeasurement == null
+//                || lastMeasurement.isAllZeros()) {
+//            holder.co2.setText(R.string.no_data);
+//            holder.temperature.setText(R.string.no_data);
+//            holder.humidity.setText(R.string.no_data);
+//            holder.light.setText(R.string.no_data);
+//        } else {
+//            holder.co2.setText(context.getString(R.string.unit_CO2, lastMeasurement.getTemperature()));
+//            holder.temperature.setText(context.getString(R.string.unit_temperature, lastMeasurement.getTemperature()));
+//            holder.humidity.setText(context.getString(R.string.unit_humidity, lastMeasurement.getTemperature()));
+//            holder.light.setText(lastMeasurement.getTemperature() + " lux");
+//        }
     }
 
     @Override

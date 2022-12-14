@@ -61,6 +61,7 @@ public class GreenhouseAdapter extends RecyclerView.Adapter<GreenhouseAdapter.Vi
                 holder.temperature.setText(String.valueOf(measurement.getTemperature()));
                 holder.humidity.setText(String.valueOf(measurement.getHumidity()));
                 holder.co2.setText(String.valueOf(measurement.getCo2()));
+                holder.light.setText(String.valueOf(measurement.getLight()));
             }
         });
 

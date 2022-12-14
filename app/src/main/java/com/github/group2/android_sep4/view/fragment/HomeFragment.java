@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +32,7 @@ import java.util.List;
 public class HomeFragment extends Fragment {
 
     FloatingActionButton addBtn;
+    ProgressBar progressBar;
     RecyclerView recyclerView;
     GreenhouseAdapter adapter;
     HomeViewModel viewModel;
@@ -48,9 +50,9 @@ public class HomeFragment extends Fragment {
         adapter = new GreenhouseAdapter();
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(this::greenHouseClicked);
+        initializeGreenHouses();
 
         setObservers();
-        initializeGreenHouses();
 
         addBtn.setOnClickListener(this::addGreenhouse);
 
@@ -152,6 +154,7 @@ public class HomeFragment extends Fragment {
             return;
         }
 
+        progressBar.setVisibility(View.GONE);
         if (greenhouses.size()>=2){
             addBtn.hide();
         } else {
@@ -164,6 +167,8 @@ public class HomeFragment extends Fragment {
     private void initializeAllFields(View view) {
         addBtn = view.findViewById(R.id.addBtn);
         recyclerView = view.findViewById(R.id.recyclerView);
+        progressBar = view.findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
         navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
     }
 }

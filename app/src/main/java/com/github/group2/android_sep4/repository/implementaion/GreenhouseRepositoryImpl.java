@@ -79,26 +79,6 @@ public class GreenhouseRepositoryImpl implements GreenhouseRepository {
     }
 
     @Override
-    public void searchGreenhousesWithLastMeasurement(long userId) {
-        Call<List<Greenhouse>> call = greenhouseApi.getGreenHouses(userId);
-        call.enqueue(new Callback<List<Greenhouse>>() {
-            @Override
-            public void onResponse(Call<List<Greenhouse>> call, Response<List<Greenhouse>> response) {
-                if (response.isSuccessful()) {
-                    allGreenhouses.setValue(response.body());
-                } else {
-                    setError(response);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Greenhouse>> call, Throwable t) {
-                errorMessage.setValue("Cannot connect to the server");
-            }
-        });
-    }
-
-    @Override
     public LiveData<List<Greenhouse>> getGreenhouseWithLastMeasurement() {
         return allGreenhouses;
     }
@@ -106,6 +86,11 @@ public class GreenhouseRepositoryImpl implements GreenhouseRepository {
     @Override
     public void addGreenhouse(long userId, Greenhouse greenhouse) {
         resetInfo();
+        if(allGreenhouses.getValue() ==null){
+            errorMessage.setValue("Cannot connect to the server");
+            return;
+        }
+
         for (Greenhouse greenhouse1 : allGreenhouses.getValue()) {
             if (greenhouse1.getName().equals(greenhouse.getName())) {
                 errorMessage.setValue("You already have a greenhouse with this name");

@@ -7,9 +7,11 @@ import com.github.group2.android_sep4.networking.PlantProfileApi;
 import com.github.group2.android_sep4.networking.ThresholdApi;
 import com.github.group2.android_sep4.networking.UserApi;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -23,6 +25,12 @@ public class ServiceGenerator {
     private static NotificationApi notificationApi;
     private static Lock lock = new ReentrantLock();
 
+   private static OkHttpClient okHttpClient = new OkHttpClient.Builder()
+            .connectTimeout(1, TimeUnit.MINUTES)
+           .readTimeout(1, TimeUnit.MINUTES)
+            .writeTimeout(1,TimeUnit.MINUTES)
+            .build();
+
     private static final String BASE_URL = "https://greenhouse-data.azurewebsites.net";
     public final static String API_KEY = "apiKey:JYP!$jFqqFxmy@TsF6zBNMaSd3Fd&";
 
@@ -31,6 +39,7 @@ public class ServiceGenerator {
             synchronized (lock) {
                 if (measurementApi == null) {
                     measurementApi = new Retrofit.Builder().baseUrl(BASE_URL)
+                            .client(okHttpClient)
                             .addConverterFactory(GsonConverterFactory.create()).build().create(MeasurementApi.class);
                 }
             }
@@ -44,6 +53,7 @@ public class ServiceGenerator {
             synchronized (lock) {
                 if (userApi == null) {
                     userApi = new Retrofit.Builder().baseUrl(BASE_URL)
+                            .client(okHttpClient)
                             .addConverterFactory(GsonConverterFactory.create()).build().create(UserApi.class);
                 }
             }
@@ -57,6 +67,7 @@ public class ServiceGenerator {
             synchronized (lock) {
                 if (greenHouseApi == null) {
                     greenHouseApi = new Retrofit.Builder().baseUrl(BASE_URL)
+                            .client(okHttpClient)
                             .addConverterFactory(GsonConverterFactory.create()).build().create(GreenhouseApi.class);
                 }
             }
@@ -70,6 +81,7 @@ public class ServiceGenerator {
             synchronized (lock) {
                 if (plantProfileApi == null) {
                     plantProfileApi = new Retrofit.Builder().baseUrl(BASE_URL)
+                            .client(okHttpClient)
                             .addConverterFactory(GsonConverterFactory.create()).build().create(PlantProfileApi.class);
                 }
             }
@@ -83,6 +95,7 @@ public class ServiceGenerator {
             synchronized (lock) {
                 if (thresholdApi == null) {
                     thresholdApi = new Retrofit.Builder().baseUrl(BASE_URL)
+                            .client(okHttpClient)
                             .addConverterFactory(GsonConverterFactory.create()).build().create(ThresholdApi.class);
                 }
             }
@@ -96,6 +109,7 @@ public class ServiceGenerator {
             synchronized (lock) {
                 if (notificationApi == null) {
                     notificationApi = new Retrofit.Builder().baseUrl(BASE_URL)
+                            .client(okHttpClient)
                             .addConverterFactory(GsonConverterFactory.create()).build().create(NotificationApi.class);
                 }
             }

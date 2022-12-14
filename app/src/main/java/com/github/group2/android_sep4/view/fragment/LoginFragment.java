@@ -29,7 +29,7 @@ public class LoginFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.login_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_login, container, false);
         initializeAllFields(view);
         setupAdapter();
         initializeTab();
@@ -46,18 +46,14 @@ public class LoginFragment extends Fragment {
         new TabLayoutMediator(tabLayout, viewPager2, (tab, position) -> {
             if (position == 0) tab.setText(R.string.login);
             else if (position == 1) tab.setText(R.string.sign_up);
-        }
-        ).attach();
+        }).attach();
     }
-
 
     private void errorObserver(String s) {
         if (s != null && !s.equalsIgnoreCase("")) {
             FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.ERROR, true).show();
-
         }
     }
-
 
     private void setupAdapter() {
         loginAdapter = new LoginAdapter(getChildFragmentManager(), getLifecycle());
@@ -67,14 +63,11 @@ public class LoginFragment extends Fragment {
         viewPager2.setAdapter(loginAdapter);
     }
 
-
     private void userObserver(User user) {
         if (user != null) {
-
             FancyToast.makeText(getContext(), "Welcome " +user.getUsername(), FancyToast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
-            // Todo swap fragment to main page
+            // TODO swap fragment to main page
         }
-
     }
 
     private void initializeAllFields(View view) {

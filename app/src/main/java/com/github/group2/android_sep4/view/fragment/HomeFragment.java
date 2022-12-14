@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,10 +47,10 @@ public class HomeFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new GreenhouseAdapter();
         recyclerView.setAdapter(adapter);
-        adapter.setOnItemClickListener(this::greenHouseClicked);
+        adapter.setOnItemClickListener(this::greenhouseClicked);
 
         setObservers();
-        initializeGreenHouses();
+        initializeGreenhouses();
 
         addBtn.setOnClickListener(this::addGreenhouse);
 
@@ -79,11 +78,10 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void initializeGreenHouses() {
-
+    private void initializeGreenhouses() {
         if (viewModel.getCurrentUser().getValue() != null) {
             viewModel.searchAllGreenhousesForAUser(viewModel.getCurrentUser().getValue().getId());
-            viewModel.getGreenHousesWithLastMeasurement().observe(getViewLifecycleOwner(), this::updateGreenHouseList);
+            viewModel.getGreenHousesWithLastMeasurement().observe(getViewLifecycleOwner(), this::updateGreenhouseList);
         }
     }
 
@@ -99,61 +97,57 @@ public class HomeFragment extends Fragment {
         spinner.setShowSoftInputOnFocus(false);
         spinner.setCursorVisible(false);
 
-
         List<String> devices = viewModel.getDevices();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, devices);
         spinner.setAdapter(adapter);
 
         buttonCancel.setOnClickListener(view1 -> dialogBuilder.dismiss());
 
-        buttonSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // DO SOMETHINGS
-                String name = inputLayout.getEditText().getText().toString().trim();
-                String deviceEui = spinner.getText().toString().trim();
+        buttonSubmit.setOnClickListener(view12 -> {
+            // TODO
+            String name = inputLayout.getEditText().getText().toString().trim();
+            String deviceEui = spinner.getText().toString().trim();
 
-                if(deviceEui.isEmpty()){
-                    FancyToast.makeText(getContext(), "Please select a device id", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
-                    return;
-                }
+            if(deviceEui.isEmpty()){
+                FancyToast.makeText(getContext(), "Please select a device id", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+                return;
+            }
 
-                if (name.isEmpty()) {
-                    inputLayout.setError("Name is required");
-                    inputLayout.requestFocus();
-                    return;
-                }
-                else if (name.length() > 25) {
-                    inputLayout.setError("Name is too long");
-                    inputLayout.requestFocus();
-                    return;
-                }
-                else {
-                    inputLayout.setError(null);
-                    inputLayout.setErrorEnabled(false);
+            if (name.isEmpty()) {
+                inputLayout.setError("Name is required");
+                inputLayout.requestFocus();
+                return;
+            }
+            else if (name.length() > 25) {
+                inputLayout.setError("Name is too long");
+                inputLayout.requestFocus();
+                return;
+            }
+            else {
+                inputLayout.setError(null);
+                inputLayout.setErrorEnabled(false);
 
-                    Greenhouse greenhouseToAdd = new Greenhouse(name, deviceEui);
-                    greenhouseToAdd.setDeviceEui(deviceEui);
-                    viewModel.addGreenhouse(viewModel.getCurrentUser().getValue().getId(), greenhouseToAdd);
-                    dialogBuilder.dismiss();
-                }
+                Greenhouse greenhouseToAdd = new Greenhouse(name, deviceEui);
+                greenhouseToAdd.setDeviceEui(deviceEui);
+                viewModel.addGreenhouse(viewModel.getCurrentUser().getValue().getId(), greenhouseToAdd);
+                dialogBuilder.dismiss();
             }
         });
         dialogBuilder.setView(dialogView);
         dialogBuilder.show();
     }
 
-    private void greenHouseClicked(Greenhouse greenhouse) {
+    private void greenhouseClicked(Greenhouse greenhouse) {
         viewModel.setSelectedGreenhouse(greenhouse);
         navController.navigate(R.id.greenhouseFragment);
     }
 
-    private void updateGreenHouseList(List<Greenhouse> greenhouses) {
+    private void updateGreenhouseList(List<Greenhouse> greenhouses) {
         if (greenhouses == null) {
             return;
         }
 
-        if (greenhouses.size()>=2){
+        if (greenhouses.size() >= 2) {
             addBtn.hide();
         } else {
             addBtn.show();

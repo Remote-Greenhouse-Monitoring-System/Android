@@ -39,7 +39,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-
 public class MeasurementFragment extends Fragment {
 
     private LineChart lineChart;
@@ -62,7 +61,7 @@ public class MeasurementFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.measurement_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_measurement, container, false);
         viewModel = new ViewModelProvider(this).get(MeasurementViewModel.class);
 
         viewModel.searchMeasurement(1, 100);
@@ -300,7 +299,6 @@ public class MeasurementFragment extends Fragment {
     }
 
     private String getMeasurementTypeString() {
-
         switch (measurementType) {
             case CO2:
                 return "CO2";

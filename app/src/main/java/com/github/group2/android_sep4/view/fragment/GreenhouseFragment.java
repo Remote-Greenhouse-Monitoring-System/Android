@@ -70,7 +70,7 @@ public class GreenhouseFragment extends Fragment {
                     greenhouseTemperature.setText(getString(R.string.unit_temperature, lastMeasurement.getTemperature()));
                     greenhouseCO2.setText(getString(R.string.unit_CO2, lastMeasurement.getCo2()));
                     greenhouseHumidity.setText(getString(R.string.unit_humidity, lastMeasurement.getHumidity()));
-                    greenhouseLight.setText(getString( R.string.unit_light, lastMeasurement.getLight()));
+                    greenhouseLight.setText(lastMeasurement.getLight() + " lux");
                 }
             });
 

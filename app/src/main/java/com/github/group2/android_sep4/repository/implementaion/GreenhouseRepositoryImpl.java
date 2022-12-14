@@ -106,6 +106,17 @@ public class GreenhouseRepositoryImpl implements GreenhouseRepository {
     @Override
     public void addGreenhouse(long userId, Greenhouse greenhouse) {
         resetInfo();
+        for (Greenhouse greenhouse1 : allGreenhouses.getValue()) {
+            if (greenhouse1.getName().equals(greenhouse.getName())) {
+                errorMessage.setValue("You already have a greenhouse with this name");
+                return;
+            }
+            if (greenhouse1.getDeviceEui().equals(greenhouse.getDeviceEui())) {
+                errorMessage.setValue("You already have a greenhouse with this device");
+                return;
+            }
+        }
+
         Call<Greenhouse> call = greenhouseApi.addGreenhouse(userId, greenhouse);
         call.enqueue(new Callback<Greenhouse>() {
             @Override

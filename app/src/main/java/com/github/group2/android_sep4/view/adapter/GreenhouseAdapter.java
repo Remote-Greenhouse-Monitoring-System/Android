@@ -59,7 +59,7 @@ public class GreenhouseAdapter extends RecyclerView.Adapter<GreenhouseAdapter.Vi
             holder.co2.setText(context.getString(R.string.unit_CO2, lastMeasurement.getTemperature()));
             holder.temperature.setText(context.getString(R.string.unit_temperature, lastMeasurement.getTemperature()));
             holder.humidity.setText(context.getString(R.string.unit_humidity, lastMeasurement.getTemperature()));
-            holder.light.setText(context.getString(R.string.unit_light, lastMeasurement.getTemperature()));
+            holder.light.setText(lastMeasurement.getTemperature() + " lux");
         }
     }
 

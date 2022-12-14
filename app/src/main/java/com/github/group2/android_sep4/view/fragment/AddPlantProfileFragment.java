@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -68,6 +69,8 @@ public class AddPlantProfileFragment extends Fragment {
             return;
         }
 
+//        Toast.makeText(getContext(), "Add plant verified", Toast.LENGTH_SHORT).show();
+
         String name = addPlantProfileName.getText().toString();
         String description = addPlantProfileDescription.getText().toString();
 
@@ -87,12 +90,23 @@ public class AddPlantProfileFragment extends Fragment {
         User user = viewModel.getCurrentUser().getValue();
 
         if (user != null) {
+//            Toast.makeText(getContext(), "Add plant execute", Toast.LENGTH_SHORT).show();
+
             viewModel.addPlantProfile(user.getId(), plantProfile, threshold);
             viewModel.searchPlantProfilesForUser(user.getId());
         }
-        FancyToast.makeText(getContext(), name + " added successfully", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
 
-        goBack(view);
+        viewModel.getErrorMessage().observe(getViewLifecycleOwner(), message ->{
+
+            if (message != null) {
+                FancyToast.makeText(getContext(), message, FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+            }
+        });
+        viewModel.getSuccessMessage().observe(getViewLifecycleOwner(), message -> {
+            FancyToast.makeText(getContext(), message, FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
+            goBack(view);
+        });
+
     }
 
     private boolean validateThresholdCo2() {
@@ -215,7 +229,7 @@ public class AddPlantProfileFragment extends Fragment {
             addPlantProfileHumidityOptimal.setError("Field can't be empty");
             return false;
         } else if (Float.parseFloat(humidity) < 0 || Float.parseFloat(humidity) > 100) {
-            addPlantProfileHumidityOptimal.setError("Humidity must be between 0 and 100");
+            FancyToast.makeText(getContext(), "Humidity must be between 0 and 100", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
             return false;
         } else {
             addPlantProfileHumidityOptimal.setError(null);
@@ -228,8 +242,8 @@ public class AddPlantProfileFragment extends Fragment {
         if (temp.isEmpty()) {
             addPlantProfileTempOptimal.setError("Field can't be empty");
             return false;
-        } else if (Float.parseFloat(temp) < 0 || Float.parseFloat(temp) > 50) {
-            addPlantProfileTempOptimal.setError("Temperature must be between 0 and 50");
+        } else if (Float.parseFloat(temp) < 0 || Float.parseFloat(temp) > 90) {
+            FancyToast.makeText(getContext(), "Temperature must be between 0 and 90", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
             return false;
         } else {
             addPlantProfileTempOptimal.setError(null);

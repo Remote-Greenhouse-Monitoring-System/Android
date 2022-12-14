@@ -117,7 +117,7 @@ public class Measurement {
                 ", humidity=" + humidity +
                 ", co2=" + co2 +
                 ", light=" + light +
-                ", dateTime='" + timestamp + '\'' +
+                ", timestamp='" + timestamp + '\'' +
                 '}';
     }
 }

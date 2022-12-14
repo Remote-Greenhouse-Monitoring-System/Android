@@ -5,7 +5,7 @@ public class Greenhouse {
     private long id;
     private String name;
     private Measurement lastMeasurement;
-    private String deviceEui;
+    private String eui;
 
     public Greenhouse() {
         // Do not delete the no-arg constructor.
@@ -18,17 +18,17 @@ public class Greenhouse {
         this.lastMeasurement = lastMeasurement;
     }
 
-    public void setDeviceEui(String deviceEui) {
-        this.deviceEui = deviceEui;
+    public void setEui(String eui) {
+        this.eui = eui;
     }
 
-    public String getDeviceEui() {
-        return deviceEui;
+    public String getEui() {
+        return eui;
     }
 
-    public Greenhouse(String name, String deviceEui) {
+    public Greenhouse(String name, String eui) {
         this.name = name;
-        this.deviceEui = deviceEui;
+        this.eui = eui;
     }
 
     public long getId() {

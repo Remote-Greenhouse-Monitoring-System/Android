@@ -14,7 +14,7 @@
         android:id="@+id/measurementFragment"
         android:name="com.github.group2.android_sep4.view.fragment.MeasurementFragment"
         android:label="measurement_fragment"
-        tools:layout="@layout/measurement_fragment" />
+        tools:layout="@layout/fragment_measurement" />
 
     <fragment
         android:id="@+id/homeFragment"
@@ -49,7 +49,7 @@
         android:name="com.github.group2.android_sep4.view.fragment.ChangePasswordFragment"
         android:label="ChangePasswordFragment" />
     <fragment
-        android:id="@+id/forgetPasswordFragment"
+        android:id="@+id/fragment_forgot_password"
         android:name="com.github.group2.android_sep4.view.fragment.ForgotPasswordFragment"
         android:label="ForgetPasswordFragment" />
     <fragment

@@ -34,7 +34,6 @@ public class AddPlantProfileFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,18 +46,12 @@ public class AddPlantProfileFragment extends Fragment {
         navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
         backButton.setOnClickListener(this::goBack);
 
-        addPlantProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addPlantProfile(view);
-            }
-        });
+        addPlantProfileButton.setOnClickListener(v -> addPlantProfile(view));
+
         return view;
     }
 
     private void addPlantProfile(View view) {
-
-
         boolean validName = validateName();
         boolean validateDescription = validateDescription();
         boolean validateTemp = validateTemp();
@@ -69,17 +62,14 @@ public class AddPlantProfileFragment extends Fragment {
         boolean validateThresholdHumidity = validateThresholdHumidity();
         boolean validateThresholdCo2 = validateThresholdCo2();
 
-
         boolean isEverythingValid = validName && validateDescription && validateTemp && validateHumidity && validateCo2 && validateLight && validateThresholdTemp && validateThresholdHumidity && validateThresholdCo2;
 
         if (!isEverythingValid) {
             return;
         }
 
-
         String name = addPlantProfileName.getText().toString();
         String description = addPlantProfileDescription.getText().toString();
-
 
         float optimalTemp = Float.parseFloat(addPlantProfileTempOptimal.getText().toString());
         float optimalHumidity = Float.parseFloat(addPlantProfileHumidityOptimal.getText().toString());
@@ -92,10 +82,10 @@ public class AddPlantProfileFragment extends Fragment {
         float minCo2 = Float.parseFloat(addPlantProfileCO2Min.getText().toString());
         float maxCo2 = Float.parseFloat(addPlantProfileCO2Max.getText().toString());
 
-
         Threshold threshold = new Threshold(maxTemp, minTemp, maxHumidity, minHumidity, maxCo2, minCo2);
         PlantProfile plantProfile = new PlantProfile(0, name, description, optimalTemp, optimalHumidity, optimalCo2, optimalLight);
         User user = viewModel.getCurrentUser().getValue();
+
         if (user != null) {
             viewModel.addPlantProfile(user.getId(), plantProfile, threshold);
             viewModel.searchPlantProfilesForUser(user.getId());
@@ -115,9 +105,9 @@ public class AddPlantProfileFragment extends Fragment {
             return false;
         }
 
-        Float minCo2Float = Float.parseFloat(minCo2);
-        Float maxCo2Float = Float.parseFloat(maxCo2);
-        Float optimalCo2Float = Float.parseFloat(optimalCo2);
+        float minCo2Float = Float.parseFloat(minCo2);
+        float maxCo2Float = Float.parseFloat(maxCo2);
+        float optimalCo2Float = Float.parseFloat(optimalCo2);
 
         if (minCo2Float > optimalCo2Float) {
             FancyToast.makeText(getContext(), "Min CO2 cannot be higher than optimal CO2", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
@@ -129,6 +119,7 @@ public class AddPlantProfileFragment extends Fragment {
             FancyToast.makeText(getContext(), "Min CO2 cannot be higher than max CO2", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
             return false;
         }
+
         return true;
     }
 
@@ -152,9 +143,9 @@ public class AddPlantProfileFragment extends Fragment {
             addPlantProfileTempOptimal.setError(null);
         }
 
-        Float minTempFloat = Float.parseFloat(minTemp);
-        Float maxTempFloat = Float.parseFloat(maxTemp);
-        Float optimalTempFloat = Float.parseFloat(optimalTemp);
+        float minTempFloat = Float.parseFloat(minTemp);
+        float maxTempFloat = Float.parseFloat(maxTemp);
+        float optimalTempFloat = Float.parseFloat(optimalTemp);
 
         if (minTempFloat > optimalTempFloat) {
             addPlantProfileTempMin.setError("Min temp can't be higher than optimal temp");
@@ -169,22 +160,21 @@ public class AddPlantProfileFragment extends Fragment {
         }
 
         return true;
-
     }
 
     private boolean validateThresholdHumidity() {
-
         String minHumidity = addPlantProfileHumidityMin.getText().toString();
         String maxHumidity = addPlantProfileHumidityMax.getText().toString();
         String optimalHumidity = addPlantProfileHumidityOptimal.getText().toString();
+
         if (minHumidity.isEmpty() || maxHumidity.isEmpty()) {
             FancyToast.makeText(getContext(), "Please fill all required fields", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
             return false;
         }
 
-        Float minHumidityFloat = Float.parseFloat(minHumidity);
-        Float maxHumidityFloat = Float.parseFloat(maxHumidity);
-        Float optimalHumidityFloat = Float.parseFloat(optimalHumidity);
+        float minHumidityFloat = Float.parseFloat(minHumidity);
+        float maxHumidityFloat = Float.parseFloat(maxHumidity);
+        float optimalHumidityFloat = Float.parseFloat(optimalHumidity);
 
         if (minHumidityFloat > optimalHumidityFloat) {
             FancyToast.makeText(getContext(), "Min Humidity cannot be higher than optimal Humidity", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
@@ -193,9 +183,8 @@ public class AddPlantProfileFragment extends Fragment {
             FancyToast.makeText(getContext(), "Max Humidity cannot be lower than optimal Humidity", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
             return false;
         }
+
         return true;
-
-
     }
 
     private boolean validateLight() {
@@ -291,6 +280,4 @@ public class AddPlantProfileFragment extends Fragment {
         backButton = view.findViewById(R.id.addPlantProfileBackButton);
         addPlantProfileButton = (Button) view.findViewById(R.id.addPlantProfileButton);
     }
-
-
 }

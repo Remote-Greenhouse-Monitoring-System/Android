@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
-import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
@@ -21,17 +20,13 @@ import com.shashank.sony.fancydialoglib.Animation;
 import com.shashank.sony.fancydialoglib.FancyAlertDialog;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
-
 public class ProfileFragment extends Fragment {
 
-
     AppCompatButton logoutButton, deleteAccountButton, editProfileButton;
-
 
     TextView emailTextView, usernameTextView;
     private UserViewModel viewModel;
     NavController navController;
-
 
     @Nullable
     @Override
@@ -54,12 +49,12 @@ public class ProfileFragment extends Fragment {
         if (message == null) return;
         FancyToast.makeText(getContext(), message, FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
     }
+
     private void logOut(View view) {
         viewModel.logout();
     }
 
     private void initializeAllFields(View view) {
-
         navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
         logoutButton = view.findViewById(R.id.log_out);
         deleteAccountButton = view.findViewById(R.id.delete_account);
@@ -67,14 +62,11 @@ public class ProfileFragment extends Fragment {
         usernameTextView = view.findViewById(R.id.profile_name);
         editProfileButton = view.findViewById(R.id.edit_profile_button);
 
-
         viewModel.getCurrentUser().observe(getViewLifecycleOwner(), user -> {
             if (user == null) return;
             emailTextView.setText(user.getEmail());
             usernameTextView.setText(user.getUsername());
         });
-
-
     }
 
 //    private void updateAccount(View view) {
@@ -118,8 +110,6 @@ public class ProfileFragment extends Fragment {
 //        Toast.makeText(getContext(), "Account updated", Toast.LENGTH_SHORT).show();
 //    }
 
-
-
     private void deleteAccount(View view) {
         String message = getString(R.string.deleteAccountMessage);
         FancyAlertDialog.Builder.with(getContext())
@@ -145,6 +135,4 @@ public class ProfileFragment extends Fragment {
                 .build()
                 .show();
     }
-
-
 }

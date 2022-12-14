@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,7 +27,7 @@ public class SignUpTabFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.sign_up_tab_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_sign_up_tab, container, false);
         initializeAllFields(view);
 
         viewModel = new ViewModelProvider(this).get(SingUpViewModel.class);
@@ -41,11 +40,9 @@ public class SignUpTabFragment extends Fragment {
     }
 
     private void errorObserver(String s) {
-
         if (s != null) {
             progressBar.setVisibility(View.INVISIBLE);
             viewModel.resetInfos();
-
         }
     }
 
@@ -68,9 +65,7 @@ public class SignUpTabFragment extends Fragment {
         String password = passwordField.getEditText().getText().toString().trim();
         String username = usernameField.getEditText().getText().toString().trim();
 
-
         viewModel.signUp(username, email, password);
-
     }
 
     private boolean validateUsername() {

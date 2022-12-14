@@ -24,7 +24,6 @@ import com.shashank.sony.fancytoastlib.FancyToast;
 
 public class EditProfileFragment extends Fragment {
 
-
     TextInputLayout username, email, password, confirmPassword;
     AppCompatButton saveButton;
     NavController navController;
@@ -34,7 +33,6 @@ public class EditProfileFragment extends Fragment {
     private UserViewModel viewModel;
 
     private User user;
-
 
     @Nullable
     @Override
@@ -51,7 +49,6 @@ public class EditProfileFragment extends Fragment {
     }
 
     private void updateProfile(View view) {
-
         boolean validUsername = validateUsername();
         boolean validEmail = validateEmail();
         boolean validPassword = validatePassword();
@@ -71,12 +68,11 @@ public class EditProfileFragment extends Fragment {
 
         viewModel.getErrorMessage().observe(getViewLifecycleOwner(), this::errorObserver);
         viewModel.getSuccessMessage().observe(getViewLifecycleOwner(), this::successObserver);
-
-
     }
 
     private void successObserver(String s) {
-        if (s == null) return;
+        if (s == null)
+            return;
 
         progressBar.setVisibility(View.INVISIBLE);
         FancyToast.makeText(getContext(), s, FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
@@ -103,7 +99,6 @@ public class EditProfileFragment extends Fragment {
     }
 
     private boolean validatePassword() {
-
         String passwordInput = password.getEditText().getText().toString().trim();
         if (passwordInput.isEmpty()) {
             password.setError("Field can't be empty");
@@ -119,7 +114,6 @@ public class EditProfileFragment extends Fragment {
 
     private boolean validateEmail() {
         String emailInput = email.getEditText().getText().toString().trim();
-
         if (emailInput.isEmpty()) {
             email.setError("Field can't be empty");
             return false;
@@ -130,7 +124,6 @@ public class EditProfileFragment extends Fragment {
             email.setError(null);
             return true;
         }
-
     }
 
     private boolean validateUsername() {
@@ -160,11 +153,6 @@ public class EditProfileFragment extends Fragment {
         username.getEditText().setText(user.getUsername());
         email.getEditText().setText(user.getEmail());
 
-
-
-
-
         navController = Navigation.findNavController(getActivity(), R.id.fragment_container);
-
     }
 }

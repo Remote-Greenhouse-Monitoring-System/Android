@@ -21,7 +21,6 @@ import com.github.group2.android_sep4.view.adapter.PlantProfileAdapter;
 import com.github.group2.android_sep4.viewmodel.SelectPlantProfileViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-
 public class SelectPlantProfileFragment extends Fragment {
 
     private ImageButton backButton;
@@ -31,7 +30,6 @@ public class SelectPlantProfileFragment extends Fragment {
     private FloatingActionButton addPlantProfileButton;
     private SelectPlantProfileViewModel viewModel;
     private boolean isFromSpecificGreenhouse;
-
 
     public SelectPlantProfileFragment() {
         // Required empty public constructor
@@ -103,9 +101,6 @@ public class SelectPlantProfileFragment extends Fragment {
     }
 
     private void plantProfileClicked(PlantProfile plantProfile) {
-
-//        Toast.makeText(getContext(), plantProfile.isPreMade() + "", Toast.LENGTH_SHORT).show();
-
         viewModel.activatePlantProfile(plantProfile.getId());
         Toast.makeText(getContext(), "Plant profile set " + plantProfile.getId() + " to greenhouse " + viewModel.getSelectedGreenhouse().getValue().getId(), Toast.LENGTH_SHORT).show();
         navController.popBackStack();

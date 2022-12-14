@@ -13,7 +13,6 @@ import com.github.group2.android_sep4.R;
 
 public class ChangePasswordFragment extends Fragment {
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

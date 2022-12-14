@@ -254,9 +254,9 @@ public class EditPlantProfileFragment extends Fragment {
         if (humidity.isEmpty()) {
             editPlantProfileHumidityOptimal.setError("Field can't be empty");
             return false;
-        } else if (Float.parseFloat(humidity) < 0 || Float.parseFloat(humidity) > 100) {
-            FancyToast.makeText(getContext(), "Humidity must be between 0 and 100", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
-            return false;
+//        } else if (Float.parseFloat(humidity) < 0 || Float.parseFloat(humidity) > 100) {
+//            FancyToast.makeText(getContext(), "Humidity must be between 0 and 100", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+//            return false;
         } else {
             editPlantProfileHumidityOptimal.setError(null);
             return true;
@@ -268,9 +268,9 @@ public class EditPlantProfileFragment extends Fragment {
         if (temp.isEmpty()) {
             editPlantProfileTempOptimal.setError("Field can't be empty");
             return false;
-        } else if (Float.parseFloat(temp) < 0 || Float.parseFloat(temp) > 50) {
-            FancyToast.makeText(getContext(), "Temperature must be between 0 and 50", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
-            return false;
+//        } else if (Float.parseFloat(temp) < 0 || Float.parseFloat(temp) > 50) {
+//            FancyToast.makeText(getContext(), "Temperature must be between 0 and 50", FancyToast.LENGTH_LONG, FancyToast.ERROR, false).show();
+//            return false;
         } else {
             editPlantProfileTempOptimal.setError(null);
             return true;

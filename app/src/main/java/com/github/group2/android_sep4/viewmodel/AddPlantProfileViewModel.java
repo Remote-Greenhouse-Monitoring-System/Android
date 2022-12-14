@@ -47,4 +47,12 @@ public class AddPlantProfileViewModel extends ViewModel {
     public void setPlantProfileToEdit(PlantProfile plantProfile) {
         plantProfileRepository.setPlantProfileToEdit(plantProfile);
     }
+
+    public LiveData<String> getSuccessMessage() {
+        return thresholdRepository.getSuccessMessage();
+    }
+
+    public LiveData<String> getErrorMessage() {
+        return plantProfileRepository.getErrorMessage();
+    }
 }

@@ -13,13 +13,14 @@ public class PlantProfile {
         // The framework needs this for conversion from JSON.
     }
 
-    public PlantProfile(long id, String name, String description, float optimalTemperature, float optimalHumidity, float optimalCo2) {
+    public PlantProfile(long id, String name, String description, float optimalTemperature, float optimalHumidity, int optimalCo2) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.optimalTemperature = optimalTemperature;
         this.optimalHumidity = optimalHumidity;
         this.optimalCo2 = optimalCo2;
+        isPreMade = false;
     }
 
     public PlantProfile(long id, String name, String description, float optimalTemperature, float optimalHumidity, float optimalCo2, int optimalLight) {
@@ -30,6 +31,7 @@ public class PlantProfile {
         this.optimalHumidity = optimalHumidity;
         this.optimalCo2 = optimalCo2;
         this.optimalLight = optimalLight;
+        isPreMade =false;
     }
 
     public long getId() {
@@ -63,6 +65,7 @@ public class PlantProfile {
     public void setOptimalTemperature(float optimalTemperature) {
         this.optimalTemperature = optimalTemperature;
     }
+
 
     public float getOptimalHumidity() {
         return optimalHumidity;

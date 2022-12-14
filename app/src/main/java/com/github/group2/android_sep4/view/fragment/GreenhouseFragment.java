@@ -56,31 +56,25 @@ public class GreenhouseFragment extends Fragment {
             viewModel.getSelectedGreenhouse().observe(getViewLifecycleOwner(), greenhouse -> {
                 greenhouseId = greenhouse.getId();
                 viewModel.searchLastMeasurement(greenhouseId);
-                viewModel.getLastMeasurement().observe(getViewLifecycleOwner(), measurement -> {
-                    if (measurement != null) {
-                        greenhouse.setLastMeasurement(measurement);
-                        greenhouseTemperature.setText(String.valueOf(measurement.getTemperature()));
-                        greenhouseCO2.setText(String.valueOf(measurement.getCo2()));
-                        greenhouseHumidity.setText(String.valueOf(measurement.getHumidity()));
-                        greenhouseLight.setText(String.valueOf(measurement.getLight()));
+                viewModel.getLastMeasurement().observe(getViewLifecycleOwner(), lastMeasurement -> {
+                    if (lastMeasurement == null
+                            || lastMeasurement.isAllZeros()) {
+                        greenhouseTemperature.setText(R.string.no_data);
+                        greenhouseCO2.setText(R.string.no_data);
+                        greenhouseHumidity.setText(R.string.no_data);
+                        greenhouseLight.setText(R.string.no_data);
+                    } else {
+                        greenhouseTemperature.setText(getString(R.string.unit_temperature, lastMeasurement.getTemperature()));
+                        greenhouseCO2.setText(getString(R.string.unit_CO2, lastMeasurement.getCo2()));
+                        greenhouseHumidity.setText(getString(R.string.unit_humidity, lastMeasurement.getHumidity()));
+                        greenhouseLight.setText(lastMeasurement.getLight() + " lux");
                     }
                 });
                 greenhouseName.setText(greenhouse.getName());
                 deviceEui.setText("Device EUI :" + greenhouse.getDeviceEui());
 
-                Measurement lastMeasurement = greenhouse.getLastMeasurement();
-                if (lastMeasurement == null
-                        || lastMeasurement.isAllZeros()) {
-                    greenhouseTemperature.setText(R.string.no_data);
-                    greenhouseCO2.setText(R.string.no_data);
-                    greenhouseHumidity.setText(R.string.no_data);
-                    greenhouseLight.setText(R.string.no_data);
-                } else {
-                    greenhouseTemperature.setText(getString(R.string.unit_temperature, lastMeasurement.getTemperature()));
-                    greenhouseCO2.setText(getString(R.string.unit_CO2, lastMeasurement.getCo2()));
-                    greenhouseHumidity.setText(getString(R.string.unit_humidity, lastMeasurement.getHumidity()));
-                    greenhouseLight.setText(lastMeasurement.getLight() + " lux");
-                }
+
+
             });
 
             viewModel.getActivePlantProfile().observe(getViewLifecycleOwner(), activePlantProfile -> {

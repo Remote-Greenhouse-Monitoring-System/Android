@@ -24,6 +24,7 @@ import com.github.group2.android_sep4.model.Threshold;
 import com.github.group2.android_sep4.view.MeasurementType;
 import com.github.group2.android_sep4.view.ValueFormatter;
 import com.github.group2.android_sep4.view.uielements.CustomMarkerView;
+import com.github.group2.android_sep4.viewmodel.MeasurementViewModel;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
@@ -32,11 +33,11 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-import com.github.group2.android_sep4.viewmodel.MeasurementViewModel;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -58,7 +59,7 @@ public class MeasurementFragment extends Fragment {
     private TextView greenhouseTitle;
     private PlantProfile plantProfile;
     private Threshold threshold;
-    private List<Measurement> measurementList = new ArrayList<>();
+    private List<Measurement> measurements = new ArrayList<>();
     private Greenhouse selectedGreenhouse;
 
     @Nullable
@@ -66,22 +67,18 @@ public class MeasurementFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_measurement, container, false);
         viewModel = new ViewModelProvider(this).get(MeasurementViewModel.class);
-
-
+        initializeViews(view);
+        handleBundle();
         PlantProfile plantProfile = viewModel.getActivePlantProfile().getValue();
         if (plantProfile != null) {
             viewModel.searchThreshold(viewModel.getActivePlantProfile().getValue().getId());
         }
 
 
-        handleBundle();
-        initializeViews(view);
-
-
         viewModel.getSelectedGreenhouse().observe(getViewLifecycleOwner(), greenhouse -> {
             if (greenhouse != null) {
                 this.selectedGreenhouse = greenhouse;
-                viewModel.searchAllMeasurementPerDays(greenhouse.getId(),1);
+                viewModel.searchMeasurement(121, 10);
                 greenhouseTitle.setText(greenhouse.getName());
             }
         });
@@ -116,7 +113,7 @@ public class MeasurementFragment extends Fragment {
         radioGroupPeriod.setOnCheckedChangeListener((group, checkedId) -> {
 
 
-            if(selectedGreenhouse==null || selectedGreenhouse.getId()==0){
+            if (selectedGreenhouse == null || selectedGreenhouse.getId() == -1) {
                 return;
             }
 
@@ -125,36 +122,40 @@ public class MeasurementFragment extends Fragment {
 
 
                 case R.id.last_hour_radio_button:
-                    //viewModel.searchAllMeasurementsPerHour(1, 1);// TODO: replace with the actual greenhouse id
-                    viewModel.searchAllMeasurementsPerHour(id, 1);
+//                    viewModel.searchAllMeasurementsPerHour(id, 1);
+
+                    viewModel.searchMeasurement(121, 10);
                     break;
                 case R.id.last_day_radio_button:
-                    //viewModel.searchAllMeasurementPerDays(1, 1);
-                    viewModel.searchAllMeasurementPerDays(id, 1);
+//                    viewModel.searchAllMeasurementPerDays(id, 1);
+
+                    viewModel.searchMeasurement(121, 50);
                     break;
+
                 case R.id.last_week_radio_button:
-                    //viewModel.searchAllMeasurementPerDays(1, 7);
-                    viewModel.searchAllMeasurementPerDays(id, 7);
+                    viewModel.searchMeasurement(121, 100);
+
+
                     break;
                 case R.id.last_month_radio_button:
-                    //viewModel.searchAllMeasurementPerMonth(1, 1, 2022);
-                    viewModel.searchAllMeasurementPerMonth(id,LocalDateTime.now().getMonthValue(), LocalDateTime.now().getYear());
+                    viewModel.searchMeasurement(121, 150);
                     break;
             }
 
-            setMeasurementsToChart();
+
         });
     }
 
     private void setOnChartTypeChangedListener() {
         radioGroupMeasurement.setOnCheckedChangeListener((group, checkedId) -> {
 
-            if (selectedGreenhouse == null) {
-                return;
-            }
+//            if (selectedGreenhouse == null) {
+//                return;
+//            }
             switch (checkedId) {
                 case R.id.co2_radio_button:
                     measurementType = MeasurementType.CO2;
+
                     lineColor = "#964B00";
                     break;
                 case R.id.humidity_radio_button:
@@ -176,6 +177,13 @@ public class MeasurementFragment extends Fragment {
     }
 
     private void setObservers() {
+        viewModel.getSearchedMeasurementList().observe(getViewLifecycleOwner(), measurements -> {
+            if (measurements != null) {
+                this.measurements = measurements;
+                Collections.reverse(this.measurements); // TODO delete when finished
+                setMeasurementsToChart();
+            }
+        });
         viewModel.getActivePlantProfile().observe(getViewLifecycleOwner(), plantProfile -> {
             this.plantProfile = plantProfile;
 
@@ -185,13 +193,6 @@ public class MeasurementFragment extends Fragment {
             }
         });
 
-
-        viewModel.getSearchedMeasurementList().observe(getViewLifecycleOwner(), measurements -> {
-            if (measurements != null) {
-                measurementList = measurements;
-                setMeasurementsToChart();
-            }
-        });
 
         viewModel.getSearchedThreshold().observe(getViewLifecycleOwner(), threshold -> {
             this.threshold = threshold;
@@ -209,7 +210,6 @@ public class MeasurementFragment extends Fragment {
 
         if (bundle != null) {
             String measurementTypeStringFromBundle = bundle.getString("measurementType");
-
             this.measurementType = MeasurementType.valueOf(measurementTypeStringFromBundle);
         }
     }
@@ -251,10 +251,21 @@ public class MeasurementFragment extends Fragment {
     }
 
     private void setMeasurementsToChart() {
+
+
+        setLimitLines();
+        setOptimalLine();
+
+        if (measurements == null) {
+            return;
+        }
+        if (measurements.isEmpty()) return;
         ArrayList<Entry> yValues = new ArrayList<>();
 
+//       mockList();
 
-        for (Measurement measurement : measurementList) {
+
+        for (Measurement measurement : measurements) {
             yValues.add(new Entry(convertDateToFloat(measurement.getDateTimeAsString()), getSpecificMeasurement(measurement)));
         }
 
@@ -269,6 +280,9 @@ public class MeasurementFragment extends Fragment {
 
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(lineDataSet);
+
+
+        // Temp > 78 -68   h > 21 -33 co2> 400 -800
         YAxis yAxis = lineChart.getAxisLeft();
         yAxis.removeAllLimitLines();
 

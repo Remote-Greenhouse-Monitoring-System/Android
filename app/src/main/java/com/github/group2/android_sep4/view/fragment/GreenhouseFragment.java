@@ -42,7 +42,7 @@ public class GreenhouseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.greenhouse_specific_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_greenhouse_specific, container, false);
         viewModel = new ViewModelProvider(this).get(GreenhouseViewModel.class);
 
         viewModel.searchActivatedProfile();

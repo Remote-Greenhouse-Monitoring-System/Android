@@ -33,6 +33,6 @@ public interface GreenhouseApi {
     Call<Greenhouse> deleteGreenhouse(@Path("gId") long greenhouseId);
 
     @Headers({API_KEY})
-    @GET(route + "/greenhousesWithLastMeasurements/{uId}")
+    @GET(route + "/{uId}")
     Call<List<Greenhouse>> getGreenHouses(@Path("uId") long userId);
 }

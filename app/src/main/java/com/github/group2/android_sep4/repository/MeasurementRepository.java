@@ -25,4 +25,6 @@ public interface MeasurementRepository {
     LiveData<List<Measurement>> getSearchedMeasurementList();
 
     LiveData<Measurement> getSearchedMeasurement();
+
+    LiveData<Measurement> getLastMeasurement(long id);
 }

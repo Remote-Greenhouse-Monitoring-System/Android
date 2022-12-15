@@ -18,7 +18,6 @@ public class AddPlantProfileViewModel extends ViewModel {
     private final PlantProfileRepository plantProfileRepository = PlantProfileRepositoryImpl.getInstance();
     private final ThresholdRepository thresholdRepository = ThresholdRepositoryImpl.getInstance();
     private final UserRepository userRepository = UserRepositoryImpl.getInstance();
-    private boolean editPressed ; // TODO
 
     public void addPlantProfile(long userId, PlantProfile plantProfile, Threshold threshold) {
         plantProfileRepository.addPlantProfile(userId, plantProfile, (plantP) -> {

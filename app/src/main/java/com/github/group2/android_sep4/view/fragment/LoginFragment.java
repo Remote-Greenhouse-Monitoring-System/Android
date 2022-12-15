@@ -66,7 +66,6 @@ public class LoginFragment extends Fragment {
     private void userObserver(User user) {
         if (user != null) {
             FancyToast.makeText(getContext(), "Welcome " +user.getUsername(), FancyToast.LENGTH_LONG, FancyToast.SUCCESS, true).show();
-            // TODO swap fragment to main page
         }
     }
 

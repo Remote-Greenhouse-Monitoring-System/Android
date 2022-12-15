@@ -33,6 +33,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -78,7 +79,7 @@ public class MeasurementFragment extends Fragment {
         viewModel.getSelectedGreenhouse().observe(getViewLifecycleOwner(), greenhouse -> {
             if (greenhouse != null) {
                 this.selectedGreenhouse = greenhouse;
-                viewModel.searchMeasurement(121, 10);
+                viewModel.searchAllMeasurementPerDays(greenhouse.getId(),1);
                 greenhouseTitle.setText(greenhouse.getName());
             }
         });
@@ -122,26 +123,22 @@ public class MeasurementFragment extends Fragment {
 
 
                 case R.id.last_hour_radio_button:
-//                    viewModel.searchAllMeasurementsPerHour(id, 1);
+                 viewModel.searchAllMeasurementsPerHour(id, 1);
 
-                    viewModel.searchMeasurement(121, 10);
                     break;
                 case R.id.last_day_radio_button:
-//                    viewModel.searchAllMeasurementPerDays(id, 1);
-
-                    viewModel.searchMeasurement(121, 50);
+                  viewModel.searchAllMeasurementPerDays(id, 1);
                     break;
 
                 case R.id.last_week_radio_button:
-                    viewModel.searchMeasurement(121, 100);
-
-
+                    viewModel.searchAllMeasurementPerDays(id, 7);
                     break;
                 case R.id.last_month_radio_button:
-                    viewModel.searchMeasurement(121, 150);
+                    viewModel.searchAllMeasurementPerDays(id,30);
                     break;
-            }
 
+            }
+            setMeasurementsToChart();
 
         });
     }
@@ -180,7 +177,6 @@ public class MeasurementFragment extends Fragment {
         viewModel.getSearchedMeasurementList().observe(getViewLifecycleOwner(), measurements -> {
             if (measurements != null) {
                 this.measurements = measurements;
-                Collections.reverse(this.measurements); // TODO delete when finished
                 setMeasurementsToChart();
             }
         });
@@ -259,11 +255,11 @@ public class MeasurementFragment extends Fragment {
         if (measurements == null) {
             return;
         }
-        if (measurements.isEmpty()) return;
+        if (measurements.isEmpty()){
+            FancyToast.makeText(getContext(), "No measurements found", FancyToast.LENGTH_SHORT, FancyToast.INFO, false).show();
+            return;
+        }
         ArrayList<Entry> yValues = new ArrayList<>();
-
-//       mockList();
-
 
         for (Measurement measurement : measurements) {
             yValues.add(new Entry(convertDateToFloat(measurement.getDateTimeAsString()), getSpecificMeasurement(measurement)));
@@ -281,8 +277,6 @@ public class MeasurementFragment extends Fragment {
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(lineDataSet);
 
-
-        // Temp > 78 -68   h > 21 -33 co2> 400 -800
         YAxis yAxis = lineChart.getAxisLeft();
         yAxis.removeAllLimitLines();
 

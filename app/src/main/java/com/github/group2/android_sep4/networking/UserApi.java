@@ -46,8 +46,6 @@ public interface UserApi {
     @GET(route + "login")
     Call<User> login(@Query("email") String email, @Query("password") String password);
 
-    // No endpoint for this yet
-    // TODO add the correct endpoint
     @Headers({API_KEY})
     Call<Void> registerNotificationClient(long userId, String tokenValue);
 }
